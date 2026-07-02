@@ -26,7 +26,9 @@ export async function createVerificationToken(userId: string): Promise<string> {
   return rawToken;
 }
 
-export type VerifyResult = { ok: true } | { ok: false; reason: "invalid" | "expired" | "used" };
+export type VerifyResult =
+  | { ok: true }
+  | { ok: false; reason: "invalid" | "expired" | "used" | "error" };
 
 interface TokenRow {
   id: string;
@@ -62,7 +64,17 @@ export async function verifyToken(rawToken: string): Promise<VerifyResult> {
     .maybeSingle();
   if (!claimed) return { ok: false, reason: "used" };
 
-  await admin.from("users").update({ email_verified_at: now }).eq("id", row.user_id);
+  const { error: stampError } = await admin
+    .from("users")
+    .update({ email_verified_at: now })
+    .eq("id", row.user_id);
+  if (stampError) {
+    // The token is the source of truth for "verified"; if the stamp failed, roll
+    // back the claim so the same link can be retried rather than reporting a false
+    // success. (An atomic SECURITY DEFINER RPC would be the ideal long-term fix.)
+    await admin.from("email_verifications").update({ used_at: null }).eq("id", row.id);
+    return { ok: false, reason: "error" };
+  }
 
   return { ok: true };
 }

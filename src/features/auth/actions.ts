@@ -94,7 +94,8 @@ export async function requestPasswordReset(
   if (!parsed.success) return { error: "invalid_input" };
   const { email } = parsed.data;
 
-  await checkRateLimit(`reset:${email}`);
+  // Return the SAME generic success even when throttled — never reveal outcome.
+  if (!(await checkRateLimit(`reset:${email}`)).ok) return { success: "reset_sent" };
 
   const supabase = await createClient();
   try {
@@ -115,6 +116,13 @@ export async function updatePassword(
 ): Promise<ActionState> {
   const parsed = updatePasswordSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: "invalid_input" };
+
+  // Explicit authz (don't rely solely on supabase-js rejecting an anonymous call).
+  // The recovery-link exchange (/auth/confirm) establishes this session first.
+  const user = await getCurrentUser();
+  if (!user) return { error: "not_authenticated" };
+  if (user.status !== "active") return { error: "account_inactive" };
+  if (!(await checkRateLimit(`update-password:${user.id}`)).ok) return { error: "rate_limited" };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });

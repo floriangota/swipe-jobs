@@ -62,11 +62,22 @@ begin
     else 'worker'::public.user_role
   end;
 
-  -- city_id must reference an existing city; fall back to Ferizaj.
+  -- city_id must reference an existing city; fall back to Ferizaj, then to any
+  -- active city, so signup can never NULL out the NOT NULL column.
   v_city_id := nullif(new.raw_user_meta_data ->> 'city_id', '')::uuid;
   if v_city_id is null
      or not exists (select 1 from public.cities c where c.id = v_city_id) then
     select c.id into v_city_id from public.cities c where c.name = 'Ferizaj' limit 1;
+  end if;
+  if v_city_id is null then
+    select c.id into v_city_id
+    from public.cities c
+    where c.is_active
+    order by c.created_at
+    limit 1;
+  end if;
+  if v_city_id is null then
+    raise exception 'handle_new_user: no city available to assign (seed public.cities).';
   end if;
 
   insert into public.users (id, email, role, city_id, status, email_verified_at)

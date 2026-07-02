@@ -15,7 +15,11 @@ export async function GET(request: NextRequest) {
   // Only allow same-site relative redirects.
   const safeNext = next.startsWith("/") ? next : "/";
 
-  if (tokenHash && type) {
+  // Only accept the OTP type this flow issues (password recovery). Reject others
+  // rather than passing an arbitrary type into verifyOtp on an unauthed endpoint.
+  const allowedTypes: EmailOtpType[] = ["recovery"];
+
+  if (tokenHash && type && allowedTypes.includes(type)) {
     const supabase = await createClient();
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
     if (!error) {

@@ -157,7 +157,8 @@
       "invalid": "Kjo lidhje verifikimi është e pavlefshme.",
       "expired": "Kjo lidhje verifikimi ka skaduar.",
       "used": "Kjo lidhje është përdorur tashmë.",
-      "link_invalid": "Kjo lidhje është e pavlefshme ose ka skaduar."
+      "link_invalid": "Kjo lidhje është e pavlefshme ose ka skaduar.",
+      "error": "Diçka shkoi keq. Provo lidhjen përsëri."
     },
     "success": {
       "reset_sent": "Nëse ai email ekziston, dërguam një lidhje rivendosjeje.",

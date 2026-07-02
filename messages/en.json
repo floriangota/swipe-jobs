@@ -157,7 +157,8 @@
       "invalid": "This verification link is invalid.",
       "expired": "This verification link has expired.",
       "used": "This link has already been used.",
-      "link_invalid": "This link is invalid or has expired."
+      "link_invalid": "This link is invalid or has expired.",
+      "error": "Something went wrong. Please try the link again."
     },
     "success": {
       "reset_sent": "If that email exists, we've sent a reset link.",
