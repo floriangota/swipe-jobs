@@ -1,33 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 
-const THEME_COOKIE = /(?:^|;\s*)theme=/;
-
 /**
- * Light/dark toggle. The initial theme is applied server-side from a cookie (in
- * the root layout) so there is no flash for returning users. On first visit with
- * no cookie, we fall back to the OS preference on mount.
+ * Light/dark toggle. The initial value comes from the server (read from the
+ * `theme` cookie in the layout/header), so the icon matches SSR with no flash
+ * and no setState-in-effect. Toggling writes the cookie + flips the `.dark`
+ * class live.
+ *
+ * Note: first-time visitors (no cookie) default to light; OS-preference
+ * auto-detection is a small M9 add (needs a nonce'd inline script for zero flash).
  */
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({
+  initialDark,
+  className,
+}: {
+  initialDark: boolean;
+  className?: string;
+}) {
   const t = useTranslations("Actions");
-  const [isDark, setIsDark] = useState(false);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    let dark = root.classList.contains("dark");
-
-    if (!THEME_COOKIE.test(document.cookie)) {
-      dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      root.classList.toggle("dark", dark);
-    }
-
-    setIsDark(dark);
-    setReady(true);
-  }, []);
+  const [isDark, setIsDark] = useState(initialDark);
 
   function toggle() {
     const next = !isDark;
@@ -49,10 +43,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         className,
       )}
     >
-      {/* Render nothing until mounted to avoid a mismatched icon flash. */}
-      <span className={cn("transition-opacity", ready ? "opacity-100" : "opacity-0")}>
-        {isDark ? <SunIcon /> : <MoonIcon />}
-      </span>
+      {isDark ? <SunIcon /> : <MoonIcon />}
     </button>
   );
 }

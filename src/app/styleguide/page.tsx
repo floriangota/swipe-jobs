@@ -38,6 +38,7 @@ const typeSpecimens = [
 
 export default async function StyleguidePage() {
   const t = await getTranslations("Styleguide");
+  const tCommon = await getTranslations("Common");
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -148,8 +149,8 @@ export default async function StyleguidePage() {
                 <LoadingState label={t("stateLoading")} />
               </div>
               <SkeletonCard />
-              <EmptyState title={t("stateEmpty")} description={t("empty")} />
-              <ErrorState title={t("stateError")} description={t("error")} />
+              <EmptyState title={t("stateEmpty")} description={tCommon("empty")} />
+              <ErrorState title={t("stateError")} description={tCommon("error")} />
             </div>
           </Section>
         </div>

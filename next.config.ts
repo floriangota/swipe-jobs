@@ -57,6 +57,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Pin the workspace root to this project (a stray lockfile elsewhere on the
+  // machine can otherwise make Turbopack infer the wrong root).
+  turbopack: {
+    root: import.meta.dirname,
+  },
   async headers() {
     return [
       {
@@ -86,5 +91,4 @@ export default withSentryConfig(withNextIntl(nextConfig), {
   // Tunnel browser events through our own origin to keep CSP tight and dodge
   // ad-blockers. Requires server functions (fine on Vercel).
   tunnelRoute: "/monitoring",
-  disableLogger: true,
 });

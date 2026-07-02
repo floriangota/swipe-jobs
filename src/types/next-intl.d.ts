@@ -1,3 +1,6 @@
+// Value import is required so `typeof messages` works below (official next-intl
+// pattern); it is elided at build time.
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import messages from "../../messages/en.json";
 import type { Locale } from "@/i18n/config";
 

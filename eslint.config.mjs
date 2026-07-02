@@ -1,14 +1,8 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+// Next 16's eslint-config-next ships native flat configs. `core-web-vitals`
+// already bundles the base rules (react, react-hooks, import, jsx-a11y, @next/next)
+// and the TypeScript block — so we spread it directly (no FlatCompat bridge).
 const eslintConfig = [
   {
     ignores: [
@@ -21,12 +15,17 @@ const eslintConfig = [
       "public/sw.js",
     ],
   },
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...nextCoreWebVitals,
   {
+    // docs/security.md: dangerouslySetInnerHTML is banned (XSS surface).
     rules: {
-      // docs/security.md: dangerouslySetInnerHTML is banned (XSS surface).
       "react/no-danger": "error",
-      // Encourage type-only imports for clean, tree-shakeable code.
+    },
+  },
+  {
+    // Encourage type-only imports for clean, tree-shakeable code.
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {
       "@typescript-eslint/consistent-type-imports": [
         "warn",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },

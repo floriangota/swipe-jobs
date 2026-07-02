@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, type PanInfo } from "motion/react";
+import { useHydrated } from "@/lib/hooks/use-hydrated";
 import { cn } from "@/lib/utils/cn";
 
 export interface BottomSheetProps {
@@ -18,9 +19,7 @@ export interface BottomSheetProps {
  * tap the backdrop, or press Escape to dismiss. Built on Framer Motion.
  */
 export function BottomSheet({ open, onOpenChange, title, children, className }: BottomSheetProps) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const hydrated = useHydrated();
 
   // Lock body scroll + close on Escape while open.
   useEffect(() => {
@@ -40,7 +39,7 @@ export function BottomSheet({ open, onOpenChange, title, children, className }: 
     };
   }, [open, onOpenChange]);
 
-  if (!mounted) return null;
+  if (!hydrated) return null;
 
   function handleDragEnd(_event: unknown, info: PanInfo) {
     if (info.offset.y > 120 || info.velocity.y > 500) {

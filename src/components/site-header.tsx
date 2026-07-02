@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Wordmark } from "@/components/brand/logo";
 import { LanguageSwitch } from "@/components/language-switch";
@@ -7,6 +8,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 /** Shared top bar: brand, language switch, theme toggle. */
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
+  const cookieStore = await cookies();
+  const initialDark = cookieStore.get("theme")?.value === "dark";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
@@ -27,7 +30,7 @@ export async function SiteHeader() {
             {t("designSystem")}
           </Link>
           <LanguageSwitch />
-          <ThemeToggle />
+          <ThemeToggle initialDark={initialDark} />
         </div>
       </div>
     </header>
