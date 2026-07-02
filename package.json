@@ -15,7 +15,10 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:ci": "vitest run",
-    "generate-icons": "node scripts/generate-icons.mjs"
+    "generate-icons": "node scripts/generate-icons.mjs",
+    "db:new": "supabase migration new",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push"
   },
   "dependencies": {
     "@sentry/nextjs": "^10.63.0",
@@ -28,6 +31,7 @@
     "next-intl": "^4.13.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "resend": "^4.8.0",
     "tailwind-merge": "^3.3.0",
     "zod": "^4.0.0",
     "zustand": "^5.0.14"
@@ -45,6 +49,7 @@
     "eslint-config-next": "^16.2.10",
     "jsdom": "^26.0.0",
     "postcss": "^8.5.10",
+    "supabase": "^2.109.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.7.0",
     "vite-tsconfig-paths": "^5.1.4",

@@ -91,5 +91,78 @@
     "title": "Faqja nuk u gjet",
     "description": "Faqja që po kërkoni nuk ekziston ose është zhvendosur.",
     "home": "Kthehu në ballinë"
+  },
+  "Auth": {
+    "logout": "Dil",
+    "login": {
+      "title": "Mirë se erdhe",
+      "subtitle": "Hyr në llogarinë tënde SwipeJobs.",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "submit": "Hyr",
+      "forgot": "Harrove fjalëkalimin?",
+      "noAccount": "Nuk ke llogari?",
+      "signupLink": "Regjistrohu"
+    },
+    "signup": {
+      "title": "Krijo llogarinë tënde",
+      "subtitle": "Bashkohu me SwipeJobs — merr vetëm një minutë.",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "passwordHint": "Të paktën 8 karaktere.",
+      "role": "Unë jam…",
+      "roleWorker": "Punëtor/e",
+      "roleEmployer": "Biznes",
+      "submit": "Krijo llogari",
+      "haveAccount": "Ke tashmë llogari?",
+      "loginLink": "Hyr"
+    },
+    "forgot": {
+      "title": "Rivendos fjalëkalimin",
+      "subtitle": "Shkruaj email-in dhe do të dërgojmë një lidhje rivendosjeje.",
+      "email": "Email",
+      "submit": "Dërgo lidhjen",
+      "back": "Kthehu te hyrja"
+    },
+    "update": {
+      "title": "Vendos një fjalëkalim të ri",
+      "subtitle": "Zgjidh një fjalëkalim të ri për llogarinë tënde.",
+      "password": "Fjalëkalimi i ri",
+      "submit": "Përditëso fjalëkalimin"
+    },
+    "verify": {
+      "title": "Kontrollo email-in",
+      "sent": "Të dërguam një lidhje verifikimi në email. Kliko atë për të verifikuar llogarinë.",
+      "checkInbox": "Nuk e more? Kontrollo dosjen e spam-it, ose ridërgo më poshtë.",
+      "verifiedTitle": "Email-i u verifikua",
+      "verifiedBody": "Email-i yt u konfirmua. Gjithçka gati.",
+      "resend": "Ridërgo email-in e verifikimit",
+      "goHome": "Shko te ballina",
+      "goLogin": "Shko te hyrja"
+    },
+    "banner": {
+      "text": "Verifiko email-in për të zhbllokuar përputhjet dhe bisedat.",
+      "resend": "Ridërgo"
+    },
+    "errors": {
+      "invalid_input": "Kontrollo formularin dhe provo përsëri.",
+      "invalid_credentials": "Email ose fjalëkalim i pasaktë.",
+      "signup_failed": "Nuk u krijua llogaria. Provo përsëri.",
+      "rate_limited": "Shumë përpjekje. Prit pak dhe provo përsëri.",
+      "account_inactive": "Kjo llogari nuk është aktive.",
+      "cooldown": "Prit një moment para se të ridërgosh.",
+      "send_failed": "Nuk u dërgua email-i. Provo përsëri.",
+      "update_failed": "Nuk u përditësua fjalëkalimi. Provo përsëri.",
+      "not_authenticated": "Hyr më parë.",
+      "invalid": "Kjo lidhje verifikimi është e pavlefshme.",
+      "expired": "Kjo lidhje verifikimi ka skaduar.",
+      "used": "Kjo lidhje është përdorur tashmë.",
+      "link_invalid": "Kjo lidhje është e pavlefshme ose ka skaduar."
+    },
+    "success": {
+      "reset_sent": "Nëse ai email ekziston, dërguam një lidhje rivendosjeje.",
+      "resend_sent": "Email-i i verifikimit u dërgua.",
+      "already_verified": "Email-i yt është verifikuar tashmë."
+    }
   }
 }

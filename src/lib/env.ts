@@ -16,6 +16,7 @@ const clientEnvSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().min(1).optional(),
   NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
+  NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
 });
 
 // Reference each var statically so Next.js can inline it into the client bundle.
@@ -23,6 +24,7 @@ const parsed = clientEnvSchema.safeParse({
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
 });
 
 if (!parsed.success) {
@@ -37,4 +39,9 @@ export const env = parsed.success ? parsed.data : {};
 
 export function isSupabaseConfigured(): boolean {
   return Boolean(env.NEXT_PUBLIC_SUPABASE_URL && env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+}
+
+/** Canonical site origin (no trailing slash) for building links/redirects. */
+export function getSiteUrl(): string {
+  return (env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 }

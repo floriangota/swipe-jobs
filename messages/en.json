@@ -91,5 +91,78 @@
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist or has moved.",
     "home": "Back to home"
+  },
+  "Auth": {
+    "logout": "Sign out",
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your SwipeJobs account.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgot": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Join SwipeJobs — it takes a minute.",
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "role": "I am a…",
+      "roleWorker": "Worker",
+      "roleEmployer": "Business",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send a reset link.",
+      "email": "Email",
+      "submit": "Send reset link",
+      "back": "Back to sign in"
+    },
+    "update": {
+      "title": "Set a new password",
+      "subtitle": "Choose a new password for your account.",
+      "password": "New password",
+      "submit": "Update password"
+    },
+    "verify": {
+      "title": "Check your inbox",
+      "sent": "We sent a verification link to your email. Click it to verify your account.",
+      "checkInbox": "Didn't get it? Check spam, or resend below.",
+      "verifiedTitle": "Email verified",
+      "verifiedBody": "Your email is confirmed. You're all set.",
+      "resend": "Resend verification email",
+      "goHome": "Go to home",
+      "goLogin": "Go to sign in"
+    },
+    "banner": {
+      "text": "Verify your email to unlock matching and chat.",
+      "resend": "Resend"
+    },
+    "errors": {
+      "invalid_input": "Please check the form and try again.",
+      "invalid_credentials": "Invalid email or password.",
+      "signup_failed": "Couldn't create your account. Please try again.",
+      "rate_limited": "Too many attempts. Please wait and try again.",
+      "account_inactive": "This account is not active.",
+      "cooldown": "Please wait a moment before resending.",
+      "send_failed": "Couldn't send the email. Please try again.",
+      "update_failed": "Couldn't update your password. Please try again.",
+      "not_authenticated": "Please sign in first.",
+      "invalid": "This verification link is invalid.",
+      "expired": "This verification link has expired.",
+      "used": "This link has already been used.",
+      "link_invalid": "This link is invalid or has expired."
+    },
+    "success": {
+      "reset_sent": "If that email exists, we've sent a reset link.",
+      "resend_sent": "Verification email sent.",
+      "already_verified": "Your email is already verified."
+    }
   }
 }

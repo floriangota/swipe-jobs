@@ -1,0 +1,146 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth/guards";
+import { getSiteUrl } from "@/lib/env";
+import { getUserLocale } from "@/i18n/locale";
+import { checkRateLimit } from "./rate-limit";
+import {
+  loginSchema,
+  requestResetSchema,
+  resendVerificationSchema,
+  signupSchema,
+  updatePasswordSchema,
+} from "./schemas";
+import { sendVerificationEmail } from "./service/email.service";
+import { canResendVerification, createVerificationToken } from "./service/verification.service";
+
+// Returned to the client via useActionState. Codes are looked up in the Auth
+// i18n namespace so no server text is shown to users directly.
+export type ActionState = { error?: string; success?: string } | undefined;
+
+async function issueVerification(userId: string, email: string, locale: "sq" | "en") {
+  const token = await createVerificationToken(userId);
+  const verifyUrl = `${getSiteUrl()}/auth/verify?token=${encodeURIComponent(token)}`;
+  await sendVerificationEmail(email, locale, verifyUrl);
+}
+
+export async function signup(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = signupSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: "invalid_input" };
+  const { email, password, role, cityId, locale } = parsed.data;
+
+  if (!(await checkRateLimit(`signup:${email}`)).ok) return { error: "rate_limited" };
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    // Read by the handle_new_user() trigger; role is re-clamped in SQL too.
+    options: { data: { role, city_id: cityId ?? "", locale } },
+  });
+  if (error) return { error: "signup_failed" };
+
+  // Soft gate: Confirm-email is OFF, so the user is signed in immediately. We send
+  // our own verification email; failure is non-fatal (they can resend).
+  if (data.user?.id) {
+    try {
+      await issueVerification(data.user.id, email, locale);
+    } catch {
+      // swallow — surfaced via the /verify-email resend flow
+    }
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/verify-email?sent=1");
+}
+
+export async function login(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = loginSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: "invalid_input" };
+  const { email, password } = parsed.data;
+
+  if (!(await checkRateLimit(`login:${email}`)).ok) return { error: "rate_limited" };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) return { error: "invalid_credentials" }; // generic — no enumeration
+
+  // Suspended/deleted accounts may authenticate but must not proceed.
+  const user = await getCurrentUser();
+  if (user && user.status !== "active") {
+    await supabase.auth.signOut();
+    return { error: "account_inactive" };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/");
+}
+
+export async function logout(): Promise<void> {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  revalidatePath("/", "layout");
+  redirect("/login");
+}
+
+export async function requestPasswordReset(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = requestResetSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: "invalid_input" };
+  const { email } = parsed.data;
+
+  await checkRateLimit(`reset:${email}`);
+
+  const supabase = await createClient();
+  try {
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${getSiteUrl()}/auth/confirm?next=/update-password`,
+    });
+  } catch {
+    // Never reveal whether the email exists.
+  }
+
+  // ALWAYS the same generic response (no enumeration).
+  return { success: "reset_sent" };
+}
+
+export async function updatePassword(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = updatePasswordSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: "invalid_input" };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return { error: "update_failed" };
+
+  revalidatePath("/", "layout");
+  redirect("/?password=updated");
+}
+
+export async function resendVerification(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  // Validate the (hidden) email field for shape, but authorize off the session.
+  const parsed = resendVerificationSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: "invalid_input" };
+
+  const user = await getCurrentUser();
+  if (!user) return { error: "not_authenticated" };
+  if (user.emailVerified) return { success: "already_verified" };
+  if (!(await canResendVerification(user.id))) return { error: "cooldown" };
+
+  try {
+    await issueVerification(user.id, user.email, await getUserLocale());
+  } catch {
+    return { error: "send_failed" };
+  }
+  return { success: "resend_sent" };
+}
