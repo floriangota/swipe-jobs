@@ -1,0 +1,95 @@
+{
+  "Meta": {
+    "title": "SwipeJobs — Hourly work in Ferizaj",
+    "description": "The app that connects hourly and shift workers with local businesses in Ferizaj. Swipe, match, and get to work."
+  },
+  "Nav": {
+    "brand": "SwipeJobs",
+    "designSystem": "Design system",
+    "home": "Home",
+    "skipToContent": "Skip to content"
+  },
+  "Home": {
+    "badge": "Coming soon to Ferizaj",
+    "title": "Hourly work, matched in a swipe.",
+    "subtitle": "SwipeJobs connects hourly and shift workers with local businesses. Swipe on jobs you like, match with employers, and arrange the work — all in one app.",
+    "ctaDesignSystem": "Explore the design system",
+    "ctaComingSoon": "Product coming soon",
+    "audienceWorkersTitle": "For workers",
+    "audienceWorkersBody": "Build a quick profile, swipe through shifts near you, and get discovered by employers — no CV required.",
+    "audienceEmployersTitle": "For businesses",
+    "audienceEmployersBody": "Post a role in minutes and swipe through workers who are genuinely interested. Match, then chat directly.",
+    "howTitle": "How it works",
+    "howStep1Title": "Swipe",
+    "howStep1Body": "Workers swipe right on jobs they want.",
+    "howStep2Title": "Match",
+    "howStep2Body": "When the employer swipes back, it's a match.",
+    "howStep3Title": "Chat",
+    "howStep3Body": "Contact details unlock and you arrange the job in chat.",
+    "footerMilestone": "Foundation build (M0) — design system, languages, and app shell."
+  },
+  "Actions": {
+    "toggleTheme": "Toggle theme",
+    "lightMode": "Light",
+    "darkMode": "Dark",
+    "changeLanguage": "Change language"
+  },
+  "Common": {
+    "loading": "Loading…",
+    "empty": "Nothing here yet",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "comingSoon": "Coming soon"
+  },
+  "Styleguide": {
+    "title": "Design system",
+    "subtitle": "The reusable components and tokens that power SwipeJobs.",
+    "backHome": "Back to home",
+    "colorsTitle": "Colors",
+    "colorsBody": "Semantic tokens that re-theme automatically in dark mode.",
+    "typographyTitle": "Typography",
+    "typographyBody": "A clear, confident type scale.",
+    "buttonsTitle": "Buttons",
+    "buttonsBody": "Every intent, size, and state — including loading.",
+    "inputsTitle": "Inputs",
+    "inputsBody": "Labels, help text, and error states.",
+    "cardsTitle": "Cards",
+    "cardsBody": "The surface workers will swipe.",
+    "feedbackTitle": "Feedback",
+    "feedbackBody": "Toasts for transient messages.",
+    "skeletonsTitle": "Loading & states",
+    "skeletonsBody": "Designed loading, empty, and error states — never a blank screen.",
+    "overlaysTitle": "Bottom sheet",
+    "overlaysBody": "A draggable sheet for mobile-first actions.",
+    "openSheet": "Open bottom sheet",
+    "sheetTitle": "Bottom sheet",
+    "sheetBody": "Drag the handle down or tap outside to close. Built with Framer Motion.",
+    "showSuccess": "Show success",
+    "showError": "Show error",
+    "showInfo": "Show info",
+    "stateLoading": "Loading state",
+    "stateEmpty": "Empty state",
+    "stateError": "Error state",
+    "cardExampleTitle": "Barista — Café Ballkoni",
+    "cardExampleBody": "Part-time · Ferizaj · €3.50–4.00 / hour",
+    "inputLabel": "Email",
+    "inputPlaceholder": "you@example.com",
+    "inputHelp": "We'll never share your email.",
+    "inputErrorLabel": "Password",
+    "inputErrorMsg": "Password must be at least 8 characters.",
+    "inputDisabled": "Disabled"
+  },
+  "Toast": {
+    "successTitle": "Saved",
+    "successBody": "Your changes have been saved.",
+    "errorTitle": "Couldn't save",
+    "errorBody": "Please check your connection and try again.",
+    "infoTitle": "Heads up",
+    "infoBody": "This is an informational message."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has moved.",
+    "home": "Back to home"
+  }
+}

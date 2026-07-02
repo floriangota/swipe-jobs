@@ -1,0 +1,95 @@
+{
+  "Meta": {
+    "title": "SwipeJobs — Punë me orar në Ferizaj",
+    "description": "Aplikacioni që lidh punëtorët me orar me bizneset lokale në Ferizaj. Rrëshqit, përputhu dhe fillo punën."
+  },
+  "Nav": {
+    "brand": "SwipeJobs",
+    "designSystem": "Sistemi i dizajnit",
+    "home": "Ballina",
+    "skipToContent": "Kalo te përmbajtja"
+  },
+  "Home": {
+    "badge": "Së shpejti në Ferizaj",
+    "title": "Punë me orar, e gjetur me një rrëshqitje.",
+    "subtitle": "SwipeJobs i lidh punëtorët me orar me bizneset lokale. Rrëshqit mbi punët që të pëlqejnë, përputhu me punëdhënësit dhe merruni vesh për punën — të gjitha në një aplikacion.",
+    "ctaDesignSystem": "Eksploro sistemin e dizajnit",
+    "ctaComingSoon": "Produkti vjen së shpejti",
+    "audienceWorkersTitle": "Për punëtorët",
+    "audienceWorkersBody": "Krijo një profil të shpejtë, rrëshqit nëpër ndërrimet afër teje dhe bëhu i dukshëm për punëdhënësit — pa nevojë për CV.",
+    "audienceEmployersTitle": "Për bizneset",
+    "audienceEmployersBody": "Publiko një pozitë për pak minuta dhe rrëshqit nëpër punëtorët që janë vërtet të interesuar. Përputhu dhe bisedo drejtpërdrejt.",
+    "howTitle": "Si funksionon",
+    "howStep1Title": "Rrëshqit",
+    "howStep1Body": "Punëtorët rrëshqasin djathtas mbi punët që i duan.",
+    "howStep2Title": "Përputhu",
+    "howStep2Body": "Kur punëdhënësi rrëshqet mbrapa, keni një përputhje.",
+    "howStep3Title": "Bisedo",
+    "howStep3Body": "Të dhënat e kontaktit shfaqen dhe merreni vesh për punën në bisedë.",
+    "footerMilestone": "Ndërtimi themel (M0) — sistemi i dizajnit, gjuhët dhe struktura e aplikacionit."
+  },
+  "Actions": {
+    "toggleTheme": "Ndrysho temën",
+    "lightMode": "E çelët",
+    "darkMode": "E errët",
+    "changeLanguage": "Ndrysho gjuhën"
+  },
+  "Common": {
+    "loading": "Duke u ngarkuar…",
+    "empty": "Ende asgjë këtu",
+    "error": "Diçka shkoi keq",
+    "retry": "Provo përsëri",
+    "comingSoon": "Së shpejti"
+  },
+  "Styleguide": {
+    "title": "Sistemi i dizajnit",
+    "subtitle": "Komponentët e ripërdorshëm dhe tokenat që fuqizojnë SwipeJobs.",
+    "backHome": "Kthehu në ballinë",
+    "colorsTitle": "Ngjyrat",
+    "colorsBody": "Tokena semantikë që ndryshojnë temën automatikisht në modën e errët.",
+    "typographyTitle": "Tipografia",
+    "typographyBody": "Një shkallë tipografike e qartë dhe e sigurt.",
+    "buttonsTitle": "Butonat",
+    "buttonsBody": "Çdo qëllim, madhësi dhe gjendje — përfshirë ngarkimin.",
+    "inputsTitle": "Fushat e hyrjes",
+    "inputsBody": "Etiketat, teksti ndihmës dhe gjendjet e gabimit.",
+    "cardsTitle": "Kartat",
+    "cardsBody": "Sipërfaqja që punëtorët do të rrëshqasin.",
+    "feedbackTitle": "Reagimet",
+    "feedbackBody": "Njoftimet për mesazhe të përkohshme.",
+    "skeletonsTitle": "Ngarkimi dhe gjendjet",
+    "skeletonsBody": "Gjendje të dizajnuara për ngarkim, zbrazëti dhe gabim — asnjëherë ekran bosh.",
+    "overlaysTitle": "Fleta e poshtme",
+    "overlaysBody": "Një fletë e tërheqshme për veprime mobile-first.",
+    "openSheet": "Hap fletën e poshtme",
+    "sheetTitle": "Fleta e poshtme",
+    "sheetBody": "Tërhiq dorezën poshtë ose prek jashtë për ta mbyllur. E ndërtuar me Framer Motion.",
+    "showSuccess": "Shfaq sukses",
+    "showError": "Shfaq gabim",
+    "showInfo": "Shfaq info",
+    "stateLoading": "Gjendja e ngarkimit",
+    "stateEmpty": "Gjendja e zbrazët",
+    "stateError": "Gjendja e gabimit",
+    "cardExampleTitle": "Barist — Café Ballkoni",
+    "cardExampleBody": "Me gjysmë orari · Ferizaj · €3.50–4.00 / orë",
+    "inputLabel": "Email",
+    "inputPlaceholder": "ti@shembull.com",
+    "inputHelp": "Nuk do ta ndajmë kurrë email-in tënd.",
+    "inputErrorLabel": "Fjalëkalimi",
+    "inputErrorMsg": "Fjalëkalimi duhet të ketë të paktën 8 karaktere.",
+    "inputDisabled": "I çaktivizuar"
+  },
+  "Toast": {
+    "successTitle": "U ruajt",
+    "successBody": "Ndryshimet u ruajtën.",
+    "errorTitle": "Nuk u ruajt",
+    "errorBody": "Kontrollo lidhjen dhe provo përsëri.",
+    "infoTitle": "Kujdes",
+    "infoBody": "Ky është një mesazh informues."
+  },
+  "NotFound": {
+    "title": "Faqja nuk u gjet",
+    "description": "Faqja që po kërkoni nuk ekziston ose është zhvendosur.",
+    "home": "Kthehu në ballinë"
+  }
+}
