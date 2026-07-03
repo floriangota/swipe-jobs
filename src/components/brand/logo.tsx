@@ -13,8 +13,8 @@ export function Logo({ className, ...props }: React.ComponentProps<"svg">) {
     >
       <defs>
         <linearGradient id="sj-logo" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-          <stop stopColor="oklch(0.52 0.2 264)" />
-          <stop offset="1" stopColor="oklch(0.62 0.12 205)" />
+          <stop stopColor="oklch(0.645 0.2 25)" />
+          <stop offset="1" stopColor="oklch(0.72 0.16 55)" />
         </linearGradient>
       </defs>
       <rect width="32" height="32" rx="8" fill="url(#sj-logo)" />

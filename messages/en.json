@@ -77,7 +77,11 @@
     "inputHelp": "We'll never share your email.",
     "inputErrorLabel": "Password",
     "inputErrorMsg": "Password must be at least 8 characters.",
-    "inputDisabled": "Disabled"
+    "inputDisabled": "Disabled",
+    "swipeTitle": "Swipe card",
+    "swipeBody": "The premium card workers swipe. Drag physics + the match moment arrive in M5.",
+    "swipeNope": "Pass",
+    "swipeLike": "Interested"
   },
   "Toast": {
     "successTitle": "Saved",

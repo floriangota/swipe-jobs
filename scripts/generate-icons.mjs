@@ -13,8 +13,8 @@ import { dirname, join } from "node:path";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // --- Brand colors (sRGB approximations of the design tokens) ----------------
-const INDIGO = [79, 70, 229];
-const TEAL = [15, 157, 168];
+const WARM_A = [242, 96, 63]; // coral
+const WARM_B = [247, 164, 77]; // amber
 const WHITE = [255, 255, 255];
 
 // --- Geometry (normalized tile coords, y-down) ------------------------------
@@ -56,9 +56,9 @@ function sample(u, v, maskable) {
   if (bgA === 0) return [0, 0, 0, 0];
 
   const t = Math.max(0, Math.min(1, (u + v) / 2));
-  let r = Math.round(lerp(INDIGO[0], TEAL[0], t));
-  let g = Math.round(lerp(INDIGO[1], TEAL[1], t));
-  let b = Math.round(lerp(INDIGO[2], TEAL[2], t));
+  let r = Math.round(lerp(WARM_A[0], WARM_B[0], t));
+  let g = Math.round(lerp(WARM_A[1], WARM_B[1], t));
+  let b = Math.round(lerp(WARM_A[2], WARM_B[2], t));
 
   // Check mark (in content space; maskable shrinks toward center).
   const k = maskable ? MASKABLE_CONTENT_SCALE : 1;

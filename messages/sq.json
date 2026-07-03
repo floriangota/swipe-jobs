@@ -77,7 +77,11 @@
     "inputHelp": "Nuk do ta ndajmë kurrë email-in tënd.",
     "inputErrorLabel": "Fjalëkalimi",
     "inputErrorMsg": "Fjalëkalimi duhet të ketë të paktën 8 karaktere.",
-    "inputDisabled": "I çaktivizuar"
+    "inputDisabled": "I çaktivizuar",
+    "swipeTitle": "Karta e rrëshqitjes",
+    "swipeBody": "Karta premium që punëtorët rrëshqasin. Fizika e tërheqjes + momenti i përputhjes vijnë në M5.",
+    "swipeNope": "Kalo",
+    "swipeLike": "I interesuar"
   },
   "Toast": {
     "successTitle": "U ruajt",

@@ -8,6 +8,7 @@ import { Field, Input } from "@/components/ui/input";
 import { EmptyState, ErrorState, LoadingState, SkeletonCard } from "@/components/ui/states";
 import { FeedbackDemo } from "./_components/feedback-demo";
 import { SheetDemo } from "./_components/sheet-demo";
+import { SwipeCardDemo } from "./_components/swipe-card-demo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Styleguide");
@@ -130,6 +131,13 @@ export default async function StyleguidePage() {
                 </div>
               </CardContent>
             </Card>
+          </Section>
+
+          {/* Swipe card (design showcase — physics is M5) */}
+          <Section title={t("swipeTitle")} description={t("swipeBody")}>
+            <div className="rounded-xl bg-secondary/40 py-10">
+              <SwipeCardDemo />
+            </div>
           </Section>
 
           {/* Feedback (client island) */}
