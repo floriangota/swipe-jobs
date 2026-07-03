@@ -10,6 +10,7 @@ import {
   setWorkerVisibility,
   updateWorkerProfile,
 } from "./service/worker-profile.service";
+import { getCategories, getLanguages } from "./service/reference-data.service";
 
 export type ProfileErrorCode = "invalid_input" | "save_failed" | "wrong_role";
 export type ProfileFormState =
@@ -24,6 +25,20 @@ export async function saveWorkerProfile(input: WorkerProfileInput): Promise<Prof
   const parsed = workerProfileSchema.safeParse(input);
   if (!parsed.success) {
     return { error: "invalid_input", fieldErrors: parsed.error.flatten().fieldErrors };
+  }
+
+  // Reject bogus/inactive category or language ids BEFORE the destructive
+  // join-replace (Zod only checks uuid shape). Guards against a failed insert
+  // leaving the profile's join sets wiped. (Full transactional atomicity via an
+  // RPC is a follow-up hardening — see review.)
+  const [cats, langs] = await Promise.all([getCategories(), getLanguages()]);
+  const validCat = new Set(cats.map((c) => c.id));
+  const validLang = new Set(langs.map((l) => l.id));
+  if (
+    parsed.data.category_ids.some((id) => !validCat.has(id)) ||
+    parsed.data.language_ids.some((id) => !validLang.has(id))
+  ) {
+    return { error: "invalid_input" };
   }
 
   try {
