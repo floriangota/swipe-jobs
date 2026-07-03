@@ -11,6 +11,7 @@ interface WorkerProfileRow {
   experience_level: ExperienceLevel;
   phone: string | null;
   is_visible: boolean;
+  photo_id: string | null;
 }
 
 function lastInitial(lastName: string): string {
@@ -32,6 +33,7 @@ function toView(
     experienceLevel: row.experience_level,
     phone: row.phone,
     isVisible: row.is_visible,
+    photoId: row.photo_id,
     categoryIds,
     languageIds,
     availabilities,
@@ -53,7 +55,7 @@ export async function getOwnWorkerProfile(userId: string): Promise<WorkerProfile
 
   const { data: profile } = await supabase
     .from("worker_profiles")
-    .select("id, first_name, last_name, bio, experience_level, phone, is_visible")
+    .select("id, first_name, last_name, bio, experience_level, phone, is_visible, photo_id")
     .eq("user_id", userId)
     .maybeSingle();
 

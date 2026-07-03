@@ -45,6 +45,7 @@ export interface WorkerProfileView {
   experienceLevel: ExperienceLevel;
   phone: string | null; // stripped unless owner or matched
   isVisible: boolean;
+  photoId: string | null; // approved-photo FK (M4); null = show placeholder
   categoryIds: string[];
   languageIds: string[];
   availabilities: Availability[];
@@ -55,6 +56,7 @@ export interface EmployerProfileView {
   businessName: string;
   businessTypeId: string | null;
   description: string | null;
+  logoId: string | null; // approved-logo FK (M4); null = show placeholder
   contactPhone: string | null; // stripped unless owner or matched
   contactEmail: string | null; // stripped unless owner or matched
 }

@@ -318,5 +318,22 @@
       "not_verified": "Verifiko email-in për të publikuar shpallje.",
       "not_found": "Kjo shpallje nuk ekziston ose nuk është e jotja."
     }
+  },
+  "Photos": {
+    "upload": "Shto foto",
+    "change": "Ndrysho foton",
+    "uploading": "Duke ngarkuar…",
+    "awaitingReview": "Fotoja u ngarkua dhe është në pritje të shqyrtimit.",
+    "hint": "JPG, PNG ose WebP · deri në 5 MB. Fotot shqyrtohen para se të shfaqen.",
+    "errors": {
+      "too_large": "Kjo foto është shumë e madhe (maksimumi 5 MB).",
+      "unsupported_format": "Përdor një foto JPG, PNG ose WebP.",
+      "invalid_image": "Ky skedar nuk është një foto e vlefshme.",
+      "dimensions_too_large": "Përmasat e kësaj fotoje janë shumë të mëdha.",
+      "rate_limited": "Shumë ngarkime. Prit pak dhe provo përsëri.",
+      "forbidden": "Ky lloj fotoje nuk përputhet me llogarinë tënde.",
+      "invalid_input": "Diçka nuk shkoi me ngarkimin. Provo përsëri.",
+      "upload_failed": "Fotoja nuk u ngarkua. Provo përsëri."
+    }
   }
 }

@@ -318,5 +318,22 @@
       "not_verified": "Verify your email to post listings.",
       "not_found": "That listing doesn't exist or isn't yours."
     }
+  },
+  "Photos": {
+    "upload": "Add photo",
+    "change": "Change photo",
+    "uploading": "Uploading…",
+    "awaitingReview": "Your photo is uploaded and awaiting review.",
+    "hint": "JPG, PNG, or WebP · up to 5 MB. Photos are reviewed before they appear.",
+    "errors": {
+      "too_large": "That image is too large (max 5 MB).",
+      "unsupported_format": "Use a JPG, PNG, or WebP image.",
+      "invalid_image": "That file isn't a valid image.",
+      "dimensions_too_large": "That image's dimensions are too large.",
+      "rate_limited": "Too many uploads. Please wait and try again.",
+      "forbidden": "That photo type doesn't match your account.",
+      "invalid_input": "Something's off with that upload. Please try again.",
+      "upload_failed": "Couldn't upload the photo. Please try again."
+    }
   }
 }

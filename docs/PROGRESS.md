@@ -8,8 +8,8 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M1** — Authentication & Accounts (signup/login/logout, soft-gate email verification, password reset, sessions, users + cities tables, RLS baseline)
 - [x] **M2** — Profiles (worker + employer onboarding, reference-data endpoints + seeds, profile view/edit, visibility toggle)
 - [x] **M3** — Listings (employer create/edit/pause/close, pay validation + cents, my-listings dashboard w/ placeholder counts, premium listing card)
-- [ ] **M4** — Photos & Moderation Pipeline  ← **CURRENTLY HERE**
-- [ ] **M5** — Swipe Feed & Matching  (⭐⭐⭐⭐⭐ tentpole — budget the most time)
+- [x] **M4** — Photos & Moderation Pipeline (upload → validate/EXIF-strip/re-encode → private bucket → pending gate; approved photo wired into profile display)
+- [ ] **M5** — Swipe Feed & Matching  (⭐⭐⭐⭐⭐ tentpole — budget the most time)  ← **CURRENTLY HERE**
 - [ ] **M6** — In-App Chat (Realtime)
 - [ ] **M7** — Notifications
 - [ ] **M8** — Admin Panel
@@ -44,6 +44,23 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
   (or `db:reset`) to apply it before the listings pages will function against the DB.
 - Premium listing card lives at `features/listings/components/listing-card.tsx`; previewable in the styleguide
   ("Listing card" section). The M2 `swipe-card-demo.tsx` was left untouched.
+
+### M4 — Photos & Moderation Pipeline (decisions & notes, all user-approved)
+- **New dependency `sharp`** — server-side re-encode + EXIF/GPS strip + magic-byte/dimension validation.
+  Runs only on the **Node runtime** (`export const runtime = "nodejs"` on the photo routes).
+- **`sharp` must NEVER reach the client bundle.** Shared upload constants live in `features/photos/constants.ts`
+  (no sharp import); `features/photos/image.ts` (imports sharp) is imported only by server code + tests. A client
+  component importing anything from `image.ts` breaks the build with `Can't resolve 'child_process'/'fs'`.
+- **Pipeline + gate only; admin approve/reject queue is M8.** Uploads land `status='pending'` and show the
+  placeholder. To test the approved-photo display before M8, set `photos.status='approved'` and point
+  `worker_profiles.photo_id` / `employer_profiles.logo_id` at it via SQL.
+- **Private `photos` bucket + storage RLS** (owner path `photos/{uid}/…`) created by migration `0009` (applied).
+  Approved photos served via short-lived **signed URLs**; nothing pending/rejected is ever served.
+- **Upload is NOT verification-gated** (contract marks POST /photos as any-authed); role/type must match
+  (worker→worker_photo, employer→employer_logo). Photo routes use `getCurrentUser()` and, like every other
+  v1 API route, do **not** check `user.status` — a systemic gap to close in **M9** (a shared active-user API guard).
+- **Upload rate-limit** uses the M1 `checkRateLimit` seam (no-op until M9 wires Upstash).
+- Migration `0009` applied to the hosted DB (all 9 migrations in sync).
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

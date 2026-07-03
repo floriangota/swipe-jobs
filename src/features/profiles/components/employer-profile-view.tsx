@@ -3,29 +3,29 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
-import { gradientFor } from "@/lib/gradients";
 import { cn } from "@/lib/utils/cn";
+import { PhotoUpload } from "@/features/photos/components/photo-upload";
 import type { EmployerProfileView } from "../types";
 
 interface Props {
   profile: EmployerProfileView;
+  logoUrl: string | null;
   businessTypeLabel: string | null;
 }
 
-export function EmployerProfileCard({ profile, businessTypeLabel }: Props) {
+export function EmployerProfileCard({ profile, logoUrl, businessTypeLabel }: Props) {
   const t = useTranslations("Profile");
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-4">
-          <span
-            className="flex size-16 shrink-0 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-sm"
-            style={{ background: gradientFor(profile.id) }}
-            aria-hidden
-          >
-            {profile.businessName.charAt(0).toUpperCase()}
-          </span>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 space-y-3">
+          <PhotoUpload
+            type="employer_logo"
+            currentUrl={logoUrl}
+            seed={profile.id}
+            initial={profile.businessName.charAt(0).toUpperCase()}
+          />
           <div className="min-w-0">
             <h1 className="truncate text-2xl font-bold tracking-tight">{profile.businessName}</h1>
             {businessTypeLabel && (

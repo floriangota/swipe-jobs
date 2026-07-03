@@ -26,6 +26,15 @@ This creates `cities` (+ Ferizaj), `users` (+ the `handle_new_user` trigger), an
 `email_verifications`, all with RLS on. For local dev with Docker you can instead
 `npm run db:reset` against a local stack.
 
+### Storage — photos (M4)
+The private **`photos`** bucket and its `storage.objects` RLS policies are created by
+migration `20260703000009_create_photos.sql`, so `npm run db:push` provisions them with
+**no manual dashboard steps**. Uploads are re-encoded (EXIF/GPS stripped) and stored
+`pending`; an approved photo is served via a short-lived signed URL. The admin approve/
+reject UI lands in **M8** — until then, approve a photo for testing by setting
+`photos.status = 'approved'` and pointing `worker_profiles.photo_id` / `employer_profiles.logo_id`
+at it via SQL.
+
 ## 3. Dashboard configuration (Auth)
 1. **Authentication → Providers → Email:** turn **"Confirm email" OFF.** We run a
    *soft gate* — users sign in immediately; `users.email_verified_at` (stamped by our

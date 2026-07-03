@@ -8,6 +8,7 @@ interface EmployerProfileRow {
   business_name: string;
   business_type_id: string | null;
   description: string | null;
+  logo_id: string | null;
   contact_phone: string | null;
   contact_email: string | null;
 }
@@ -18,6 +19,7 @@ function toView(row: EmployerProfileRow): EmployerProfileView {
     businessName: row.business_name,
     businessTypeId: row.business_type_id,
     description: row.description,
+    logoId: row.logo_id,
     contactPhone: row.contact_phone,
     contactEmail: row.contact_email,
   };
@@ -32,7 +34,7 @@ export async function getOwnEmployerProfile(userId: string): Promise<EmployerPro
   const supabase = await createClient();
   const { data } = await supabase
     .from("employer_profiles")
-    .select("id, business_name, business_type_id, description, contact_phone, contact_email")
+    .select("id, business_name, business_type_id, description, logo_id, contact_phone, contact_email")
     .eq("user_id", userId)
     .maybeSingle();
   const row = data as EmployerProfileRow | null;

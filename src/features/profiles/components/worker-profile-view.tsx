@@ -3,18 +3,19 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
-import { gradientFor } from "@/lib/gradients";
 import { cn } from "@/lib/utils/cn";
+import { PhotoUpload } from "@/features/photos/components/photo-upload";
 import { VisibilityToggle } from "./visibility-toggle";
 import type { WorkerProfileView } from "../types";
 
 interface Props {
   profile: WorkerProfileView;
+  photoUrl: string | null;
   categoryLabels: Record<string, string>;
   languageLabels: Record<string, string>;
 }
 
-export function WorkerProfileCard({ profile, categoryLabels, languageLabels }: Props) {
+export function WorkerProfileCard({ profile, photoUrl, categoryLabels, languageLabels }: Props) {
   const t = useTranslations("Profile");
   const to = useTranslations("Onboarding");
 
@@ -27,15 +28,14 @@ export function WorkerProfileCard({ profile, categoryLabels, languageLabels }: P
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-4">
-          <span
-            className="flex size-16 shrink-0 items-center justify-center rounded-full text-2xl font-bold text-white shadow-sm"
-            style={{ background: gradientFor(profile.id) }}
-            aria-hidden
-          >
-            {profile.firstName.charAt(0).toUpperCase()}
-          </span>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 space-y-3">
+          <PhotoUpload
+            type="worker_photo"
+            currentUrl={photoUrl}
+            seed={profile.id}
+            initial={profile.firstName.charAt(0).toUpperCase()}
+          />
           <div className="min-w-0">
             <h1 className="truncate text-2xl font-bold tracking-tight">
               {profile.firstName} {profile.lastName}
