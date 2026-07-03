@@ -8,6 +8,7 @@
     "designSystem": "Sistemi i dizajnit",
     "home": "Ballina",
     "profile": "Profili",
+    "myListings": "Shpalljet e mia",
     "skipToContent": "Kalo te përmbajtja"
   },
   "Home": {
@@ -82,7 +83,9 @@
     "swipeTitle": "Karta e rrëshqitjes",
     "swipeBody": "Karta premium që punëtorët rrëshqasin. Fizika e tërheqjes + momenti i përputhjes vijnë në M5.",
     "swipeNope": "Kalo",
-    "swipeLike": "I interesuar"
+    "swipeLike": "I interesuar",
+    "listingCardTitle": "Karta e shpalljes",
+    "listingCardBody": "Karta premium e shpalljes që punëtorët rrëshqasin — e ndërtuar nga të dhëna reale në M3."
   },
   "Toast": {
     "successTitle": "U ruajt",
@@ -244,5 +247,76 @@
     "visibilityTitle": "I dukshëm për punëdhënësit",
     "visibleOn": "Je i shfaqur në listën e rrëshqitjes.",
     "visibleOff": "Je i fshehur nga punëdhënësit."
+  },
+  "Listings": {
+    "metaTitle": "Shpalljet e mia",
+    "newMetaTitle": "Shpallje e re",
+    "editMetaTitle": "Ndrysho shpalljen",
+    "dashboardTitle": "Shpalljet e mia",
+    "new": "Shpallje e re",
+    "empty": "Ende asnjë shpallje",
+    "emptyBody": "Publiko pozitën tënde të parë dhe fillo të përputhesh me punëtorë.",
+    "createFirst": "Krijo shpalljen tënde të parë",
+    "verifyTitle": "Verifiko email-in për të publikuar",
+    "verifyBody": "Konfirmo adresën e email-it për të publikuar shpallje dhe për t'u përputhur me punëtorë.",
+    "verifyCta": "Verifiko email-in",
+    "loadError": "Shpalljet nuk u ngarkuan",
+    "interested": "të interesuar",
+    "matched": "të përputhur",
+    "edit": "Ndrysho",
+    "pause": "Pezullo",
+    "resume": "Aktivizo",
+    "close": "Mbyll",
+    "reopen": "Rihap",
+    "statusActionError": "Shpallja nuk u përditësua. Provo përsëri.",
+    "status": {
+      "active": "Aktive",
+      "paused": "E pezulluar",
+      "closed": "E mbyllur"
+    },
+    "jobType": {
+      "full_time": "Orar i plotë",
+      "part_time": "Me gjysmë orari",
+      "shift": "Me ndërrime",
+      "temporary": "E përkohshme"
+    },
+    "experience": {
+      "none": "Pa përvojë",
+      "under_1y": "Nën 1 vit",
+      "1_3y": "1–3 vjet",
+      "over_3y": "Mbi 3 vjet"
+    },
+    "payPeriod": {
+      "hourly": "Në orë",
+      "monthly": "Në muaj"
+    },
+    "payPeriodShort": {
+      "hourly": "/orë",
+      "monthly": "/muaj"
+    },
+    "form": {
+      "titleLabel": "Titulli i punës",
+      "titlePlaceholder": "p.sh. Barist",
+      "categoryLabel": "Kategoria",
+      "categoryPlaceholder": "Zgjidh një kategori…",
+      "jobTypeLabel": "Lloji i punës",
+      "experienceLabel": "Përvoja e kërkuar",
+      "payPeriodLabel": "Periudha e pagesës",
+      "payMinLabel": "Pagesa minimale (€)",
+      "payMaxLabel": "Pagesa maksimale (€, opsionale)",
+      "payHelp": "Lëre maksimumin bosh për një pagesë fikse.",
+      "descriptionLabel": "Përshkrimi (opsional)",
+      "descriptionPlaceholder": "Përshkruaj rolin, oraret dhe çfarë po kërkon…",
+      "submitCreate": "Publiko shpalljen",
+      "submitEdit": "Ruaj ndryshimet",
+      "cancel": "Anulo"
+    },
+    "errors": {
+      "invalid_input": "Kontrollo formularin dhe provo përsëri.",
+      "save_failed": "Shpallja nuk u ruajt. Provo përsëri.",
+      "wrong_role": "Vetëm llogaritë e biznesit mund të publikojnë shpallje.",
+      "not_verified": "Verifiko email-in për të publikuar shpallje.",
+      "not_found": "Kjo shpallje nuk ekziston ose nuk është e jotja."
+    }
   }
 }

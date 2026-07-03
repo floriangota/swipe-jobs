@@ -16,6 +16,8 @@ interface ChipGroupProps {
   /** cap for multi-select. */
   max?: number;
   className?: string;
+  /** Accessible name for the group (screen readers otherwise announce an unnamed group). */
+  ariaLabel?: string;
 }
 
 /** Toggleable chips for single or multi selection (categories, languages, etc.). */
@@ -26,6 +28,7 @@ export function ChipGroup({
   multiple = true,
   max,
   className,
+  ariaLabel,
 }: ChipGroupProps) {
   function toggle(v: string) {
     if (value.includes(v)) {
@@ -41,7 +44,7 @@ export function ChipGroup({
   }
 
   return (
-    <div role="group" className={cn("flex flex-wrap gap-2", className)}>
+    <div role="group" aria-label={ariaLabel} className={cn("flex flex-wrap gap-2", className)}>
       {options.map((o) => {
         const active = value.includes(o.value);
         return (

@@ -8,6 +8,7 @@
     "designSystem": "Design system",
     "home": "Home",
     "profile": "Profile",
+    "myListings": "My listings",
     "skipToContent": "Skip to content"
   },
   "Home": {
@@ -82,7 +83,9 @@
     "swipeTitle": "Swipe card",
     "swipeBody": "The premium card workers swipe. Drag physics + the match moment arrive in M5.",
     "swipeNope": "Pass",
-    "swipeLike": "Interested"
+    "swipeLike": "Interested",
+    "listingCardTitle": "Listing card",
+    "listingCardBody": "The premium listing card workers swipe — built from real listing data in M3."
   },
   "Toast": {
     "successTitle": "Saved",
@@ -244,5 +247,76 @@
     "visibilityTitle": "Visible to employers",
     "visibleOn": "You're shown in the swipe deck.",
     "visibleOff": "You're hidden from employers."
+  },
+  "Listings": {
+    "metaTitle": "My listings",
+    "newMetaTitle": "New listing",
+    "editMetaTitle": "Edit listing",
+    "dashboardTitle": "My listings",
+    "new": "New listing",
+    "empty": "No listings yet",
+    "emptyBody": "Post your first role and start matching with workers.",
+    "createFirst": "Create your first listing",
+    "verifyTitle": "Verify your email to post",
+    "verifyBody": "Confirm your email address to publish listings and match with workers.",
+    "verifyCta": "Verify email",
+    "loadError": "Couldn't load your listings",
+    "interested": "interested",
+    "matched": "matched",
+    "edit": "Edit",
+    "pause": "Pause",
+    "resume": "Resume",
+    "close": "Close",
+    "reopen": "Reopen",
+    "statusActionError": "Couldn't update the listing. Please try again.",
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "closed": "Closed"
+    },
+    "jobType": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "shift": "Shift",
+      "temporary": "Temporary"
+    },
+    "experience": {
+      "none": "No experience",
+      "under_1y": "Under 1 year",
+      "1_3y": "1–3 years",
+      "over_3y": "Over 3 years"
+    },
+    "payPeriod": {
+      "hourly": "Per hour",
+      "monthly": "Per month"
+    },
+    "payPeriodShort": {
+      "hourly": "/h",
+      "monthly": "/mo"
+    },
+    "form": {
+      "titleLabel": "Job title",
+      "titlePlaceholder": "e.g. Barista",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "Select a category…",
+      "jobTypeLabel": "Job type",
+      "experienceLabel": "Experience required",
+      "payPeriodLabel": "Pay period",
+      "payMinLabel": "Minimum pay (€)",
+      "payMaxLabel": "Maximum pay (€, optional)",
+      "payHelp": "Leave the maximum empty for an exact rate.",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Describe the role, hours, and what you're looking for…",
+      "submitCreate": "Publish listing",
+      "submitEdit": "Save changes",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "invalid_input": "Please check the form and try again.",
+      "save_failed": "Couldn't save the listing. Please try again.",
+      "wrong_role": "Only business accounts can post listings.",
+      "not_verified": "Verify your email to post listings.",
+      "not_found": "That listing doesn't exist or isn't yours."
+    }
   }
 }
