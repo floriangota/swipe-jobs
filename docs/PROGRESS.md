@@ -9,7 +9,7 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M2** — Profiles (worker + employer onboarding, reference-data endpoints + seeds, profile view/edit, visibility toggle)
 - [x] **M3** — Listings (employer create/edit/pause/close, pay validation + cents, my-listings dashboard w/ placeholder counts, premium listing card)
 - [x] **M4** — Photos & Moderation Pipeline (upload → validate/EXIF-strip/re-encode → private bucket → pending gate; approved photo wired into profile display)
-- [ ] **M5** — Swipe Feed & Matching  (⭐⭐⭐⭐⭐ tentpole — budget the most time)  ← **CURRENTLY HERE**
+- [~] **M5** — Swipe Feed & Matching  (⭐⭐⭐⭐⭐ tentpole)  ← **CURRENTLY HERE** — M5a backend DONE; M5b swipe-engine UI + match moment next
 - [ ] **M6** — In-App Chat (Realtime)
 - [ ] **M7** — Notifications
 - [ ] **M8** — Admin Panel
@@ -61,6 +61,28 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
   v1 API route, do **not** check `user.status` — a systemic gap to close in **M9** (a shared active-user API guard).
 - **Upload rate-limit** uses the M1 `checkRateLimit` seam (no-op until M9 wires Upstash).
 - Migration `0009` applied to the hosted DB (all 9 migrations in sync).
+
+### M5a — Swipe Feed & Matching, backend (decisions & notes, all user-approved)
+- **Split milestone:** M5a = backend/core-loop logic (this commit). M5b = the swipe-engine UI
+  (Framer Motion drag physics) + the "It's a match!" moment (next checkpoint).
+- **Stops at the match:** M5 creates the match row + fires the moment (M5b) and lands the DB
+  **golden-rule gate** (match-gated SELECT policies on worker_profiles/employer_profiles). Chat AND
+  the contact-reveal endpoint (`GET /matches/:id`) are **M6** — deliberately not built here.
+- **THE GOLDEN RULE IS LIVE.** Pre-match responses never carry contact fields: the `worker_feed` +
+  `listing_candidates` DB functions select contact-free columns; the candidate DTO is first-name +
+  last-INITIAL by construction; match-gated RLS is the DB backstop. **CI gate:**
+  `features/swipe/__tests__/candidate-view.test.ts` asserts contact-fields-absent (required release gate).
+- **Migration `0010`:** `swipes`/`employer_swipes`/`matches` + enums + the atomic race-safe
+  `record_employer_swipe` RPC (one TX + UNIQUE + a **Flow-1 candidacy gate** from the adversarial review:
+  an employer may only act on a worker who is a genuine, currently-shown candidate). Also `worker_feed`,
+  `listing_candidates`, `listing_engagement_counts` functions; the deferred **worker-reads-active-listings**
+  policy on `listings`; `owns_listing` helper.
+- **Endpoints (route handlers):** `GET /feed`, `POST /listings/[id]/swipe`,
+  `GET /listings/[id]/candidates`, `POST /listings/[id]/candidates/[workerId]/swipe`. Keyset feed cursor;
+  swipes idempotent (clean 409); soft-gate (unverified workers browse/swipe but aren't shown / can't match).
+- **Real counts:** the M3 dashboard's placeholder interested/matched now use live aggregates.
+- **Cross-user photos deferred** — feed/candidate cards will use gradient placeholders (M5b); no service-role
+  photo path built. Migration `0010` applied (10/10 in sync). Branch: `m5-matching` (fresh off `main`).
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

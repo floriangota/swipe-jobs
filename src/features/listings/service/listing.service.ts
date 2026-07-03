@@ -71,13 +71,49 @@ export async function getOwnListings(
   const hasMore = rows.length > limit;
   const pageRows = hasMore ? rows.slice(0, limit) : rows;
 
-  const items: MyListingItem[] = pageRows.map((row) => ({
-    ...toListingView(row),
-    interestedCount: 0, // placeholder until M5 (swipes)
-    matchedCount: 0, // placeholder until M5 (matches)
+  const views = pageRows.map(toListingView);
+  const counts = await getEngagementCounts(
+    supabase,
+    views.map((v) => v.id),
+  );
+  const items: MyListingItem[] = views.map((view) => ({
+    ...view,
+    interestedCount: counts.get(view.id)?.interested ?? 0,
+    matchedCount: counts.get(view.id)?.matched ?? 0,
   }));
 
   return { items, nextCursor: hasMore ? encodeCursor(offset + limit) : null };
+}
+
+interface EngagementCount {
+  interested: number;
+  matched: number;
+}
+
+/** Real interested/matched counts per listing (M5) — replaces the M3 placeholders. */
+async function getEngagementCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  listingIds: string[],
+): Promise<Map<string, EngagementCount>> {
+  const map = new Map<string, EngagementCount>();
+  if (listingIds.length === 0) return map;
+
+  const { data, error } = await supabase.rpc("listing_engagement_counts", {
+    p_listing_ids: listingIds,
+  });
+  if (error) throw new Error(error.message);
+
+  for (const r of (data ?? []) as {
+    listing_id: string;
+    interested_count: number;
+    matched_count: number;
+  }[]) {
+    map.set(r.listing_id, {
+      interested: Number(r.interested_count),
+      matched: Number(r.matched_count),
+    });
+  }
+  return map;
 }
 
 /** A single listing owned by the caller (M3). Worker read of active listings = M5. */
