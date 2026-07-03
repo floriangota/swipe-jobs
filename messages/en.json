@@ -142,7 +142,9 @@
       "verifiedBody": "Your email is confirmed. You're all set.",
       "resend": "Resend verification email",
       "goHome": "Go to home",
-      "goLogin": "Go to sign in"
+      "goLogin": "Go to sign in",
+      "continue": "Continue to the app",
+      "softGate": "You can start using SwipeJobs right away — verifying just unlocks matching and chat."
     },
     "banner": {
       "text": "Verify your email to unlock matching and chat.",

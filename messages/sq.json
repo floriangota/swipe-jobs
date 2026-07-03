@@ -142,7 +142,9 @@
       "verifiedBody": "Email-i yt u konfirmua. Gjithçka gati.",
       "resend": "Ridërgo email-in e verifikimit",
       "goHome": "Shko te ballina",
-      "goLogin": "Shko te hyrja"
+      "goLogin": "Shko te hyrja",
+      "continue": "Vazhdo në aplikacion",
+      "softGate": "Mund të fillosh ta përdorësh SwipeJobs menjëherë — verifikimi vetëm zhbllokon përputhjet dhe bisedat."
     },
     "banner": {
       "text": "Verifiko email-in për të zhbllokuar përputhjet dhe bisedat.",

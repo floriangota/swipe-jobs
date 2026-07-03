@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth/guards";
 import { ResendVerificationForm } from "@/features/auth/components/resend-verification-form";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils/cn";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Auth.verify");
@@ -51,13 +52,23 @@ export default async function VerifyEmailPage({
             {tErr(sp.error as Parameters<typeof tErr>[0])}
           </p>
         )}
-        <p className="text-sm text-muted-foreground">{t("checkInbox")}</p>
         {user ? (
-          <ResendVerificationForm email={user.email} />
+          <>
+            {/* Soft gate: signup already logged them in — let them proceed. */}
+            <p className="text-sm text-muted-foreground">{t("softGate")}</p>
+            <Link href="/" className={cn(buttonVariants({ intent: "primary" }), "w-full")}>
+              {t("continue")}
+            </Link>
+            <p className="pt-2 text-sm text-muted-foreground">{t("checkInbox")}</p>
+            <ResendVerificationForm email={user.email} />
+          </>
         ) : (
-          <Link href="/login" className={buttonVariants({ intent: "outline" })}>
-            {t("goLogin")}
-          </Link>
+          <>
+            <p className="text-sm text-muted-foreground">{t("checkInbox")}</p>
+            <Link href="/login" className={buttonVariants({ intent: "outline" })}>
+              {t("goLogin")}
+            </Link>
+          </>
         )}
       </CardContent>
     </Card>
