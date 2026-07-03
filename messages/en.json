@@ -9,6 +9,7 @@
     "home": "Home",
     "profile": "Profile",
     "myListings": "My listings",
+    "feed": "Jobs",
     "skipToContent": "Skip to content"
   },
   "Home": {
@@ -85,7 +86,12 @@
     "swipeNope": "Pass",
     "swipeLike": "Interested",
     "listingCardTitle": "Listing card",
-    "listingCardBody": "The premium listing card workers swipe — built from real listing data in M3."
+    "listingCardBody": "The premium listing card workers swipe — built from real listing data in M3.",
+    "liveSwipeTitle": "Live swipe",
+    "liveSwipeBody": "Drag the card (or use the physics) and preview the match moment — the real M5 swipe engine.",
+    "swipeStampYes": "Yes",
+    "swipeStampNo": "Nope",
+    "previewMatch": "Preview the match moment"
   },
   "Toast": {
     "successTitle": "Saved",
@@ -263,6 +269,7 @@
     "loadError": "Couldn't load your listings",
     "interested": "interested",
     "matched": "matched",
+    "candidates": "Candidates",
     "edit": "Edit",
     "pause": "Pause",
     "resume": "Resume",
@@ -335,5 +342,37 @@
       "invalid_input": "Something's off with that upload. Please try again.",
       "upload_failed": "Couldn't upload the photo. Please try again."
     }
+  },
+  "Feed": {
+    "metaTitle": "Jobs",
+    "title": "Jobs near you",
+    "empty": "You're all caught up",
+    "emptyBody": "No more jobs to swipe right now. Check back soon for new listings.",
+    "loadError": "Couldn't load the feed",
+    "swipeFailed": "That didn't go through — try again.",
+    "interested": "Interested",
+    "pass": "Pass",
+    "stampYes": "Yes",
+    "stampNo": "Nope"
+  },
+  "Candidates": {
+    "metaTitle": "Candidates",
+    "title": "Interested workers",
+    "back": "My listings",
+    "empty": "No candidates yet",
+    "emptyBody": "When workers swipe right on this listing, they'll appear here to review.",
+    "loadError": "Couldn't load candidates",
+    "swipeFailed": "That didn't go through — try again.",
+    "match": "Match",
+    "pass": "Pass",
+    "stampYes": "Yes",
+    "stampNo": "Nope"
+  },
+  "Match": {
+    "title": "It's a match!",
+    "body": "You and {name} both said yes.",
+    "bodyGeneric": "You both said yes.",
+    "chatSoon": "Chat and contact details unlock in an upcoming update.",
+    "keepSwiping": "Keep swiping"
   }
 }

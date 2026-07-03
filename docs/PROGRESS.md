@@ -9,8 +9,8 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M2** — Profiles (worker + employer onboarding, reference-data endpoints + seeds, profile view/edit, visibility toggle)
 - [x] **M3** — Listings (employer create/edit/pause/close, pay validation + cents, my-listings dashboard w/ placeholder counts, premium listing card)
 - [x] **M4** — Photos & Moderation Pipeline (upload → validate/EXIF-strip/re-encode → private bucket → pending gate; approved photo wired into profile display)
-- [~] **M5** — Swipe Feed & Matching  (⭐⭐⭐⭐⭐ tentpole)  ← **CURRENTLY HERE** — M5a backend DONE; M5b swipe-engine UI + match moment next
-- [ ] **M6** — In-App Chat (Realtime)
+- [x] **M5** — Swipe Feed & Matching (feed + swipe engine + candidate stack + atomic matching + "It's a match!" moment; golden rule LIVE)
+- [ ] **M6** — In-App Chat (Realtime)  ← **CURRENTLY HERE**
 - [ ] **M7** — Notifications
 - [ ] **M8** — Admin Panel
 - [ ] **M9** — Hardening (security, i18n, performance)
@@ -83,6 +83,21 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
 - **Real counts:** the M3 dashboard's placeholder interested/matched now use live aggregates.
 - **Cross-user photos deferred** — feed/candidate cards will use gradient placeholders (M5b); no service-role
   photo path built. Migration `0010` applied (10/10 in sync). Branch: `m5-matching` (fresh off `main`).
+
+### M5b — Swipe engine UI + match moment (the flagship)
+- **`features/swipe/`**: real Framer Motion drag deck (`swipe-card.tsx` — drag/tilt/like-nope stamps,
+  velocity fling that must AGREE with drag direction so a recoil can't fling the wrong way), a Zustand
+  factory+provider deck store (`store.tsx`, no undo), the worker `SwipeDeck`, the employer `CandidateDeck`
+  (contact-free `CandidateCard`), and the **`MatchMoment`** overlay (a11y modal: Escape-close, focus
+  trap/restore, body-scroll-lock — all verified in-browser). Optimistic swipe + rollback (409/404 terminal);
+  keyset-cursor prefetch; a skeleton (not the empty state) shows while a page is in flight.
+- **Pages:** `/feed` (worker) and `/listings/[id]/candidates` (employer, owner-scoped). Header gets a worker
+  "Jobs" link; the employer dashboard gets a "Candidates" link per listing. `Feed`/`Candidates`/`Match` i18n (SQ+EN).
+- **Chat + contact reveal stay in M6.** The match moment celebrates and says chat unlocks soon.
+- Verified in-browser (swipe card + match moment premium; auth gates; no client-bundle issues). Adversarial
+  review fixed 4 (wrong-direction fling, prefetch/empty flash, modal a11y, scroll-lock). 64 tests.
+- **Note:** `/listings/*` routes have a `loading.tsx`, so unauth requests return a 200 loading shell then
+  client-redirect (not a 307) — expected, not an auth bypass.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

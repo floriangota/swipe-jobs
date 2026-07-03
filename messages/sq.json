@@ -9,6 +9,7 @@
     "home": "Ballina",
     "profile": "Profili",
     "myListings": "Shpalljet e mia",
+    "feed": "Punët",
     "skipToContent": "Kalo te përmbajtja"
   },
   "Home": {
@@ -85,7 +86,12 @@
     "swipeNope": "Kalo",
     "swipeLike": "I interesuar",
     "listingCardTitle": "Karta e shpalljes",
-    "listingCardBody": "Karta premium e shpalljes që punëtorët rrëshqasin — e ndërtuar nga të dhëna reale në M3."
+    "listingCardBody": "Karta premium e shpalljes që punëtorët rrëshqasin — e ndërtuar nga të dhëna reale në M3.",
+    "liveSwipeTitle": "Rrëshqitje e drejtpërdrejtë",
+    "liveSwipeBody": "Tërhiq kartën dhe shiko momentin e përputhjes — motori i vërtetë i rrëshqitjes i M5.",
+    "swipeStampYes": "Po",
+    "swipeStampNo": "Jo",
+    "previewMatch": "Shiko momentin e përputhjes"
   },
   "Toast": {
     "successTitle": "U ruajt",
@@ -263,6 +269,7 @@
     "loadError": "Shpalljet nuk u ngarkuan",
     "interested": "të interesuar",
     "matched": "të përputhur",
+    "candidates": "Kandidatët",
     "edit": "Ndrysho",
     "pause": "Pezullo",
     "resume": "Aktivizo",
@@ -335,5 +342,37 @@
       "invalid_input": "Diçka nuk shkoi me ngarkimin. Provo përsëri.",
       "upload_failed": "Fotoja nuk u ngarkua. Provo përsëri."
     }
+  },
+  "Feed": {
+    "metaTitle": "Punët",
+    "title": "Punë pranë teje",
+    "empty": "I pe të gjitha",
+    "emptyBody": "Nuk ka më punë për të rrëshqitur tani. Kthehu së shpejti për shpallje të reja.",
+    "loadError": "Lista nuk u ngarkua",
+    "swipeFailed": "Nuk kaloi — provo përsëri.",
+    "interested": "Më intereson",
+    "pass": "Kalo",
+    "stampYes": "Po",
+    "stampNo": "Jo"
+  },
+  "Candidates": {
+    "metaTitle": "Kandidatët",
+    "title": "Punëtorë të interesuar",
+    "back": "Shpalljet e mia",
+    "empty": "Ende asnjë kandidat",
+    "emptyBody": "Kur punëtorët rrëshqasin djathtas mbi këtë shpallje, do të shfaqen këtu për t'i shqyrtuar.",
+    "loadError": "Kandidatët nuk u ngarkuan",
+    "swipeFailed": "Nuk kaloi — provo përsëri.",
+    "match": "Përputh",
+    "pass": "Kalo",
+    "stampYes": "Po",
+    "stampNo": "Jo"
+  },
+  "Match": {
+    "title": "Përputhje!",
+    "body": "Ti dhe {name} thatë të dy po.",
+    "bodyGeneric": "Të dy thatë po.",
+    "chatSoon": "Biseda dhe të dhënat e kontaktit zhbllokohen së shpejti.",
+    "keepSwiping": "Vazhdo rrëshqitjen"
   }
 }

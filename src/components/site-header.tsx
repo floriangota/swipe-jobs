@@ -40,6 +40,14 @@ export async function SiteHeader() {
             <ThemeToggle initialDark={initialDark} />
             {user ? (
               <>
+                {user.role === "worker" && (
+                  <Link
+                    href="/feed"
+                    className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}
+                  >
+                    {tNav("feed")}
+                  </Link>
+                )}
                 {user.role === "employer" && (
                   <Link
                     href="/listings"
