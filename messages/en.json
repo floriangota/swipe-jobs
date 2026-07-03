@@ -1,0 +1,339 @@
+{
+  "Meta": {
+    "title": "SwipeJobs — Hourly work in Ferizaj",
+    "description": "The app that connects hourly and shift workers with local businesses in Ferizaj. Swipe, match, and get to work."
+  },
+  "Nav": {
+    "brand": "SwipeJobs",
+    "designSystem": "Design system",
+    "home": "Home",
+    "profile": "Profile",
+    "myListings": "My listings",
+    "skipToContent": "Skip to content"
+  },
+  "Home": {
+    "badge": "Coming soon to Ferizaj",
+    "title": "Hourly work, matched in a swipe.",
+    "subtitle": "SwipeJobs connects hourly and shift workers with local businesses. Swipe on jobs you like, match with employers, and arrange the work — all in one app.",
+    "ctaDesignSystem": "Explore the design system",
+    "ctaComingSoon": "Product coming soon",
+    "audienceWorkersTitle": "For workers",
+    "audienceWorkersBody": "Build a quick profile, swipe through shifts near you, and get discovered by employers — no CV required.",
+    "audienceEmployersTitle": "For businesses",
+    "audienceEmployersBody": "Post a role in minutes and swipe through workers who are genuinely interested. Match, then chat directly.",
+    "howTitle": "How it works",
+    "howStep1Title": "Swipe",
+    "howStep1Body": "Workers swipe right on jobs they want.",
+    "howStep2Title": "Match",
+    "howStep2Body": "When the employer swipes back, it's a match.",
+    "howStep3Title": "Chat",
+    "howStep3Body": "Contact details unlock and you arrange the job in chat.",
+    "footerMilestone": "Foundation build (M0) — design system, languages, and app shell."
+  },
+  "Actions": {
+    "toggleTheme": "Toggle theme",
+    "lightMode": "Light",
+    "darkMode": "Dark",
+    "changeLanguage": "Change language"
+  },
+  "Common": {
+    "loading": "Loading…",
+    "empty": "Nothing here yet",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "comingSoon": "Coming soon"
+  },
+  "Styleguide": {
+    "title": "Design system",
+    "subtitle": "The reusable components and tokens that power SwipeJobs.",
+    "backHome": "Back to home",
+    "colorsTitle": "Colors",
+    "colorsBody": "Semantic tokens that re-theme automatically in dark mode.",
+    "typographyTitle": "Typography",
+    "typographyBody": "A clear, confident type scale.",
+    "buttonsTitle": "Buttons",
+    "buttonsBody": "Every intent, size, and state — including loading.",
+    "inputsTitle": "Inputs",
+    "inputsBody": "Labels, help text, and error states.",
+    "cardsTitle": "Cards",
+    "cardsBody": "The surface workers will swipe.",
+    "feedbackTitle": "Feedback",
+    "feedbackBody": "Toasts for transient messages.",
+    "skeletonsTitle": "Loading & states",
+    "skeletonsBody": "Designed loading, empty, and error states — never a blank screen.",
+    "overlaysTitle": "Bottom sheet",
+    "overlaysBody": "A draggable sheet for mobile-first actions.",
+    "openSheet": "Open bottom sheet",
+    "sheetTitle": "Bottom sheet",
+    "sheetBody": "Drag the handle down or tap outside to close. Built with Framer Motion.",
+    "showSuccess": "Show success",
+    "showError": "Show error",
+    "showInfo": "Show info",
+    "stateLoading": "Loading state",
+    "stateEmpty": "Empty state",
+    "stateError": "Error state",
+    "cardExampleTitle": "Barista — Café Ballkoni",
+    "cardExampleBody": "Part-time · Ferizaj · €3.50–4.00 / hour",
+    "inputLabel": "Email",
+    "inputPlaceholder": "you@example.com",
+    "inputHelp": "We'll never share your email.",
+    "inputErrorLabel": "Password",
+    "inputErrorMsg": "Password must be at least 8 characters.",
+    "inputDisabled": "Disabled",
+    "swipeTitle": "Swipe card",
+    "swipeBody": "The premium card workers swipe. Drag physics + the match moment arrive in M5.",
+    "swipeNope": "Pass",
+    "swipeLike": "Interested",
+    "listingCardTitle": "Listing card",
+    "listingCardBody": "The premium listing card workers swipe — built from real listing data in M3."
+  },
+  "Toast": {
+    "successTitle": "Saved",
+    "successBody": "Your changes have been saved.",
+    "errorTitle": "Couldn't save",
+    "errorBody": "Please check your connection and try again.",
+    "infoTitle": "Heads up",
+    "infoBody": "This is an informational message."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has moved.",
+    "home": "Back to home"
+  },
+  "Auth": {
+    "logout": "Sign out",
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your SwipeJobs account.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "forgot": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Join SwipeJobs — it takes a minute.",
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "role": "I am a…",
+      "roleWorker": "Worker",
+      "roleEmployer": "Business",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send a reset link.",
+      "email": "Email",
+      "submit": "Send reset link",
+      "back": "Back to sign in"
+    },
+    "update": {
+      "title": "Set a new password",
+      "subtitle": "Choose a new password for your account.",
+      "password": "New password",
+      "submit": "Update password"
+    },
+    "verify": {
+      "title": "Check your inbox",
+      "sent": "We sent a verification link to your email. Click it to verify your account.",
+      "checkInbox": "Didn't get it? Check spam, or resend below.",
+      "verifiedTitle": "Email verified",
+      "verifiedBody": "Your email is confirmed. You're all set.",
+      "resend": "Resend verification email",
+      "goHome": "Go to home",
+      "goLogin": "Go to sign in",
+      "continue": "Continue to the app",
+      "softGate": "You can start using SwipeJobs right away — verifying just unlocks matching and chat."
+    },
+    "banner": {
+      "text": "Verify your email to unlock matching and chat.",
+      "resend": "Resend"
+    },
+    "errors": {
+      "invalid_input": "Please check the form and try again.",
+      "invalid_credentials": "Invalid email or password.",
+      "signup_failed": "Couldn't create your account. Please try again.",
+      "rate_limited": "Too many attempts. Please wait and try again.",
+      "account_inactive": "This account is not active.",
+      "cooldown": "Please wait a moment before resending.",
+      "send_failed": "Couldn't send the email. Please try again.",
+      "update_failed": "Couldn't update your password. Please try again.",
+      "not_authenticated": "Please sign in first.",
+      "invalid": "This verification link is invalid.",
+      "expired": "This verification link has expired.",
+      "used": "This link has already been used.",
+      "link_invalid": "This link is invalid or has expired.",
+      "error": "Something went wrong. Please try the link again."
+    },
+    "success": {
+      "reset_sent": "If that email exists, we've sent a reset link.",
+      "resend_sent": "Verification email sent.",
+      "already_verified": "Your email is already verified."
+    }
+  },
+  "Onboarding": {
+    "metaTitle": "Set up your profile",
+    "stepOf": "Step {current} of {total}",
+    "back": "Back",
+    "continue": "Continue",
+    "finish": "Finish",
+    "availability": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "weekends": "Weekends",
+      "evenings": "Evenings"
+    },
+    "experience": {
+      "none": "No experience",
+      "under_1y": "Under 1 year",
+      "1_3y": "1–3 years",
+      "over_3y": "Over 3 years"
+    },
+    "errors": {
+      "invalid_input": "Please check your answers and try again.",
+      "save_failed": "Couldn't save your profile. Please try again.",
+      "wrong_role": "This profile doesn't match your account type."
+    },
+    "worker": {
+      "aboutTitle": "What's your name?",
+      "aboutSubtitle": "This is how employers will see you.",
+      "workTitle": "What work are you looking for?",
+      "workSubtitle": "Pick the jobs you'd like to be matched with.",
+      "reachTitle": "Languages & availability",
+      "reachSubtitle": "Help employers find the right fit.",
+      "experienceTitle": "Experience & a few words",
+      "experienceSubtitle": "Almost done — tell us a little about you.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "lastNameHelp": "Employers only see your first name + last initial until you match.",
+      "languagesLabel": "Languages you speak",
+      "availabilityLabel": "When can you work?",
+      "experienceLabel": "Your experience",
+      "bioLabel": "Short bio (optional)",
+      "bioPlaceholder": "A sentence or two about yourself…",
+      "phoneLabel": "Phone (optional)",
+      "phoneHelp": "Hidden until you match with an employer."
+    },
+    "employer": {
+      "businessTitle": "Tell us about your business",
+      "businessSubtitle": "This is what workers will see.",
+      "detailsTitle": "A few more details",
+      "detailsSubtitle": "Optional, but they help workers trust you.",
+      "businessName": "Business name",
+      "businessType": "Business type",
+      "businessTypePlaceholder": "Select a type…",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "What's your business about?",
+      "contactPhone": "Contact phone (optional)",
+      "contactEmail": "Contact email (optional)",
+      "contactHelp": "Shown only after you match with a worker."
+    }
+  },
+  "Profile": {
+    "metaTitle": "Your profile",
+    "editTitle": "Edit profile",
+    "edit": "Edit",
+    "categories": "Jobs",
+    "languages": "Languages",
+    "availability": "Availability",
+    "bio": "About",
+    "contact": "Contact",
+    "about": "About",
+    "visibilityTitle": "Visible to employers",
+    "visibleOn": "You're shown in the swipe deck.",
+    "visibleOff": "You're hidden from employers."
+  },
+  "Listings": {
+    "metaTitle": "My listings",
+    "newMetaTitle": "New listing",
+    "editMetaTitle": "Edit listing",
+    "dashboardTitle": "My listings",
+    "new": "New listing",
+    "empty": "No listings yet",
+    "emptyBody": "Post your first role and start matching with workers.",
+    "createFirst": "Create your first listing",
+    "verifyTitle": "Verify your email to post",
+    "verifyBody": "Confirm your email address to publish listings and match with workers.",
+    "verifyCta": "Verify email",
+    "loadError": "Couldn't load your listings",
+    "interested": "interested",
+    "matched": "matched",
+    "edit": "Edit",
+    "pause": "Pause",
+    "resume": "Resume",
+    "close": "Close",
+    "reopen": "Reopen",
+    "statusActionError": "Couldn't update the listing. Please try again.",
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "closed": "Closed"
+    },
+    "jobType": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "shift": "Shift",
+      "temporary": "Temporary"
+    },
+    "experience": {
+      "none": "No experience",
+      "under_1y": "Under 1 year",
+      "1_3y": "1–3 years",
+      "over_3y": "Over 3 years"
+    },
+    "payPeriod": {
+      "hourly": "Per hour",
+      "monthly": "Per month"
+    },
+    "payPeriodShort": {
+      "hourly": "/h",
+      "monthly": "/mo"
+    },
+    "form": {
+      "titleLabel": "Job title",
+      "titlePlaceholder": "e.g. Barista",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "Select a category…",
+      "jobTypeLabel": "Job type",
+      "experienceLabel": "Experience required",
+      "payPeriodLabel": "Pay period",
+      "payMinLabel": "Minimum pay (€)",
+      "payMaxLabel": "Maximum pay (€, optional)",
+      "payHelp": "Leave the maximum empty for an exact rate.",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Describe the role, hours, and what you're looking for…",
+      "submitCreate": "Publish listing",
+      "submitEdit": "Save changes",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "invalid_input": "Please check the form and try again.",
+      "save_failed": "Couldn't save the listing. Please try again.",
+      "wrong_role": "Only business accounts can post listings.",
+      "not_verified": "Verify your email to post listings.",
+      "not_found": "That listing doesn't exist or isn't yours."
+    }
+  },
+  "Photos": {
+    "upload": "Add photo",
+    "change": "Change photo",
+    "uploading": "Uploading…",
+    "awaitingReview": "Your photo is uploaded and awaiting review.",
+    "hint": "JPG, PNG, or WebP · up to 5 MB. Photos are reviewed before they appear.",
+    "errors": {
+      "too_large": "That image is too large (max 5 MB).",
+      "unsupported_format": "Use a JPG, PNG, or WebP image.",
+      "invalid_image": "That file isn't a valid image.",
+      "dimensions_too_large": "That image's dimensions are too large.",
+      "rate_limited": "Too many uploads. Please wait and try again.",
+      "forbidden": "That photo type doesn't match your account.",
+      "invalid_input": "Something's off with that upload. Please try again.",
+      "upload_failed": "Couldn't upload the photo. Please try again."
+    }
+  }
+}

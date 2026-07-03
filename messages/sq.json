@@ -1,0 +1,339 @@
+{
+  "Meta": {
+    "title": "SwipeJobs — Punë me orar në Ferizaj",
+    "description": "Aplikacioni që lidh punëtorët me orar me bizneset lokale në Ferizaj. Rrëshqit, përputhu dhe fillo punën."
+  },
+  "Nav": {
+    "brand": "SwipeJobs",
+    "designSystem": "Sistemi i dizajnit",
+    "home": "Ballina",
+    "profile": "Profili",
+    "myListings": "Shpalljet e mia",
+    "skipToContent": "Kalo te përmbajtja"
+  },
+  "Home": {
+    "badge": "Së shpejti në Ferizaj",
+    "title": "Punë me orar, e gjetur me një rrëshqitje.",
+    "subtitle": "SwipeJobs i lidh punëtorët me orar me bizneset lokale. Rrëshqit mbi punët që të pëlqejnë, përputhu me punëdhënësit dhe merruni vesh për punën — të gjitha në një aplikacion.",
+    "ctaDesignSystem": "Eksploro sistemin e dizajnit",
+    "ctaComingSoon": "Produkti vjen së shpejti",
+    "audienceWorkersTitle": "Për punëtorët",
+    "audienceWorkersBody": "Krijo një profil të shpejtë, rrëshqit nëpër ndërrimet afër teje dhe bëhu i dukshëm për punëdhënësit — pa nevojë për CV.",
+    "audienceEmployersTitle": "Për bizneset",
+    "audienceEmployersBody": "Publiko një pozitë për pak minuta dhe rrëshqit nëpër punëtorët që janë vërtet të interesuar. Përputhu dhe bisedo drejtpërdrejt.",
+    "howTitle": "Si funksionon",
+    "howStep1Title": "Rrëshqit",
+    "howStep1Body": "Punëtorët rrëshqasin djathtas mbi punët që i duan.",
+    "howStep2Title": "Përputhu",
+    "howStep2Body": "Kur punëdhënësi rrëshqet mbrapa, keni një përputhje.",
+    "howStep3Title": "Bisedo",
+    "howStep3Body": "Të dhënat e kontaktit shfaqen dhe merreni vesh për punën në bisedë.",
+    "footerMilestone": "Ndërtimi themel (M0) — sistemi i dizajnit, gjuhët dhe struktura e aplikacionit."
+  },
+  "Actions": {
+    "toggleTheme": "Ndrysho temën",
+    "lightMode": "E çelët",
+    "darkMode": "E errët",
+    "changeLanguage": "Ndrysho gjuhën"
+  },
+  "Common": {
+    "loading": "Duke u ngarkuar…",
+    "empty": "Ende asgjë këtu",
+    "error": "Diçka shkoi keq",
+    "retry": "Provo përsëri",
+    "comingSoon": "Së shpejti"
+  },
+  "Styleguide": {
+    "title": "Sistemi i dizajnit",
+    "subtitle": "Komponentët e ripërdorshëm dhe tokenat që fuqizojnë SwipeJobs.",
+    "backHome": "Kthehu në ballinë",
+    "colorsTitle": "Ngjyrat",
+    "colorsBody": "Tokena semantikë që ndryshojnë temën automatikisht në modën e errët.",
+    "typographyTitle": "Tipografia",
+    "typographyBody": "Një shkallë tipografike e qartë dhe e sigurt.",
+    "buttonsTitle": "Butonat",
+    "buttonsBody": "Çdo qëllim, madhësi dhe gjendje — përfshirë ngarkimin.",
+    "inputsTitle": "Fushat e hyrjes",
+    "inputsBody": "Etiketat, teksti ndihmës dhe gjendjet e gabimit.",
+    "cardsTitle": "Kartat",
+    "cardsBody": "Sipërfaqja që punëtorët do të rrëshqasin.",
+    "feedbackTitle": "Reagimet",
+    "feedbackBody": "Njoftimet për mesazhe të përkohshme.",
+    "skeletonsTitle": "Ngarkimi dhe gjendjet",
+    "skeletonsBody": "Gjendje të dizajnuara për ngarkim, zbrazëti dhe gabim — asnjëherë ekran bosh.",
+    "overlaysTitle": "Fleta e poshtme",
+    "overlaysBody": "Një fletë e tërheqshme për veprime mobile-first.",
+    "openSheet": "Hap fletën e poshtme",
+    "sheetTitle": "Fleta e poshtme",
+    "sheetBody": "Tërhiq dorezën poshtë ose prek jashtë për ta mbyllur. E ndërtuar me Framer Motion.",
+    "showSuccess": "Shfaq sukses",
+    "showError": "Shfaq gabim",
+    "showInfo": "Shfaq info",
+    "stateLoading": "Gjendja e ngarkimit",
+    "stateEmpty": "Gjendja e zbrazët",
+    "stateError": "Gjendja e gabimit",
+    "cardExampleTitle": "Barist — Café Ballkoni",
+    "cardExampleBody": "Me gjysmë orari · Ferizaj · €3.50–4.00 / orë",
+    "inputLabel": "Email",
+    "inputPlaceholder": "ti@shembull.com",
+    "inputHelp": "Nuk do ta ndajmë kurrë email-in tënd.",
+    "inputErrorLabel": "Fjalëkalimi",
+    "inputErrorMsg": "Fjalëkalimi duhet të ketë të paktën 8 karaktere.",
+    "inputDisabled": "I çaktivizuar",
+    "swipeTitle": "Karta e rrëshqitjes",
+    "swipeBody": "Karta premium që punëtorët rrëshqasin. Fizika e tërheqjes + momenti i përputhjes vijnë në M5.",
+    "swipeNope": "Kalo",
+    "swipeLike": "I interesuar",
+    "listingCardTitle": "Karta e shpalljes",
+    "listingCardBody": "Karta premium e shpalljes që punëtorët rrëshqasin — e ndërtuar nga të dhëna reale në M3."
+  },
+  "Toast": {
+    "successTitle": "U ruajt",
+    "successBody": "Ndryshimet u ruajtën.",
+    "errorTitle": "Nuk u ruajt",
+    "errorBody": "Kontrollo lidhjen dhe provo përsëri.",
+    "infoTitle": "Kujdes",
+    "infoBody": "Ky është një mesazh informues."
+  },
+  "NotFound": {
+    "title": "Faqja nuk u gjet",
+    "description": "Faqja që po kërkoni nuk ekziston ose është zhvendosur.",
+    "home": "Kthehu në ballinë"
+  },
+  "Auth": {
+    "logout": "Dil",
+    "login": {
+      "title": "Mirë se erdhe",
+      "subtitle": "Hyr në llogarinë tënde SwipeJobs.",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "submit": "Hyr",
+      "forgot": "Harrove fjalëkalimin?",
+      "noAccount": "Nuk ke llogari?",
+      "signupLink": "Regjistrohu"
+    },
+    "signup": {
+      "title": "Krijo llogarinë tënde",
+      "subtitle": "Bashkohu me SwipeJobs — merr vetëm një minutë.",
+      "email": "Email",
+      "password": "Fjalëkalimi",
+      "passwordHint": "Të paktën 8 karaktere.",
+      "role": "Unë jam…",
+      "roleWorker": "Punëtor/e",
+      "roleEmployer": "Biznes",
+      "submit": "Krijo llogari",
+      "haveAccount": "Ke tashmë llogari?",
+      "loginLink": "Hyr"
+    },
+    "forgot": {
+      "title": "Rivendos fjalëkalimin",
+      "subtitle": "Shkruaj email-in dhe do të dërgojmë një lidhje rivendosjeje.",
+      "email": "Email",
+      "submit": "Dërgo lidhjen",
+      "back": "Kthehu te hyrja"
+    },
+    "update": {
+      "title": "Vendos një fjalëkalim të ri",
+      "subtitle": "Zgjidh një fjalëkalim të ri për llogarinë tënde.",
+      "password": "Fjalëkalimi i ri",
+      "submit": "Përditëso fjalëkalimin"
+    },
+    "verify": {
+      "title": "Kontrollo email-in",
+      "sent": "Të dërguam një lidhje verifikimi në email. Kliko atë për të verifikuar llogarinë.",
+      "checkInbox": "Nuk e more? Kontrollo dosjen e spam-it, ose ridërgo më poshtë.",
+      "verifiedTitle": "Email-i u verifikua",
+      "verifiedBody": "Email-i yt u konfirmua. Gjithçka gati.",
+      "resend": "Ridërgo email-in e verifikimit",
+      "goHome": "Shko te ballina",
+      "goLogin": "Shko te hyrja",
+      "continue": "Vazhdo në aplikacion",
+      "softGate": "Mund të fillosh ta përdorësh SwipeJobs menjëherë — verifikimi vetëm zhbllokon përputhjet dhe bisedat."
+    },
+    "banner": {
+      "text": "Verifiko email-in për të zhbllokuar përputhjet dhe bisedat.",
+      "resend": "Ridërgo"
+    },
+    "errors": {
+      "invalid_input": "Kontrollo formularin dhe provo përsëri.",
+      "invalid_credentials": "Email ose fjalëkalim i pasaktë.",
+      "signup_failed": "Nuk u krijua llogaria. Provo përsëri.",
+      "rate_limited": "Shumë përpjekje. Prit pak dhe provo përsëri.",
+      "account_inactive": "Kjo llogari nuk është aktive.",
+      "cooldown": "Prit një moment para se të ridërgosh.",
+      "send_failed": "Nuk u dërgua email-i. Provo përsëri.",
+      "update_failed": "Nuk u përditësua fjalëkalimi. Provo përsëri.",
+      "not_authenticated": "Hyr më parë.",
+      "invalid": "Kjo lidhje verifikimi është e pavlefshme.",
+      "expired": "Kjo lidhje verifikimi ka skaduar.",
+      "used": "Kjo lidhje është përdorur tashmë.",
+      "link_invalid": "Kjo lidhje është e pavlefshme ose ka skaduar.",
+      "error": "Diçka shkoi keq. Provo lidhjen përsëri."
+    },
+    "success": {
+      "reset_sent": "Nëse ai email ekziston, dërguam një lidhje rivendosjeje.",
+      "resend_sent": "Email-i i verifikimit u dërgua.",
+      "already_verified": "Email-i yt është verifikuar tashmë."
+    }
+  },
+  "Onboarding": {
+    "metaTitle": "Krijo profilin tënd",
+    "stepOf": "Hapi {current} nga {total}",
+    "back": "Prapa",
+    "continue": "Vazhdo",
+    "finish": "Përfundo",
+    "availability": {
+      "full_time": "Orar i plotë",
+      "part_time": "Me gjysmë orari",
+      "weekends": "Fundjavat",
+      "evenings": "Mbrëmjet"
+    },
+    "experience": {
+      "none": "Pa përvojë",
+      "under_1y": "Nën 1 vit",
+      "1_3y": "1–3 vjet",
+      "over_3y": "Mbi 3 vjet"
+    },
+    "errors": {
+      "invalid_input": "Kontrollo përgjigjet dhe provo përsëri.",
+      "save_failed": "Profili nuk u ruajt. Provo përsëri.",
+      "wrong_role": "Ky profil nuk përputhet me llojin e llogarisë."
+    },
+    "worker": {
+      "aboutTitle": "Si e ke emrin?",
+      "aboutSubtitle": "Kështu do të të shohin punëdhënësit.",
+      "workTitle": "Çfarë pune po kërkon?",
+      "workSubtitle": "Zgjidh punët për të cilat dëshiron të përputhesh.",
+      "reachTitle": "Gjuhët dhe disponueshmëria",
+      "reachSubtitle": "Ndihmoji punëdhënësit të gjejnë përshtatjen e duhur.",
+      "experienceTitle": "Përvoja dhe pak fjalë",
+      "experienceSubtitle": "Gati — na trego pak për veten.",
+      "firstName": "Emri",
+      "lastName": "Mbiemri",
+      "lastNameHelp": "Punëdhënësit shohin vetëm emrin + shkronjën e parë të mbiemrit deri sa të përputheni.",
+      "languagesLabel": "Gjuhët që flet",
+      "availabilityLabel": "Kur mund të punosh?",
+      "experienceLabel": "Përvoja jote",
+      "bioLabel": "Bio e shkurtër (opsionale)",
+      "bioPlaceholder": "Një ose dy fjali për veten…",
+      "phoneLabel": "Telefoni (opsional)",
+      "phoneHelp": "I fshehur deri sa të përputhesh me një punëdhënës."
+    },
+    "employer": {
+      "businessTitle": "Na trego për biznesin tënd",
+      "businessSubtitle": "Kjo është ajo që do të shohin punëtorët.",
+      "detailsTitle": "Edhe pak detaje",
+      "detailsSubtitle": "Opsionale, por i ndihmojnë punëtorët të të besojnë.",
+      "businessName": "Emri i biznesit",
+      "businessType": "Lloji i biznesit",
+      "businessTypePlaceholder": "Zgjidh një lloj…",
+      "description": "Përshkrimi (opsional)",
+      "descriptionPlaceholder": "Për çfarë është biznesi yt?",
+      "contactPhone": "Telefoni i kontaktit (opsional)",
+      "contactEmail": "Email-i i kontaktit (opsional)",
+      "contactHelp": "Shfaqet vetëm pasi të përputhesh me një punëtor."
+    }
+  },
+  "Profile": {
+    "metaTitle": "Profili yt",
+    "editTitle": "Ndrysho profilin",
+    "edit": "Ndrysho",
+    "categories": "Punët",
+    "languages": "Gjuhët",
+    "availability": "Disponueshmëria",
+    "bio": "Rreth teje",
+    "contact": "Kontakti",
+    "about": "Rreth",
+    "visibilityTitle": "I dukshëm për punëdhënësit",
+    "visibleOn": "Je i shfaqur në listën e rrëshqitjes.",
+    "visibleOff": "Je i fshehur nga punëdhënësit."
+  },
+  "Listings": {
+    "metaTitle": "Shpalljet e mia",
+    "newMetaTitle": "Shpallje e re",
+    "editMetaTitle": "Ndrysho shpalljen",
+    "dashboardTitle": "Shpalljet e mia",
+    "new": "Shpallje e re",
+    "empty": "Ende asnjë shpallje",
+    "emptyBody": "Publiko pozitën tënde të parë dhe fillo të përputhesh me punëtorë.",
+    "createFirst": "Krijo shpalljen tënde të parë",
+    "verifyTitle": "Verifiko email-in për të publikuar",
+    "verifyBody": "Konfirmo adresën e email-it për të publikuar shpallje dhe për t'u përputhur me punëtorë.",
+    "verifyCta": "Verifiko email-in",
+    "loadError": "Shpalljet nuk u ngarkuan",
+    "interested": "të interesuar",
+    "matched": "të përputhur",
+    "edit": "Ndrysho",
+    "pause": "Pezullo",
+    "resume": "Aktivizo",
+    "close": "Mbyll",
+    "reopen": "Rihap",
+    "statusActionError": "Shpallja nuk u përditësua. Provo përsëri.",
+    "status": {
+      "active": "Aktive",
+      "paused": "E pezulluar",
+      "closed": "E mbyllur"
+    },
+    "jobType": {
+      "full_time": "Orar i plotë",
+      "part_time": "Me gjysmë orari",
+      "shift": "Me ndërrime",
+      "temporary": "E përkohshme"
+    },
+    "experience": {
+      "none": "Pa përvojë",
+      "under_1y": "Nën 1 vit",
+      "1_3y": "1–3 vjet",
+      "over_3y": "Mbi 3 vjet"
+    },
+    "payPeriod": {
+      "hourly": "Në orë",
+      "monthly": "Në muaj"
+    },
+    "payPeriodShort": {
+      "hourly": "/orë",
+      "monthly": "/muaj"
+    },
+    "form": {
+      "titleLabel": "Titulli i punës",
+      "titlePlaceholder": "p.sh. Barist",
+      "categoryLabel": "Kategoria",
+      "categoryPlaceholder": "Zgjidh një kategori…",
+      "jobTypeLabel": "Lloji i punës",
+      "experienceLabel": "Përvoja e kërkuar",
+      "payPeriodLabel": "Periudha e pagesës",
+      "payMinLabel": "Pagesa minimale (€)",
+      "payMaxLabel": "Pagesa maksimale (€, opsionale)",
+      "payHelp": "Lëre maksimumin bosh për një pagesë fikse.",
+      "descriptionLabel": "Përshkrimi (opsional)",
+      "descriptionPlaceholder": "Përshkruaj rolin, oraret dhe çfarë po kërkon…",
+      "submitCreate": "Publiko shpalljen",
+      "submitEdit": "Ruaj ndryshimet",
+      "cancel": "Anulo"
+    },
+    "errors": {
+      "invalid_input": "Kontrollo formularin dhe provo përsëri.",
+      "save_failed": "Shpallja nuk u ruajt. Provo përsëri.",
+      "wrong_role": "Vetëm llogaritë e biznesit mund të publikojnë shpallje.",
+      "not_verified": "Verifiko email-in për të publikuar shpallje.",
+      "not_found": "Kjo shpallje nuk ekziston ose nuk është e jotja."
+    }
+  },
+  "Photos": {
+    "upload": "Shto foto",
+    "change": "Ndrysho foton",
+    "uploading": "Duke ngarkuar…",
+    "awaitingReview": "Fotoja u ngarkua dhe është në pritje të shqyrtimit.",
+    "hint": "JPG, PNG ose WebP · deri në 5 MB. Fotot shqyrtohen para se të shfaqen.",
+    "errors": {
+      "too_large": "Kjo foto është shumë e madhe (maksimumi 5 MB).",
+      "unsupported_format": "Përdor një foto JPG, PNG ose WebP.",
+      "invalid_image": "Ky skedar nuk është një foto e vlefshme.",
+      "dimensions_too_large": "Përmasat e kësaj fotoje janë shumë të mëdha.",
+      "rate_limited": "Shumë ngarkime. Prit pak dhe provo përsëri.",
+      "forbidden": "Ky lloj fotoje nuk përputhet me llogarinë tënde.",
+      "invalid_input": "Diçka nuk shkoi me ngarkimin. Provo përsëri.",
+      "upload_failed": "Fotoja nuk u ngarkua. Provo përsëri."
+    }
+  }
+}
