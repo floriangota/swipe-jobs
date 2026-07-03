@@ -39,11 +39,19 @@ export async function SiteHeader() {
             <LanguageSwitch />
             <ThemeToggle initialDark={initialDark} />
             {user ? (
-              <form action={logout}>
-                <button type="submit" className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}>
-                  {tAuth("logout")}
-                </button>
-              </form>
+              <>
+                <Link
+                  href="/profile"
+                  className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}
+                >
+                  {tNav("profile")}
+                </Link>
+                <form action={logout}>
+                  <button type="submit" className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}>
+                    {tAuth("logout")}
+                  </button>
+                </form>
+              </>
             ) : (
               <Link href="/login" className={cn(buttonVariants({ intent: "primary", size: "sm" }))}>
                 {tAuth("login.submit")}

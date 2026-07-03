@@ -54,7 +54,9 @@ export async function signup(_prev: ActionState, formData: FormData): Promise<Ac
   }
 
   revalidatePath("/", "layout");
-  redirect("/verify-email?sent=1");
+  // Straight into profile onboarding (the soft-gate verification nudge shows in
+  // the header meanwhile). Onboarding is the guided first step.
+  redirect("/onboarding");
 }
 
 export async function login(_prev: ActionState, formData: FormData): Promise<ActionState> {

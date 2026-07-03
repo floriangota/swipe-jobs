@@ -7,6 +7,7 @@
     "brand": "SwipeJobs",
     "designSystem": "Design system",
     "home": "Home",
+    "profile": "Profile",
     "skipToContent": "Skip to content"
   },
   "Home": {
@@ -171,5 +172,77 @@
       "resend_sent": "Verification email sent.",
       "already_verified": "Your email is already verified."
     }
+  },
+  "Onboarding": {
+    "metaTitle": "Set up your profile",
+    "stepOf": "Step {current} of {total}",
+    "back": "Back",
+    "continue": "Continue",
+    "finish": "Finish",
+    "availability": {
+      "full_time": "Full-time",
+      "part_time": "Part-time",
+      "weekends": "Weekends",
+      "evenings": "Evenings"
+    },
+    "experience": {
+      "none": "No experience",
+      "under_1y": "Under 1 year",
+      "1_3y": "1–3 years",
+      "over_3y": "Over 3 years"
+    },
+    "errors": {
+      "invalid_input": "Please check your answers and try again.",
+      "save_failed": "Couldn't save your profile. Please try again.",
+      "wrong_role": "This profile doesn't match your account type."
+    },
+    "worker": {
+      "aboutTitle": "What's your name?",
+      "aboutSubtitle": "This is how employers will see you.",
+      "workTitle": "What work are you looking for?",
+      "workSubtitle": "Pick the jobs you'd like to be matched with.",
+      "reachTitle": "Languages & availability",
+      "reachSubtitle": "Help employers find the right fit.",
+      "experienceTitle": "Experience & a few words",
+      "experienceSubtitle": "Almost done — tell us a little about you.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "lastNameHelp": "Employers only see your first name + last initial until you match.",
+      "languagesLabel": "Languages you speak",
+      "availabilityLabel": "When can you work?",
+      "experienceLabel": "Your experience",
+      "bioLabel": "Short bio (optional)",
+      "bioPlaceholder": "A sentence or two about yourself…",
+      "phoneLabel": "Phone (optional)",
+      "phoneHelp": "Hidden until you match with an employer."
+    },
+    "employer": {
+      "businessTitle": "Tell us about your business",
+      "businessSubtitle": "This is what workers will see.",
+      "detailsTitle": "A few more details",
+      "detailsSubtitle": "Optional, but they help workers trust you.",
+      "businessName": "Business name",
+      "businessType": "Business type",
+      "businessTypePlaceholder": "Select a type…",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "What's your business about?",
+      "contactPhone": "Contact phone (optional)",
+      "contactEmail": "Contact email (optional)",
+      "contactHelp": "Shown only after you match with a worker."
+    }
+  },
+  "Profile": {
+    "metaTitle": "Your profile",
+    "editTitle": "Edit profile",
+    "edit": "Edit",
+    "categories": "Jobs",
+    "languages": "Languages",
+    "availability": "Availability",
+    "bio": "About",
+    "contact": "Contact",
+    "about": "About",
+    "visibilityTitle": "Visible to employers",
+    "visibleOn": "You're shown in the swipe deck.",
+    "visibleOff": "You're hidden from employers."
   }
 }

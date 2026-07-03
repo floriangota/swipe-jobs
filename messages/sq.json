@@ -7,6 +7,7 @@
     "brand": "SwipeJobs",
     "designSystem": "Sistemi i dizajnit",
     "home": "Ballina",
+    "profile": "Profili",
     "skipToContent": "Kalo te përmbajtja"
   },
   "Home": {
@@ -171,5 +172,77 @@
       "resend_sent": "Email-i i verifikimit u dërgua.",
       "already_verified": "Email-i yt është verifikuar tashmë."
     }
+  },
+  "Onboarding": {
+    "metaTitle": "Krijo profilin tënd",
+    "stepOf": "Hapi {current} nga {total}",
+    "back": "Prapa",
+    "continue": "Vazhdo",
+    "finish": "Përfundo",
+    "availability": {
+      "full_time": "Orar i plotë",
+      "part_time": "Me gjysmë orari",
+      "weekends": "Fundjavat",
+      "evenings": "Mbrëmjet"
+    },
+    "experience": {
+      "none": "Pa përvojë",
+      "under_1y": "Nën 1 vit",
+      "1_3y": "1–3 vjet",
+      "over_3y": "Mbi 3 vjet"
+    },
+    "errors": {
+      "invalid_input": "Kontrollo përgjigjet dhe provo përsëri.",
+      "save_failed": "Profili nuk u ruajt. Provo përsëri.",
+      "wrong_role": "Ky profil nuk përputhet me llojin e llogarisë."
+    },
+    "worker": {
+      "aboutTitle": "Si e ke emrin?",
+      "aboutSubtitle": "Kështu do të të shohin punëdhënësit.",
+      "workTitle": "Çfarë pune po kërkon?",
+      "workSubtitle": "Zgjidh punët për të cilat dëshiron të përputhesh.",
+      "reachTitle": "Gjuhët dhe disponueshmëria",
+      "reachSubtitle": "Ndihmoji punëdhënësit të gjejnë përshtatjen e duhur.",
+      "experienceTitle": "Përvoja dhe pak fjalë",
+      "experienceSubtitle": "Gati — na trego pak për veten.",
+      "firstName": "Emri",
+      "lastName": "Mbiemri",
+      "lastNameHelp": "Punëdhënësit shohin vetëm emrin + shkronjën e parë të mbiemrit deri sa të përputheni.",
+      "languagesLabel": "Gjuhët që flet",
+      "availabilityLabel": "Kur mund të punosh?",
+      "experienceLabel": "Përvoja jote",
+      "bioLabel": "Bio e shkurtër (opsionale)",
+      "bioPlaceholder": "Një ose dy fjali për veten…",
+      "phoneLabel": "Telefoni (opsional)",
+      "phoneHelp": "I fshehur deri sa të përputhesh me një punëdhënës."
+    },
+    "employer": {
+      "businessTitle": "Na trego për biznesin tënd",
+      "businessSubtitle": "Kjo është ajo që do të shohin punëtorët.",
+      "detailsTitle": "Edhe pak detaje",
+      "detailsSubtitle": "Opsionale, por i ndihmojnë punëtorët të të besojnë.",
+      "businessName": "Emri i biznesit",
+      "businessType": "Lloji i biznesit",
+      "businessTypePlaceholder": "Zgjidh një lloj…",
+      "description": "Përshkrimi (opsional)",
+      "descriptionPlaceholder": "Për çfarë është biznesi yt?",
+      "contactPhone": "Telefoni i kontaktit (opsional)",
+      "contactEmail": "Email-i i kontaktit (opsional)",
+      "contactHelp": "Shfaqet vetëm pasi të përputhesh me një punëtor."
+    }
+  },
+  "Profile": {
+    "metaTitle": "Profili yt",
+    "editTitle": "Ndrysho profilin",
+    "edit": "Ndrysho",
+    "categories": "Punët",
+    "languages": "Gjuhët",
+    "availability": "Disponueshmëria",
+    "bio": "Rreth teje",
+    "contact": "Kontakti",
+    "about": "Rreth",
+    "visibilityTitle": "I dukshëm për punëdhënësit",
+    "visibleOn": "Je i shfaqur në listën e rrëshqitjes.",
+    "visibleOff": "Je i fshehur nga punëdhënësit."
   }
 }
