@@ -19,7 +19,43 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 ## Notes / decisions made during build
 (Record anything that came up mid-build that a future session should know —
 e.g. "chose X for Y", deviations approved, TODOs deferred.)
--
+
+### ⚠️ CURRENT STATE — read this first (as of the debug/demo session)
+**Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 is up for review as
+[PR #2](https://github.com/floriangota/swipe-jobs/pull/2)** (`main ← m5-matching`): commits `6968b1f` (M5a
+backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below), all pushed.
+
+**Two hotfixes (found while demoing, now committed in `c16d183`):**
+1. **`next.config.ts`** — removed a stray trailing `module.exports = {allowedDevOrigins}` block that
+   **clobbered the whole config** (Next compiles this TS config as CJS, so `module.exports =` overwrote the
+   `export default` → silently dropped next-intl + Sentry + security headers → EVERY page 500'd with
+   "Couldn't find next-intl config"). Folded `allowedDevOrigins` (the LAN dev/phone IPs) into the real
+   `nextConfig`. **NEVER append `module.exports` to this file.**
+2. **`src/features/auth/actions.ts`** — **all auth forms were broken** (signup/login/reset returned
+   `invalid_input`). Cause: Next 16 injects `$ACTION_*` fields into `<form action>` FormData; the strict Zod
+   schemas (`z.strictObject`, reject-unknown) rejected them. Fix = a `formObject()` helper strips `$ACTION*`
+   keys before parsing. Verified signup + login work; golden-rule + config pre-PR reviews came back clean.
+- `next-env.d.ts` — Next's auto-generated dev-path churn; intentionally left uncommitted.
+
+**Demo data in the HOSTED DB (test data, not fixtures):** a fully-verified demo was seeded — a **worker**
+account ("Ardit Berisha", hospitality) + an **employer** account ("Fokus", 6 active Ferizaj listings), with
+**Arta K.** pre-seeded as a candidate on the Barista/Kamarier roles. **ALL existing users had
+`email_verified_at` set** to neutralize the email soft-gate for the demo. Verified end-to-end (login → feed
+of 6 → candidate stack shows Arta → match). Migration `0010` applied (10/10 in sync). _Demo login
+credentials are kept OUT of the repo — ask Florian, or re-seed/reset via the admin API._
+
+**Gotchas learned this session:**
+- **Turbopack dev route-discovery glitch:** whole route groups (`(auth)` login/signup; deeply-nested
+  `[id]/candidates/[workerId]/swipe`) sometimes 404 until a `next dev` **restart**. Dev-only; prod builds all routes.
+- **Supabase delete gotcha:** deleting a user from the `users` table (dashboard editor) does NOT delete
+  `auth.users` → orphan blocks re-signup ("already registered"). Delete via the **admin API** (removes both).
+- **Match moment is employer-only by design** (Flow-1: the employer completes the match). A worker-side live
+  "It's a match!" needs Realtime → **M6** (chat) / **M7** (notifications). User declined to build it ahead.
+
+**Deferred TODOs carried forward:**
+- Cross-user photos on feed/candidate cards (M5b deferred) → fast-follow (service-role signed URL; approved=public).
+- Shared active-user (`user.status`) API guard across all v1 routes + Upstash rate-limiting (swipe/photo routes
+  use the no-op M1 `checkRateLimit` seam) → **M9**.
 
 ### M3 — Listings (decisions & deviations, all user-approved)
 - **Verification gate on posting (deviation from documented soft-gate):** unverified
