@@ -44,8 +44,8 @@ function En() {
       <h2>Retention &amp; deletion</h2>
       <p>
         We keep your data while your account is active. You can permanently delete your account and
-        all associated data at any time from your profile — this erases your profile, matches,
-        messages, and photos. You may also request access to your data by contacting us.
+        all associated data from your profile page, or by contacting us — this erases your profile,
+        matches, messages, and photos. You may also request access to your data by contacting us.
       </p>
 
       <h2>Security</h2>
@@ -98,8 +98,8 @@ function Sq() {
       <h2>Ruajtja &amp; fshirja</h2>
       <p>
         I mbajmë të dhënat sa është aktive llogaria jote. Mund ta fshish përgjithmonë llogarinë dhe
-        të gjitha të dhënat e lidhura në çdo kohë nga profili — kjo fshin profilin, përputhjet,
-        mesazhet dhe fotot. Mund të kërkosh gjithashtu qasje në të dhënat e tua duke na kontaktuar.
+        të gjitha të dhënat e lidhura nga faqja e profilit, ose duke na kontaktuar — kjo fshin
+        profilin, përputhjet, mesazhet dhe fotot. Mund të kërkosh gjithashtu qasje në të dhënat e tua duke na kontaktuar.
       </p>
 
       <h2>Siguria</h2>

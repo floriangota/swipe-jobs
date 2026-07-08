@@ -15,6 +15,12 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
       { status: 401 },
     );
   }
+  if (user.status !== "active") {
+    return NextResponse.json(
+      { error: { code: "account_inactive", message: "This account is not active." } },
+      { status: 403 },
+    );
+  }
 
   const { id } = await params;
   if (!z.uuid().safeParse(id).success) {
