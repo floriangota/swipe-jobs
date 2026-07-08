@@ -86,8 +86,16 @@ export default async function HomePage() {
       </main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-1 px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-2 px-4 py-8 text-center text-sm text-muted-foreground sm:px-6">
           <p>{t("footerMilestone")}</p>
+          <nav className="flex gap-4 text-xs">
+            <Link href="/privacy" className="hover:text-foreground hover:underline">
+              {t("privacy")}
+            </Link>
+            <Link href="/terms" className="hover:text-foreground hover:underline">
+              {t("terms")}
+            </Link>
+          </nav>
           <p className="text-xs">SwipeJobs · Ferizaj, Kosovo</p>
         </div>
       </footer>

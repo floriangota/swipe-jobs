@@ -12,6 +12,7 @@ import { getOwnEmployerProfile } from "@/features/profiles/service/employer-prof
 import { getOwnApprovedPhotoUrl } from "@/features/photos/service/photo.service";
 import { WorkerProfileCard } from "@/features/profiles/components/worker-profile-view";
 import { EmployerProfileCard } from "@/features/profiles/components/employer-profile-view";
+import { DeleteAccountSection } from "@/features/account/components/delete-account-section";
 import { localizedName } from "@/features/profiles/types";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,12 +33,15 @@ export default async function ProfilePage() {
       profile.photoId ? getOwnApprovedPhotoUrl(profile.photoId) : Promise.resolve(null),
     ]);
     return (
-      <WorkerProfileCard
-        profile={profile}
-        photoUrl={photoUrl}
-        categoryLabels={Object.fromEntries(categories.map((c) => [c.id, localizedName(c, locale)]))}
-        languageLabels={Object.fromEntries(languages.map((l) => [l.id, localizedName(l, locale)]))}
-      />
+      <>
+        <WorkerProfileCard
+          profile={profile}
+          photoUrl={photoUrl}
+          categoryLabels={Object.fromEntries(categories.map((c) => [c.id, localizedName(c, locale)]))}
+          languageLabels={Object.fromEntries(languages.map((l) => [l.id, localizedName(l, locale)]))}
+        />
+        <DeleteAccountSection />
+      </>
     );
   }
 
@@ -50,11 +54,14 @@ export default async function ProfilePage() {
     ]);
     const bt = businessTypes.find((b) => b.id === profile.businessTypeId);
     return (
-      <EmployerProfileCard
-        profile={profile}
-        logoUrl={logoUrl}
-        businessTypeLabel={bt ? localizedName(bt, locale) : null}
-      />
+      <>
+        <EmployerProfileCard
+          profile={profile}
+          logoUrl={logoUrl}
+          businessTypeLabel={bt ? localizedName(bt, locale) : null}
+        />
+        <DeleteAccountSection />
+      </>
     );
   }
 

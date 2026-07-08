@@ -32,7 +32,9 @@
     "howStep2Body": "Kur punëdhënësi rrëshqet mbrapa, keni një përputhje.",
     "howStep3Title": "Bisedo",
     "howStep3Body": "Të dhënat e kontaktit shfaqen dhe merreni vesh për punën në bisedë.",
-    "footerMilestone": "Ndërtimi themel (M0) — sistemi i dizajnit, gjuhët dhe struktura e aplikacionit."
+    "footerMilestone": "Ndërtimi themel (M0) — sistemi i dizajnit, gjuhët dhe struktura e aplikacionit.",
+    "privacy": "Politika e Privatësisë",
+    "terms": "Kushtet e Shërbimit"
   },
   "Actions": {
     "toggleTheme": "Ndrysho temën",
@@ -132,7 +134,8 @@
       "roleEmployer": "Biznes",
       "submit": "Krijo llogari",
       "haveAccount": "Ke tashmë llogari?",
-      "loginLink": "Hyr"
+      "loginLink": "Hyr",
+      "consent": "Duke krijuar një llogari, ti pranon <terms>Kushtet</terms> dhe <privacy>Politikën e Privatësisë</privacy>."
     },
     "forgot": {
       "title": "Rivendos fjalëkalimin",
@@ -448,6 +451,20 @@
     "newMessage": "Mesazh i ri nga {name}",
     "newCandidate": "Kandidat i ri: {name}",
     "system": "Njoftim"
+  },
+  "Account": {
+    "dangerTitle": "Fshij llogarinë",
+    "dangerBody": "Fshij përgjithmonë llogarinë dhe të gjitha të dhënat e tua — profilin, përputhjet dhe mesazhet. Ky veprim nuk kthehet.",
+    "deleteCta": "Fshij llogarinë time",
+    "confirmTitle": "Të fshihet llogaria jote?",
+    "confirmBody": "Kjo fshin përgjithmonë gjithçka. Shkruaj DELETE për të konfirmuar.",
+    "confirmLabel": "Shkruaj DELETE për të konfirmuar",
+    "confirmButton": "Fshij përgjithmonë",
+    "cancel": "Anulo",
+    "errors": {
+      "confirm_mismatch": "Shkruaj saktësisht DELETE për të konfirmuar.",
+      "delete_failed": "Llogaria nuk u fshi. Provo përsëri."
+    }
   },
   "Report": {
     "action": "Raporto",

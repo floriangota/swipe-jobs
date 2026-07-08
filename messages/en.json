@@ -32,7 +32,9 @@
     "howStep2Body": "When the employer swipes back, it's a match.",
     "howStep3Title": "Chat",
     "howStep3Body": "Contact details unlock and you arrange the job in chat.",
-    "footerMilestone": "Foundation build (M0) — design system, languages, and app shell."
+    "footerMilestone": "Foundation build (M0) — design system, languages, and app shell.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
   },
   "Actions": {
     "toggleTheme": "Toggle theme",
@@ -132,7 +134,8 @@
       "roleEmployer": "Business",
       "submit": "Create account",
       "haveAccount": "Already have an account?",
-      "loginLink": "Sign in"
+      "loginLink": "Sign in",
+      "consent": "By creating an account you agree to the <terms>Terms</terms> and <privacy>Privacy Policy</privacy>."
     },
     "forgot": {
       "title": "Reset your password",
@@ -448,6 +451,20 @@
     "newMessage": "New message from {name}",
     "newCandidate": "New candidate: {name}",
     "system": "Notification"
+  },
+  "Account": {
+    "dangerTitle": "Delete account",
+    "dangerBody": "Permanently delete your account and all your data — profile, matches, and messages. This can't be undone.",
+    "deleteCta": "Delete my account",
+    "confirmTitle": "Delete your account?",
+    "confirmBody": "This permanently erases everything. Type DELETE to confirm.",
+    "confirmLabel": "Type DELETE to confirm",
+    "confirmButton": "Permanently delete",
+    "cancel": "Cancel",
+    "errors": {
+      "confirm_mismatch": "Type DELETE exactly to confirm.",
+      "delete_failed": "Couldn't delete your account. Please try again."
+    }
   },
   "Report": {
     "action": "Report",
