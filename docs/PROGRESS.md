@@ -24,8 +24,8 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
 **Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 + M6 are up for review as
 [PR #2](https://github.com/floriangota/swipe-jobs/pull/2)** (`main ← m5-matching`): commits `6968b1f` (M5a
 backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below) + `15f17a2` (M6 chat + review hardening),
-all pushed. _M6–M9 were committed onto the same branch (they depend on unmerged M5), so PR #2 now spans M5→M9._
-Current: **M9 — Hardening** (security + privacy done; perf/native-QA → M10).
+all pushed AND **merged to `main`** (merge commit `8bb9f54`). M5→M9 are live on `main`; work now continues on `main`.
+Current: **M10 — Pilot Launch** (merged; deploy blocked on Vercel auth — see the M10 section below).
 
 **Two hotfixes (found while demoing, now committed in `c16d183`):**
 1. **`next.config.ts`** — removed a stray trailing `module.exports = {allowedDevOrigins}` block that
@@ -328,8 +328,22 @@ Phase-2 scope crept in.** 2 MEDIUM + a few LOW notes — all fixed for a clean l
 - **Deferred (documented, non-blocking):** breached/common-password rejection (NIST) — currently min-8 only;
   a HaveIBeenPwned k-anonymity check is a post-launch hardening add. Perf/Lighthouse profiling is M10 (deploy).
 
-**Merge status:** all gates green (lint/typecheck/128 tests/build); clean merge to `main`, no conflicts;
-20/20 migrations in sync (0001–0019). PR #2 (`main ← m5-matching`) spans M5→M9 and is **ready to merge**.
+**Merge status:** all gates green (lint/typecheck/128 tests/build); 20/20 migrations in sync (0001–0019).
+
+### M10 — Pilot Launch (in progress)
+- **MERGED to `main`** ✅ — the full M5→M9 stack (merge commit `8bb9f54`, pushed to
+  `github.com/floriangota/swipe-jobs`). `main` is now the production branch; ongoing work continues on `main`.
+- **Launch artifacts** ✅ — `docs/launch-runbook.md` (deploy commands, env vars, monitoring, employer→worker
+  seeding, REQUIRED backup+restore drill, incident/rotation/breach playbooks) + `scripts/seed-employer.mjs`
+  (validated). PWA (manifest+icons+SW) + all 6 security headers confirmed present.
+- **Vercel deploy — BLOCKED on auth** ⏳: the CLI (51.7.0) is installed but not authenticated; `vercel login`
+  is interactive and there's no `VERCEL_TOKEN`, so it can't be done autonomously here. Needs ONE of:
+  a `VERCEL_TOKEN`, an interactive `vercel login`, or the official Vercel Claude Code plugin. See runbook §1.
+- **⚠️ Production data decision** (also runbook §1): the pilot has used the existing hosted **dev** Supabase
+  (test/demo/`attacker.*` accounts, dev-placeholder `CRON_SECRET`). A public launch should use a **fresh prod
+  Supabase project** + fresh secrets, not expose the dev DB.
+- **Remaining M10 (operational, needs the deploy):** run the backup/restore drill, seed real employers, invite
+  workers, watch Sentry/uptime/metrics, and do the Lighthouse/perf pass (carried from M9).
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.
