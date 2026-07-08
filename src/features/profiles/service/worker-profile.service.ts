@@ -1,7 +1,15 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { sanitizeText } from "@/lib/sanitize";
 import type { WorkerProfileInput } from "../schemas";
 import type { Availability, ExperienceLevel, WorkerProfileView } from "../types";
+
+/** Sanitize free text on write (docs/security.md); empty after cleaning → null. */
+function cleanText(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = sanitizeText(value);
+  return cleaned.length > 0 ? cleaned : null;
+}
 
 interface WorkerProfileRow {
   id: string;
@@ -101,7 +109,7 @@ export async function createWorkerProfile(userId: string, input: WorkerProfileIn
       user_id: userId,
       first_name: input.first_name,
       last_name: input.last_name,
-      bio: input.bio ?? null,
+      bio: cleanText(input.bio),
       experience_level: input.experience_level,
       phone: input.phone ?? null,
     })
@@ -120,7 +128,7 @@ export async function updateWorkerProfile(userId: string, input: WorkerProfileIn
     .update({
       first_name: input.first_name,
       last_name: input.last_name,
-      bio: input.bio ?? null,
+      bio: cleanText(input.bio),
       experience_level: input.experience_level,
       phone: input.phone ?? null,
     })

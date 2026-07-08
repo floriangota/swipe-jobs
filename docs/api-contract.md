@@ -13,6 +13,18 @@
 - **GOLDEN RULE (enforced server-side + RLS):** `last_name`, `phone`, `email` are NEVER in a
   response unless a `matches` row exists between requester and subject.
 
+### Implementation notes (approved deviations — the code is the source of truth)
+- **Mutations are Next.js Server Actions, not REST handlers**, for auth (`features/auth/actions.ts`),
+  worker/employer profiles (`features/profiles/*.actions.ts`), and listing create/edit/status
+  (`features/listings/listing.actions.ts`). Only reads are `/api/v1/*` route handlers. (Permitted by
+  CLAUDE.md: "route handlers + server actions".)
+- **`GET /worker/profile/:id` (§2) and `GET /employer/profile/:id` (§3) have no standalone route** —
+  the reads they describe are delivered contact-safely by `GET /listings/:id/candidates` (pre-match,
+  first name + initial) and `GET /matches/:id` (post-match reveal). No separate profile-by-id endpoint
+  is needed for the core loop.
+- **Match-scoped GETs (`/matches/:id*`) return 404, not 403, to non-parties** — deliberate, so match
+  existence never leaks (the `match_detail` SECURITY DEFINER function yields zero rows to non-parties).
+
 ---
 
 ## 1. Auth & Account

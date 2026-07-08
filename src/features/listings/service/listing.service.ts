@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { sanitizeText } from "@/lib/sanitize";
 import type { ListingInput } from "../schemas";
 import {
   toListingView,
@@ -8,6 +9,13 @@ import {
   type ListingView,
   type MyListingItem,
 } from "../types";
+
+/** Sanitize free text on write (docs/security.md); empty after cleaning → null. */
+function cleanText(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = sanitizeText(value);
+  return cleaned.length > 0 ? cleaned : null;
+}
 
 const LISTING_COLUMNS =
   "id, city_id, category_id, title, description, job_type, required_experience, pay_min, pay_max, pay_period, status, created_at, updated_at";
@@ -43,8 +51,8 @@ export interface OwnListingsPage {
 }
 
 /**
- * The employer's own listings, newest first, cursor-paginated. Interested/matched
- * counts are PLACEHOLDERS (0) in M3 — real aggregation over swipes/matches is M5.
+ * The employer's own listings, newest first, cursor-paginated, with real
+ * interested/matched engagement counts (see getEngagementCounts).
  */
 export async function getOwnListings(
   userId: string,
@@ -147,7 +155,7 @@ export async function createListing(
     city_id: cityId, // denormalized from the employer; never client-supplied
     category_id: input.category_id,
     title: input.title,
-    description: input.description ?? null,
+    description: cleanText(input.description),
     job_type: input.job_type,
     required_experience: input.required_experience,
     pay_min: input.pay_min,
@@ -177,7 +185,7 @@ export async function updateListing(
     .update({
       category_id: input.category_id,
       title: input.title,
-      description: input.description ?? null,
+      description: cleanText(input.description),
       job_type: input.job_type,
       required_experience: input.required_experience,
       pay_min: input.pay_min,

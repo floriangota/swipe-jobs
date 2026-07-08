@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth/guards";
@@ -35,6 +36,14 @@ function formObject(formData: FormData): Record<string, unknown> {
   return obj;
 }
 
+/** Best-effort client IP for rate limiting (Vercel/proxies set x-forwarded-for). */
+async function clientIp(): Promise<string> {
+  const h = await headers();
+  const fwd = h.get("x-forwarded-for");
+  if (fwd) return fwd.split(",")[0]?.trim() || "unknown";
+  return h.get("x-real-ip")?.trim() || "unknown";
+}
+
 async function issueVerification(userId: string, email: string, locale: "sq" | "en") {
   const token = await createVerificationToken(userId);
   const verifyUrl = `${getSiteUrl()}/auth/verify?token=${encodeURIComponent(token)}`;
@@ -46,7 +55,12 @@ export async function signup(_prev: ActionState, formData: FormData): Promise<Ac
   if (!parsed.success) return { error: "invalid_input" };
   const { email, password, role, cityId, locale } = parsed.data;
 
-  if (!(await checkRateLimit(`signup:${email}`)).ok) return { error: "rate_limited" };
+  // Tight, keyed by BOTH account and IP (docs/security.md 'tight/IP') so signups
+  // can't be farmed from one host by varying the email.
+  const ip = await clientIp();
+  if (!(await checkRateLimit(`signup:${email}`)).ok || !(await checkRateLimit(`signup:${ip}`)).ok) {
+    return { error: "rate_limited" };
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
@@ -78,7 +92,10 @@ export async function login(_prev: ActionState, formData: FormData): Promise<Act
   if (!parsed.success) return { error: "invalid_input" };
   const { email, password } = parsed.data;
 
-  if (!(await checkRateLimit(`login:${email}`)).ok) return { error: "rate_limited" };
+  const ip = await clientIp();
+  if (!(await checkRateLimit(`login:${email}`)).ok || !(await checkRateLimit(`login:${ip}`)).ok) {
+    return { error: "rate_limited" };
+  }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -111,7 +128,10 @@ export async function requestPasswordReset(
   const { email } = parsed.data;
 
   // Return the SAME generic success even when throttled — never reveal outcome.
-  if (!(await checkRateLimit(`reset:${email}`)).ok) return { success: "reset_sent" };
+  const ip = await clientIp();
+  if (!(await checkRateLimit(`reset:${email}`)).ok || !(await checkRateLimit(`reset:${ip}`)).ok) {
+    return { success: "reset_sent" };
+  }
 
   const supabase = await createClient();
   try {

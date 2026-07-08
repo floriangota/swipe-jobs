@@ -13,8 +13,8 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M6** — In-App Chat (Realtime) (matches inbox + chat thread + contact reveal + read receipts + hired status; RLS-gated private Realtime channel; golden-rule reveal point LIVE)
 - [x] **M7** — Notifications (in-app center + unread badge; DB-trigger notifications; Resend emails new match/offline message; Vercel Cron: email dispatch, token cleanup, stale-listing close)
 - [x] **M8** — Admin Panel (photo moderation, report submission + queue/resolve, user suspension, bilingual category management, health/metrics dashboard, audit log; admin RLS + admin_* functions)
-- [~] **M9** — Hardening — **security + privacy DONE**; performance profiling + native-Albanian QA carried into M10 launch prep (need a staging deploy)  ← **CURRENTLY HERE**
-- [ ] **M10** — Pilot Launch (Ferizaj)
+- [x] **M9** — Hardening (rate limiting LIVE incl. IP-keying; RLS finalized + full suspension enforcement; golden-rule CI gate + npm audit; free-text sanitized on write; privacy erasure + Terms/Privacy; final compliance audit clean). Perf profiling/Lighthouse → M10 (needs the deploy).
+- [ ] **M10** — Pilot Launch (Ferizaj)  ← **CURRENTLY HERE**
 
 ## Notes / decisions made during build
 (Record anything that came up mid-build that a future session should know —
@@ -313,9 +313,23 @@ and verified live (8/8):
 **Remaining non-material LOW items (documented, not merge-blocking):** storage-cleanup pagination cap
 (a user has ≤1 active photo); no `?deleted=1` confirmation toast; `admin_resolve_report` re-resolve
 guard; PATCH-missing-category returns 403 vs 404.
-**Merge status:** all gates green (lint/typecheck/128 tests/build); branch is **13 commits ahead of
-`main`, clean merge, no conflicts**; 18/18 migrations in sync. PR #2 (`main ← m5-matching`) spans M5→M9
-and is **ready to merge**.
+### Final pre-launch audit (M1→M9 vs CLAUDE.md + all docs) — CLEAN, 0 launch-blockers
+An 8-agent compliance audit (CLAUDE.md non-negotiables, security.md, database-schema.md, api-contract.md,
+golden-rule end-to-end, roadmap/scope) + adversarial verification: **all areas compliant / compliant-with-
+notes, 0 refuted findings, roadmap fully compliant, golden rule holds end-to-end with ZERO leak paths, no
+Phase-2 scope crept in.** 2 MEDIUM + a few LOW notes — all fixed for a clean launch:
+- **Free text sanitized on write** (named non-negotiable): promoted the chat sanitizer to `src/lib/sanitize.ts`
+  (`sanitizeText`) and applied it to worker **bio**, employer + listing **description** (chat/report already did).
+- **Rate limiting keyed by IP too** (security.md "tight/IP"): signup/login/reset now check BOTH an account
+  key and a per-IP key (via `x-forwarded-for`), so signups can't be farmed from one host by varying email.
+- **`users.email` UNIQUE index** added (migration `0019`, schema-doc parity).
+- Doc reconciliation: api-contract.md now documents the approved Server-Action deviations + the covered-by-
+  other-endpoints §2/§3 reads + the 404-not-403 non-party choice; stale "placeholder counts" comment fixed.
+- **Deferred (documented, non-blocking):** breached/common-password rejection (NIST) — currently min-8 only;
+  a HaveIBeenPwned k-anonymity check is a post-launch hardening add. Perf/Lighthouse profiling is M10 (deploy).
+
+**Merge status:** all gates green (lint/typecheck/128 tests/build); clean merge to `main`, no conflicts;
+20/20 migrations in sync (0001–0019). PR #2 (`main ← m5-matching`) spans M5→M9 and is **ready to merge**.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

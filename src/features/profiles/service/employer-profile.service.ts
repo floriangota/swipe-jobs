@@ -1,7 +1,15 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { sanitizeText } from "@/lib/sanitize";
 import type { EmployerProfileInput } from "../schemas";
 import type { EmployerProfileView } from "../types";
+
+/** Sanitize free text on write (docs/security.md); empty after cleaning → null. */
+function cleanText(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = sanitizeText(value);
+  return cleaned.length > 0 ? cleaned : null;
+}
 
 interface EmployerProfileRow {
   id: string;
@@ -50,7 +58,7 @@ export async function createEmployerProfile(
     user_id: userId,
     business_name: input.business_name,
     business_type_id: input.business_type_id ?? null,
-    description: input.description ?? null,
+    description: cleanText(input.description),
     contact_phone: input.contact_phone ?? null,
     contact_email: input.contact_email ?? null,
   });
@@ -67,7 +75,7 @@ export async function updateEmployerProfile(
     .update({
       business_name: input.business_name,
       business_type_id: input.business_type_id ?? null,
-      description: input.description ?? null,
+      description: cleanText(input.description),
       contact_phone: input.contact_phone ?? null,
       contact_email: input.contact_email ?? null,
     })
