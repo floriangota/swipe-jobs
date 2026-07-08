@@ -13,7 +13,7 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M6** — In-App Chat (Realtime) (matches inbox + chat thread + contact reveal + read receipts + hired status; RLS-gated private Realtime channel; golden-rule reveal point LIVE)
 - [x] **M7** — Notifications (in-app center + unread badge; DB-trigger notifications; Resend emails new match/offline message; Vercel Cron: email dispatch, token cleanup, stale-listing close)
 - [x] **M8** — Admin Panel (photo moderation, report submission + queue/resolve, user suspension, bilingual category management, health/metrics dashboard, audit log; admin RLS + admin_* functions)
-- [ ] **M9** — Hardening (security, i18n, performance)  ← **CURRENTLY HERE**
+- [~] **M9** — Hardening — **security + privacy DONE**; performance profiling + native-Albanian QA carried into M10 launch prep (need a staging deploy)  ← **CURRENTLY HERE**
 - [ ] **M10** — Pilot Launch (Ferizaj)
 
 ## Notes / decisions made during build
@@ -24,8 +24,8 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
 **Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 + M6 are up for review as
 [PR #2](https://github.com/floriangota/swipe-jobs/pull/2)** (`main ← m5-matching`): commits `6968b1f` (M5a
 backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below) + `15f17a2` (M6 chat + review hardening),
-all pushed. _M6–M8 were committed onto the same branch (they depend on unmerged M5), so PR #2 now spans M5→M8._
-Next milestone: **M9 — Hardening** (not started).
+all pushed. _M6–M9 were committed onto the same branch (they depend on unmerged M5), so PR #2 now spans M5→M9._
+Current: **M9 — Hardening** (security + privacy done; perf/native-QA → M10).
 
 **Two hotfixes (found while demoing, now committed in `c16d183`):**
 1. **`next.config.ts`** — removed a stray trailing `module.exports = {allowedDevOrigins}` block that
@@ -262,6 +262,36 @@ refuses the action, not just app code):
   returned real data (metrics/reports/audit 200) and pages render server-side; live in-tab interaction was
   again blocked by the wedged preview renderer, so verified via API + SSR HTML + 17 live DB checks. Migrations
   `0014`+`0015`+`0016` applied (16/16 in sync). Branch: `m5-matching`.
+
+### M9 — Hardening (in progress; user gave open autonomy — no per-step approval)
+**M9a — Security (migration `0017`), all verified live (7/7 DB checks):**
+- **Rate limiting is REAL** (replaced the no-op seam): per-action fixed-window budgets by
+  key prefix (login/signup/reset tight, swipe generous, message/report/photo moderate);
+  distributed via Upstash Redis REST when `UPSTASH_REDIS_REST_*` set, in-memory per-instance
+  fallback otherwise; fails open on backend errors. Unit-tested (`auth/__tests__/rate-limit`).
+- **Suspended/deleted users can't ACT mid-session:** `user_is_active()` added to every
+  action-write RLS policy (swipes/employer_swipes/messages/reports — the DB backstop) + a fast
+  403 on all mutating API routes. Verified: suspended writes → 42501, reactivated → allowed.
+- **M3** listing UPDATE policy re-asserts `city_id` (defense-in-depth gap closed).
+- **M2** `replace_worker_joins()` makes the category/language/availability swap atomic (was a
+  delete-then-insert that could wipe the sets on failure). Verified atomic + owner-checked + rollback.
+- **CI:** explicit named "golden-rule" gate (`vitest -t golden`) + `npm audit` on prod deps;
+  vitest aliases `server-only` to a no-op stub.
+
+**M9b — Privacy (right-to-erasure + legal), verified live (5/5 erasure checks — no orphans):**
+- **Account deletion** (LPPD/GDPR): profile "Danger zone" + type-DELETE confirm → `eraseAccount()`
+  removes storage objects then hard-deletes the auth user, cascading all `public.*` rows
+  (profile/joins/swipes/matches/messages/notifications/photos/reports). Verified: full footprint
+  across 7 tables + storage wiped.
+- **Bilingual Privacy + Terms** pages (`/privacy`, `/terms`, locale-aware), **signup consent line**
+  (linked), footer links.
+
+**Verified/confirmed:** RLS on all 19 tables; 32 indexes cover every hot-path in database-schema.md.
+**Carried into M10 launch prep** (need a staging deploy): Lighthouse/PWA-offline audit + feed/swipe
+latency + index-vs-real-query-plan check; a native-speaker Albanian QA pass (strings are externalized
++ parity-tested, admin is intentionally English); nonce-based CSP (current CSP allows `'unsafe-inline'`
+for scripts — a documented pre-existing item, complex under Next 16 for marginal gain).
+Migrations `0017` applied (17/17 in sync). Branch: `m5-matching`.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.
