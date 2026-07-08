@@ -30,6 +30,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
   if (!user) return err("unauthenticated", "Not signed in.", 401);
+  if (user.status !== "active") return err("account_inactive", "This account is not active.", 403);
 
   const { id } = await params;
   if (!z.uuid().safeParse(id).success) return err("not_found", "Match not found.", 404);

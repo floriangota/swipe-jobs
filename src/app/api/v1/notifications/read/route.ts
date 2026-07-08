@@ -14,6 +14,7 @@ function err(code: string, message: string, status: number) {
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) return err("unauthenticated", "Not signed in.", 401);
+  if (user.status !== "active") return err("account_inactive", "This account is not active.", 403);
 
   // Body is optional (no body = mark all). Only reject a present-but-malformed body.
   const raw = await request.json().catch(() => null);

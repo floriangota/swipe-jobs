@@ -20,6 +20,7 @@ export async function POST(
 ) {
   const user = await getCurrentUser();
   if (!user) return err("unauthenticated", "Not signed in.", 401);
+  if (user.status !== "active") return err("account_inactive", "This account is not active.", 403);
   if (user.role !== "employer") return err("forbidden", "Employers only.", 403);
   if (!user.emailVerified) return err("forbidden", "Verify your email to match.", 403); // soft-gate
 

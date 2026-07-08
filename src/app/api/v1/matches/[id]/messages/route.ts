@@ -43,6 +43,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
   if (!user) return err("unauthenticated", "Not signed in.", 401);
+  if (user.status !== "active") return err("account_inactive", "This account is not active.", 403);
   if (!user.emailVerified) return err("forbidden", "Verify your email to chat.", 403); // soft-gate
 
   const { id } = await params;
