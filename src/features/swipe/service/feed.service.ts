@@ -1,6 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
-import { clampLimit, decodeCursor, encodeCursor } from "../cursor";
+import { clampLimit, decodeCursor, encodeCursor } from "@/lib/cursor";
 import { toFeedCard, type FeedCard, type FeedRow } from "../types";
 
 export interface FeedPage {

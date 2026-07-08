@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
@@ -16,35 +17,47 @@ const HEARTS = [
   { left: "89%", delay: 0.05, size: 12, dur: 3.0 },
 ];
 
-/** The flagship "It's a match!" moment — a full-screen celebration over a warm scrim. */
+/** The flagship "It's a match!" moment — a full-screen celebration over a warm scrim.
+ *  Since M6 the match unlocks chat: the primary CTA deep-links into the conversation. */
 export function MatchMoment({
   open,
   name,
+  matchId,
   onClose,
 }: {
   open: boolean;
   name: string | null;
+  matchId: string | null;
   onClose: () => void;
 }) {
   const t = useTranslations("Match");
+  const chatRef = useRef<HTMLAnchorElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   // While open, behave as a real modal: lock body scroll, move focus in, keep focus
-  // trapped on the single control, close on Escape, and restore focus on close.
+  // trapped on the two controls, close on Escape, and restore focus on close.
   useEffect(() => {
     if (!open) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
+    (chatRef.current ?? closeRef.current)?.focus();
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
         onClose();
       } else if (event.key === "Tab") {
-        event.preventDefault(); // one interactive control — keep focus on it
-        closeRef.current?.focus();
+        // Two interactive controls at most — cycle between them.
+        event.preventDefault();
+        const focusables = [chatRef.current, closeRef.current].filter(
+          (el): el is NonNullable<typeof el> => el != null,
+        );
+        if (focusables.length === 0) return;
+        const index = focusables.indexOf(document.activeElement as (typeof focusables)[number]);
+        const step = event.shiftKey ? -1 : 1;
+        const next = focusables[(index + step + focusables.length) % focusables.length];
+        next?.focus();
       }
     }
     document.addEventListener("keydown", onKeyDown);
@@ -111,20 +124,33 @@ export function MatchMoment({
             transition={{ delay: 0.4 }}
             className="relative mt-2 max-w-xs text-sm text-white/70"
           >
-            {t("chatSoon")}
+            {t("chatUnlocked")}
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="relative mt-8"
+            className="relative mt-8 flex flex-col items-center gap-3"
           >
+            {matchId && (
+              <Link
+                ref={chatRef}
+                href={`/matches/${matchId}`}
+                className={cn(buttonVariants({ intent: "secondary", size: "lg" }))}
+              >
+                {t("goToChat")}
+              </Link>
+            )}
             <button
               ref={closeRef}
               type="button"
               onClick={onClose}
-              className={cn(buttonVariants({ intent: "secondary", size: "lg" }))}
+              className={cn(
+                matchId
+                  ? "rounded-md px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                  : cn(buttonVariants({ intent: "secondary", size: "lg" })),
+              )}
             >
               {t("keepSwiping")}
             </button>

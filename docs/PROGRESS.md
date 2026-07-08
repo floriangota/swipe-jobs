@@ -10,8 +10,8 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M3** — Listings (employer create/edit/pause/close, pay validation + cents, my-listings dashboard w/ placeholder counts, premium listing card)
 - [x] **M4** — Photos & Moderation Pipeline (upload → validate/EXIF-strip/re-encode → private bucket → pending gate; approved photo wired into profile display)
 - [x] **M5** — Swipe Feed & Matching (feed + swipe engine + candidate stack + atomic matching + "It's a match!" moment; golden rule LIVE)
-- [ ] **M6** — In-App Chat (Realtime)  ← **CURRENTLY HERE**
-- [ ] **M7** — Notifications
+- [x] **M6** — In-App Chat (Realtime) (matches inbox + chat thread + contact reveal + read receipts + hired status; RLS-gated private Realtime channel; golden-rule reveal point LIVE)
+- [ ] **M7** — Notifications  ← **CURRENTLY HERE**
 - [ ] **M8** — Admin Panel
 - [ ] **M9** — Hardening (security, i18n, performance)
 - [ ] **M10** — Pilot Launch (Ferizaj)
@@ -134,6 +134,69 @@ credentials are kept OUT of the repo — ask Florian, or re-seed/reset via the a
   review fixed 4 (wrong-direction fling, prefetch/empty flash, modal a11y, scroll-lock). 64 tests.
 - **Note:** `/listings/*` routes have a `loading.tsx`, so unauth requests return a 200 loading shell then
   client-redirect (not a 307) — expected, not an auth bypass.
+
+### M6 — In-App Chat / Realtime (decisions & notes, all user-approved)
+- **THE golden-rule reveal point is LIVE and is the ONLY contact crossing.** Contact (surname/phone/email)
+  is revealed in exactly one place: `GET /matches/:id` via the `match_detail` SECURITY DEFINER function,
+  which returns rows only to the two match parties (a non-party gets 0 rows → 404, existence never leaks).
+  Worker-side reveal = the employer's `contact_phone`/`contact_email` exactly as shared (no fallback to
+  their account email — data minimization). Inbox + messages carry NO contact (CI test `chat-views.test.ts`).
+- **`features/chat/`**: `schemas.ts` (Zod, strict, body 1–2000), `sanitize.ts` (strips control/zero-width/bidi
+  on write; render escaping is the XSS defense — no `dangerouslySetInnerHTML`), `types.ts` (+ golden-rule
+  mappers), `service/{match,message}.service.ts`, `store.tsx` (SSR chat-thread store factory+provider),
+  `hooks/use-match-channel.ts` (private Realtime channel), `components/*` (inbox list, thread, bubble w/
+  read ticks, composer, contact bottom-sheet, close/hired actions). Pages `/matches` + `/matches/[id]` with
+  loading/empty/error states. Header gets a "Matches" link (both roles).
+- **Endpoints (contract §6):** `GET /matches` · `GET/PATCH /matches/:id` (reveal / status) ·
+  `GET/POST /matches/:id/messages` · `POST /matches/:id/read`. Non-party match-scoped GETs → **404** (no
+  existence leak); PATCH → 403 per contract. Send is soft-gated (verified) + rate-limit seam (M9) + 422 on
+  a `closed_*` match.
+- **Realtime = PRIVATE per-match Broadcast channel `match:{id}`.** Subscription is authorized by RLS on
+  `realtime.messages` (`is_match_party_topic`) — a non-party's *subscribe* is rejected AT THE DATABASE.
+  Only the DB publishes (broadcast trigger on message insert + `realtime.send` for read/status); no client
+  INSERT policy, so events can't be spoofed. REST is source of truth; client resyncs on reconnect. CSP
+  already allowed `wss://*.supabase.co` (M0). Browser Supabase client's first real consumer.
+- **`match_status` enum already had all four values** (M5) — no enum change. Status changes via the
+  `update_match_status` RPC (matches has no client write policy): worker→closed_by_worker;
+  employer→closed_by_employer|hired; only from `active`; terminal. **`hired` writes an `audit_logs` row**
+  (north-star metric) — this migration creates the minimal `audit_logs` table (RLS on, server-write only).
+- **Cursor lift:** `features/swipe/cursor.ts` → `src/lib/cursor.ts` (chat is a 2nd consumer); 4 imports
+  updated, test moved. `MatchMoment` now takes `matchId` + a "Send a message" CTA into the chat.
+- **MatchMoment is still employer-only** (Flow-1). A worker discovers a match via the `/matches` inbox;
+  a worker-side live "It's a match!" needs push/notifications → **M7**.
+- **Migrations `0011` (chat) + `0012` (hardening) applied** to the hosted DB (12/12 in sync). Branch: `m5-matching`.
+
+### M6 — Security review (focused, against docs/security.md) — ALL 5 GATES PASS
+Verified at the DB layer with the RLS-limited publishable key + real signed-in sessions (proves the DB
+refuses the action, not just app code):
+1. **Contact unreachable pre-match** ✅ — pre-match employer / non-party read of `worker_profiles` contact → 0 rows;
+   `match_detail` for a non-party → 0 rows; matched party reveal works (positive control).
+2. **RLS messages/matches + Realtime, non-party** ✅ — SELECT 0 rows; INSERT (self & impersonating) → RLS 42501;
+   `match_messages`/`match_inbox` 0 rows; `mark_match_read` → -1; **Realtime subscribe DENIED by the DB**
+   ("Unauthorized … Channel topic"); party subscribe allowed.
+3. **Sanitize on write + escape on render (XSS)** ✅ — control/zero-width/bidi stripped; markup stored + rendered
+   as one inert text node (0 script/img injected); no `dangerouslySetInnerHTML`.
+4. **Message endpoint Zod + rate-limit** ✅/⚠️ — empty/whitespace/>2000/unknown-field/missing → all 400; valid → 201.
+   Rate-limit is WIRED (two keys) but a **no-op seam until M9** (same as all mutating routes — a conscious M9 dependency).
+5. **Status changes party-only** ✅ — non-party blocked; worker can't `hired`; employer can't `closed_by_worker`.
+
+**Recommended fixes applied (migration `0012` + client), all re-verified:**
+- Dropped `match_chat_open` (leaked open-state to non-parties) → inlined into the INSERT policy.
+- BEFORE INSERT trigger forces `read_at=null`/`created_at=now()` (a party could otherwise pre-set them via
+  direct PostgREST to suppress unread / pin the thread).
+- `update_match_status` UPDATE-as-gate → concurrent double-`hired` now yields exactly one audit row + one
+  winner (verified with two concurrent RPCs); terminal status can't be overwritten.
+- Client: resync no longer drops a sent/failed message (`replaceMessage` guard + `resetLatest` carry-over);
+  own-message broadcast reconciles the pending temp instead of duplicating; `onResync` refetches status too;
+  composer ignores Enter mid-IME-composition; hostile/garbage cursor now decodes to null → first page (no 500);
+  messages page size clamped to 49 (the `+1` has-more sentinel vs the DB cap of 50). 7 new store tests lock these.
+- **Deferred (low, cosmetic — NOT in the applied set):** MatchMoment focus-trap re-run refocuses "Go to chat"
+  on a parent re-render; `loadOlder` captures the scroll anchor before the await. Follow-up.
+- **Test data in the hosted DB:** `m6test.worker`/`m6test.employer` (matched, hired) + `attacker.*` accounts +
+  a "Race-test role" listing/match were seeded for review; harmless, left in place (pw kept out of repo).
+- **⚠️ Browser note:** the post-fix in-browser send re-check was blocked by a wedged preview renderer
+  (screenshots hung on all pages after working earlier); fixes verified instead via live DB tests + unit tests.
+  The pre-fix build was fully verified in-browser (match → chat both ways → live delivery → receipts → hired).
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

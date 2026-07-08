@@ -30,5 +30,7 @@ describe("golden rule: contact hidden until match", () => {
   it.todo("GET /worker/profile/:id omits last_name & phone when requester is not matched");
   it.todo("GET /feed cards never include last_name, phone, or email");
   it.todo("GET /listings/:id/candidates omits contact fields (pre-match)");
-  it.todo("GET /matches/:id reveals contact only to the two matched parties");
+  // "GET /matches/:id reveals contact only to the two matched parties" — implemented
+  // in M6: features/chat/__tests__/chat-views.test.ts (DTO gate) on top of the DB
+  // gate (the match_detail SECURITY DEFINER function yields zero rows to non-parties).
 });

@@ -56,6 +56,14 @@ export async function SiteHeader() {
                     {tNav("myListings")}
                   </Link>
                 )}
+                {(user.role === "worker" || user.role === "employer") && (
+                  <Link
+                    href="/matches"
+                    className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}
+                  >
+                    {tNav("matches")}
+                  </Link>
+                )}
                 <Link
                   href="/profile"
                   className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}

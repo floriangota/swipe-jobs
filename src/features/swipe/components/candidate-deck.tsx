@@ -25,7 +25,7 @@ export function CandidateDeck({ listingId }: { listingId: string }) {
   const setLoadingMore = useDeck((s: DeckState<CandidateCardView>) => s.setLoadingMore);
 
   const cardRef = useRef<SwipeCardHandle>(null);
-  const [match, setMatch] = useState<{ name: string } | null>(null);
+  const [match, setMatch] = useState<{ name: string; matchId: string | null } | null>(null);
 
   const prefetch = useCallback(async () => {
     if (loadingMore || !cursor) return;
@@ -68,8 +68,12 @@ export function CandidateDeck({ listingId }: { listingId: string }) {
         },
       );
       if (res.ok) {
-        const json = (await res.json()) as { data?: { matched?: boolean } };
-        if (json.data?.matched) setMatch({ name: candidate.firstName });
+        const json = (await res.json()) as {
+          data?: { matched?: boolean; match_id?: string | null };
+        };
+        if (json.data?.matched) {
+          setMatch({ name: candidate.firstName, matchId: json.data.match_id ?? null });
+        }
       } else if (res.status !== 409) {
         restoreTop(candidate);
         toast.error({ title: t("swipeFailed") });
@@ -157,7 +161,12 @@ export function CandidateDeck({ listingId }: { listingId: string }) {
         )}
       </div>
 
-      <MatchMoment open={match !== null} name={match?.name ?? null} onClose={() => setMatch(null)} />
+      <MatchMoment
+        open={match !== null}
+        name={match?.name ?? null}
+        matchId={match?.matchId ?? null}
+        onClose={() => setMatch(null)}
+      />
     </>
   );
 }

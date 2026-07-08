@@ -1,7 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { getOwnEmployerProfile } from "@/features/profiles/service/employer-profile.service";
-import { clampLimit, decodeCursor, encodeCursor } from "../cursor";
+import { clampLimit, decodeCursor, encodeCursor } from "@/lib/cursor";
 import { toCandidateCardView, type CandidateCardView, type CandidateRow } from "../types";
 
 export interface CandidateStackPage {

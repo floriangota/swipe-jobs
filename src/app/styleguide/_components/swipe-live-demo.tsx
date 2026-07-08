@@ -37,7 +37,8 @@ export function SwipeLiveDemo() {
       <Button intent="outline" onClick={() => setMatchOpen(true)}>
         {t("previewMatch")}
       </Button>
-      <MatchMoment open={matchOpen} name="Arben" onClose={() => setMatchOpen(false)} />
+      {/* matchId null on the design surface: the preview celebrates without deep-linking. */}
+      <MatchMoment open={matchOpen} name="Arben" matchId={null} onClose={() => setMatchOpen(false)} />
     </div>
   );
 }
