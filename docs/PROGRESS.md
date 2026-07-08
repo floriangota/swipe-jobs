@@ -20,10 +20,12 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 (Record anything that came up mid-build that a future session should know —
 e.g. "chose X for Y", deviations approved, TODOs deferred.)
 
-### ⚠️ CURRENT STATE — read this first (as of the debug/demo session)
-**Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 is up for review as
+### ⚠️ CURRENT STATE — read this first
+**Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 + M6 are up for review as
 [PR #2](https://github.com/floriangota/swipe-jobs/pull/2)** (`main ← m5-matching`): commits `6968b1f` (M5a
-backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below), all pushed.
+backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below) + `15f17a2` (M6 chat + review hardening),
+all pushed. _M6 was committed onto the same branch (it depends on unmerged M5), so PR #2 now spans M5+M6._
+Next milestone: **M7 — Notifications** (planning).
 
 **Two hotfixes (found while demoing, now committed in `c16d183`):**
 1. **`next.config.ts`** — removed a stray trailing `module.exports = {allowedDevOrigins}` block that
