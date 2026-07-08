@@ -52,12 +52,15 @@ export function MessageBubble({
   message,
   mine,
   onRetry,
+  onReport,
 }: {
   message: ChatMessage;
   mine: boolean;
   onRetry?: () => void;
+  onReport?: () => void;
 }) {
   const t = useTranslations("Chat");
+  const tReport = useTranslations("Report");
   const locale = useLocale();
   const time = new Intl.DateTimeFormat(locale, {
     hour: "2-digit",
@@ -65,7 +68,20 @@ export function MessageBubble({
   }).format(new Date(message.createdAt));
 
   return (
-    <div className={cn("flex w-full", mine ? "justify-end" : "justify-start")}>
+    <div className={cn("group flex w-full items-end gap-1", mine ? "justify-end" : "justify-start")}>
+      {!mine && onReport && !message.pending && (
+        <button
+          type="button"
+          onClick={onReport}
+          aria-label={tReport("action")}
+          className="order-2 mb-1 flex size-6 shrink-0 items-center justify-center rounded-full text-muted-foreground opacity-0 transition-opacity hover:bg-secondary hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none group-hover:opacity-100"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="size-3.5" aria-hidden>
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+            <line x1="4" y1="22" x2="4" y2="15" />
+          </svg>
+        </button>
+      )}
       <div
         className={cn(
           "max-w-[80%] rounded-2xl px-3.5 py-2 shadow-xs",

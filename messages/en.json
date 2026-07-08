@@ -12,6 +12,7 @@
     "feed": "Jobs",
     "matches": "Matches",
     "notifications": "Notifications",
+    "admin": "Admin",
     "skipToContent": "Skip to content"
   },
   "Home": {
@@ -447,5 +448,24 @@
     "newMessage": "New message from {name}",
     "newCandidate": "New candidate: {name}",
     "system": "Notification"
+  },
+  "Report": {
+    "action": "Report",
+    "title": "Report",
+    "subtitle": "Help us keep SwipeJobs safe. What's wrong?",
+    "detailsPlaceholder": "Add any details (optional)…",
+    "submit": "Submit report",
+    "cancel": "Cancel",
+    "success": "Thanks — your report was sent.",
+    "error": "Couldn't send the report. Please try again.",
+    "reportMessage": "Report this message",
+    "reportListing": "Report this listing",
+    "reason": {
+      "harassment": "Harassment or abuse",
+      "spam": "Spam",
+      "inappropriate_photo": "Inappropriate photo",
+      "fake": "Fake or scam",
+      "other": "Something else"
+    }
   }
 }

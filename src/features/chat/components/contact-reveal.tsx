@@ -14,12 +14,15 @@ export function ContactReveal({
   open,
   onOpenChange,
   detail,
+  onReportListing,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   detail: MatchDetailView;
+  onReportListing?: () => void;
 }) {
   const t = useTranslations("Chat");
+  const tReport = useTranslations("Report");
   const hasContact = detail.contactPhone != null || detail.contactEmail != null;
 
   return (
@@ -78,6 +81,16 @@ export function ContactReveal({
           </p>
         )}
       </div>
+
+      {onReportListing && (
+        <button
+          type="button"
+          onClick={onReportListing}
+          className="mt-4 text-sm font-medium text-destructive underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        >
+          {tReport("reportListing")}
+        </button>
+      )}
     </BottomSheet>
   );
 }

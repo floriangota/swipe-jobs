@@ -12,8 +12,8 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M5** — Swipe Feed & Matching (feed + swipe engine + candidate stack + atomic matching + "It's a match!" moment; golden rule LIVE)
 - [x] **M6** — In-App Chat (Realtime) (matches inbox + chat thread + contact reveal + read receipts + hired status; RLS-gated private Realtime channel; golden-rule reveal point LIVE)
 - [x] **M7** — Notifications (in-app center + unread badge; DB-trigger notifications; Resend emails new match/offline message; Vercel Cron: email dispatch, token cleanup, stale-listing close)
-- [ ] **M8** — Admin Panel  ← **CURRENTLY HERE**
-- [ ] **M9** — Hardening (security, i18n, performance)
+- [x] **M8** — Admin Panel (photo moderation, report submission + queue/resolve, user suspension, bilingual category management, health/metrics dashboard, audit log; admin RLS + admin_* functions)
+- [ ] **M9** — Hardening (security, i18n, performance)  ← **CURRENTLY HERE**
 - [ ] **M10** — Pilot Launch (Ferizaj)
 
 ## Notes / decisions made during build
@@ -24,8 +24,8 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
 **Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 + M6 are up for review as
 [PR #2](https://github.com/floriangota/swipe-jobs/pull/2)** (`main ← m5-matching`): commits `6968b1f` (M5a
 backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below) + `15f17a2` (M6 chat + review hardening),
-all pushed. _M6 + M7 were committed onto the same branch (they depend on unmerged M5), so PR #2 now spans M5→M7._
-Next milestone: **M8 — Admin Panel** (not started).
+all pushed. _M6–M8 were committed onto the same branch (they depend on unmerged M5), so PR #2 now spans M5→M8._
+Next milestone: **M9 — Hardening** (not started).
 
 **Two hotfixes (found while demoing, now committed in `c16d183`):**
 1. **`next.config.ts`** — removed a stray trailing `module.exports = {allowedDevOrigins}` block that
@@ -230,6 +230,38 @@ refuses the action, not just app code):
   on the loading shell); verified instead via the API (`GET /notifications` returns the contact-free payload),
   the fully-streamed page HTML (localized notification + mark-all button + bell badge all present), the cron
   HTTP checks, and 9 live DB checks. Migration `0013` applied (13/13 in sync). Branch: `m5-matching`.
+
+### M8 — Admin Panel (decisions & notes, all user-approved)
+- **Defense-in-depth gating, NO service-role for admin ops:** every admin route/page checks
+  `requireRole('admin')` AND the DB enforces it — admin READS via new RLS SELECT policies
+  (`user_has_role('admin')` on photos/users/listings/matches/worker+employer profiles/reports/
+  audit_logs + a storage policy to sign photo previews); admin WRITES via `SECURITY DEFINER admin_*`
+  functions (`admin_review_photo`, `admin_suspend_user`, `admin_resolve_report`, `admin_upsert_category`)
+  that re-check admin, mutate only the intended columns, and write an `audit_logs` row. Verified live:
+  17/17 DB checks (non-admin refused on every path; admin allowed; self-suspend blocked; audit written).
+- **`reports` table** (migration `0014`): user-submitted, RLS insert-own (reporter pinned to `auth.uid()`)
+  + own-read (`0015`) + admin-read; CHECK exactly-one-target. `POST /reports` (any authed, rate-limit seam,
+  Zod, sanitized details). Reusable bilingual `ReportSheet` wired into chat (report a message + the listing).
+- **Endpoints (§8+§11):** POST /reports · GET /admin/photos · POST /admin/photos/:id/review (approve wires
+  `photo_id`/`logo_id` onto the profile — finishes the M4 pipeline) · GET /admin/reports ·
+  POST /admin/reports/:id/resolve (dismiss|suspend_user|remove_listing) · POST /admin/users/:id/suspend ·
+  GET/POST /admin/categories · PATCH /admin/categories/:id · GET /admin/metrics · GET /admin/audit.
+- **UI:** `(admin)` route group, `requireRole('admin')` layout, **English-only** (CLAUDE.md — not added to the
+  SQ/EN catalogs). Dashboard (metric tiles), photo queue (signed-URL previews), report queue, user table
+  (suspend), category editor, audit log. Header gets an "Admin" link for admins. Loading/empty/error states.
+- **Admin provisioning is manual** (no admin signup — not in MVP scope; `handle_new_user` clamps signup role
+  so admin can only be set via service-role/SQL). The verification admin was created + then DELETED (no
+  privileged known-password account left in the DB); create one by setting `users.role='admin'`.
+- **Two real bugs the live DB verification caught (that lint/typecheck/tests/build all passed):**
+  (1) `POST /reports` failed 42501 — `insert…returning id` is subject to SELECT RLS and there was no
+  reporter-read policy → fixed in `0015`. (2) `admin_upsert_category` returned a null id — its OUT column
+  `id` shadowed `categories.id` in `returning id` → fixed in `0016` (`#variable_conflict use_column` +
+  qualified `categories.id`). Both re-verified.
+- **⚠️ Browser note:** dev route-discovery glitch (Turbopack) 404'd the new nested `/admin/*` + `/api/v1/admin/*`
+  routes until a `next dev` restart (documented gotcha; prod build compiled all). After restart the admin API
+  returned real data (metrics/reports/audit 200) and pages render server-side; live in-tab interaction was
+  again blocked by the wedged preview renderer, so verified via API + SSR HTML + 17 live DB checks. Migrations
+  `0014`+`0015`+`0016` applied (16/16 in sync). Branch: `m5-matching`.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

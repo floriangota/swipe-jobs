@@ -75,6 +75,14 @@ export async function SiteHeader() {
                     {tNav("matches")}
                   </Link>
                 )}
+                {user.role === "admin" && (
+                  <Link
+                    href="/admin"
+                    className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}
+                  >
+                    {tNav("admin")}
+                  </Link>
+                )}
                 <NotificationBell count={unreadCount} label={tNav("notifications")} />
                 <Link
                   href="/profile"

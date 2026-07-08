@@ -12,6 +12,7 @@
     "feed": "Punët",
     "matches": "Përputhjet",
     "notifications": "Njoftimet",
+    "admin": "Admin",
     "skipToContent": "Kalo te përmbajtja"
   },
   "Home": {
@@ -447,5 +448,24 @@
     "newMessage": "Mesazh i ri nga {name}",
     "newCandidate": "Kandidat i ri: {name}",
     "system": "Njoftim"
+  },
+  "Report": {
+    "action": "Raporto",
+    "title": "Raporto",
+    "subtitle": "Na ndihmo ta mbajmë SwipeJobs të sigurt. Çfarë nuk shkon?",
+    "detailsPlaceholder": "Shto detaje (opsionale)…",
+    "submit": "Dërgo raportin",
+    "cancel": "Anulo",
+    "success": "Faleminderit — raporti u dërgua.",
+    "error": "Raporti nuk u dërgua. Provo përsëri.",
+    "reportMessage": "Raporto këtë mesazh",
+    "reportListing": "Raporto këtë shpallje",
+    "reason": {
+      "harassment": "Ngacmim ose abuzim",
+      "spam": "Spam",
+      "inappropriate_photo": "Foto e papërshtatshme",
+      "fake": "E rreme ose mashtrim",
+      "other": "Diçka tjetër"
+    }
   }
 }

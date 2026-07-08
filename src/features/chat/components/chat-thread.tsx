@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils/cn";
 import { useChat, type ChatMessage } from "../store";
 import { useMatchChannel } from "../hooks/use-match-channel";
 import { toMessageView, type MatchDetailView, type MatchStatus, type MessageView } from "../types";
+import { ReportSheet, type ReportTarget } from "@/features/reports/components/report-sheet";
 import { MessageBubble } from "./message-bubble";
 import { ChatComposer } from "./chat-composer";
 import { ContactReveal } from "./contact-reveal";
@@ -81,6 +82,7 @@ export function ChatThread({ detail }: { detail: MatchDetailView }) {
 
   const [contactOpen, setContactOpen] = useState(false);
   const [actionsOpen, setActionsOpen] = useState(false);
+  const [reportTarget, setReportTarget] = useState<ReportTarget | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickToBottomRef = useRef(true);
@@ -238,6 +240,11 @@ export function ChatThread({ detail }: { detail: MatchDetailView }) {
           message={m}
           mine={m.senderUserId === currentUserId}
           onRetry={m.failed ? () => retry(m) : undefined}
+          onReport={
+            m.senderUserId !== currentUserId
+              ? () => setReportTarget({ kind: "message", id: m.id })
+              : undefined
+          }
         />
       </div>,
     );
@@ -340,7 +347,15 @@ export function ChatThread({ detail }: { detail: MatchDetailView }) {
         <ChatComposer onSend={(body) => void send(body)} />
       )}
 
-      <ContactReveal open={contactOpen} onOpenChange={setContactOpen} detail={detail} />
+      <ContactReveal
+        open={contactOpen}
+        onOpenChange={setContactOpen}
+        detail={detail}
+        onReportListing={() => {
+          setContactOpen(false);
+          setReportTarget({ kind: "listing", id: detail.listingId });
+        }}
+      />
       <MatchStatusActions
         open={actionsOpen}
         onOpenChange={setActionsOpen}
@@ -349,6 +364,7 @@ export function ChatThread({ detail }: { detail: MatchDetailView }) {
         counterpartName={detail.counterpartName}
         onChanged={setMatchStatus}
       />
+      <ReportSheet open={reportTarget !== null} onOpenChange={(o) => !o && setReportTarget(null)} target={reportTarget} />
     </div>
   );
 }
