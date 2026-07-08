@@ -35,8 +35,18 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
+      # Required release gate (docs/security.md): contact fields must be absent from
+      # every pre-match response. Runs the golden-rule suites explicitly so the gate
+      # is a distinct, named CI check — not merely part of the wider test run.
+      - name: Golden-rule gate (contact hidden until match)
+        run: npx vitest run -t "golden"
+
       - name: Test
         run: npm run test:ci
+
+      # Dependency advisories on production deps block on high/critical (A06).
+      - name: Audit dependencies
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Build
         run: npm run build

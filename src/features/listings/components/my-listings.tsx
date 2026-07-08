@@ -156,6 +156,12 @@ function ListingRow({ listing }: { listing: DashboardListing }) {
 
       <div className="mt-3 flex flex-wrap gap-2">
         <Link
+          href={`/listings/${listing.id}/candidates`}
+          className={cn(buttonVariants({ intent: "outline", size: "sm" }))}
+        >
+          {t("candidates")}
+        </Link>
+        <Link
           href={`/listings/${listing.id}/edit`}
           className={cn(buttonVariants({ intent: "outline", size: "sm" }))}
         >

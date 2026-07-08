@@ -1,7 +1,15 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { sanitizeText } from "@/lib/sanitize";
 import type { WorkerProfileInput } from "../schemas";
 import type { Availability, ExperienceLevel, WorkerProfileView } from "../types";
+
+/** Sanitize free text on write (docs/security.md); empty after cleaning → null. */
+function cleanText(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = sanitizeText(value);
+  return cleaned.length > 0 ? cleaned : null;
+}
 
 interface WorkerProfileRow {
   id: string;
@@ -81,39 +89,15 @@ async function replaceJoins(
   profileId: string,
   input: WorkerProfileInput,
 ): Promise<void> {
-  await Promise.all([
-    supabase.from("worker_categories").delete().eq("worker_profile_id", profileId),
-    supabase.from("worker_languages").delete().eq("worker_profile_id", profileId),
-    supabase.from("worker_availabilities").delete().eq("worker_profile_id", profileId),
-  ]);
-
-  await Promise.all([
-    insertJoinRows(
-      supabase,
-      "worker_categories",
-      input.category_ids.map((category_id) => ({ worker_profile_id: profileId, category_id })),
-    ),
-    insertJoinRows(
-      supabase,
-      "worker_languages",
-      input.language_ids.map((language_id) => ({ worker_profile_id: profileId, language_id })),
-    ),
-    insertJoinRows(
-      supabase,
-      "worker_availabilities",
-      input.availabilities.map((availability) => ({ worker_profile_id: profileId, availability })),
-    ),
-  ]);
-}
-
-async function insertJoinRows(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  table: string,
-  rows: Record<string, string>[],
-): Promise<void> {
-  if (rows.length === 0) return;
-  const { error } = await supabase.from(table).insert(rows);
-  if (error) throw new Error(`Failed to save ${table}: ${error.message}`);
+  // Atomic (single-transaction) swap via replace_worker_joins — the previous
+  // delete-then-parallel-insert could wipe the sets on a mid-write failure (M9).
+  const { error } = await supabase.rpc("replace_worker_joins", {
+    p_profile_id: profileId,
+    p_category_ids: input.category_ids,
+    p_language_ids: input.language_ids,
+    p_availabilities: input.availabilities,
+  });
+  if (error) throw new Error(`Failed to save profile selections: ${error.message}`);
 }
 
 export async function createWorkerProfile(userId: string, input: WorkerProfileInput): Promise<void> {
@@ -125,7 +109,7 @@ export async function createWorkerProfile(userId: string, input: WorkerProfileIn
       user_id: userId,
       first_name: input.first_name,
       last_name: input.last_name,
-      bio: input.bio ?? null,
+      bio: cleanText(input.bio),
       experience_level: input.experience_level,
       phone: input.phone ?? null,
     })
@@ -144,7 +128,7 @@ export async function updateWorkerProfile(userId: string, input: WorkerProfileIn
     .update({
       first_name: input.first_name,
       last_name: input.last_name,
-      bio: input.bio ?? null,
+      bio: cleanText(input.bio),
       experience_level: input.experience_level,
       phone: input.phone ?? null,
     })

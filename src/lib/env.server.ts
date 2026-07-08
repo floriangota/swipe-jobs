@@ -11,6 +11,9 @@ const serverEnvSchema = z.object({
   SUPABASE_SECRET_KEY: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
   RESEND_FROM_EMAIL: z.string().min(1),
+  // Optional so the app boots without it; the /api/cron/* routes require it and
+  // reject requests whose Authorization bearer doesn't match (M7).
+  CRON_SECRET: z.string().min(1).optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -24,6 +27,7 @@ export function getServerEnv(): ServerEnv {
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
+    CRON_SECRET: process.env.CRON_SECRET,
   });
 
   if (!parsed.success) {

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth/guards";
@@ -21,6 +22,28 @@ import { canResendVerification, createVerificationToken } from "./service/verifi
 // i18n namespace so no server text is shown to users directly.
 export type ActionState = { error?: string; success?: string } | undefined;
 
+/**
+ * FormData → plain object, dropping React's Server-Action internals (`$ACTION_*`,
+ * `$ACTION_REF_*`, `$ACTION_KEY`). Those are injected into a `<form action>` payload
+ * and would otherwise trip our strict (reject-unknown-fields) Zod schemas. Genuine
+ * unknown *user* fields are still rejected by `strictObject`.
+ */
+function formObject(formData: FormData): Record<string, unknown> {
+  const obj: Record<string, unknown> = {};
+  for (const [key, value] of formData.entries()) {
+    if (!key.startsWith("$ACTION")) obj[key] = value;
+  }
+  return obj;
+}
+
+/** Best-effort client IP for rate limiting (Vercel/proxies set x-forwarded-for). */
+async function clientIp(): Promise<string> {
+  const h = await headers();
+  const fwd = h.get("x-forwarded-for");
+  if (fwd) return fwd.split(",")[0]?.trim() || "unknown";
+  return h.get("x-real-ip")?.trim() || "unknown";
+}
+
 async function issueVerification(userId: string, email: string, locale: "sq" | "en") {
   const token = await createVerificationToken(userId);
   const verifyUrl = `${getSiteUrl()}/auth/verify?token=${encodeURIComponent(token)}`;
@@ -28,11 +51,16 @@ async function issueVerification(userId: string, email: string, locale: "sq" | "
 }
 
 export async function signup(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  const parsed = signupSchema.safeParse(Object.fromEntries(formData));
+  const parsed = signupSchema.safeParse(formObject(formData));
   if (!parsed.success) return { error: "invalid_input" };
   const { email, password, role, cityId, locale } = parsed.data;
 
-  if (!(await checkRateLimit(`signup:${email}`)).ok) return { error: "rate_limited" };
+  // Tight, keyed by BOTH account and IP (docs/security.md 'tight/IP') so signups
+  // can't be farmed from one host by varying the email.
+  const ip = await clientIp();
+  if (!(await checkRateLimit(`signup:${email}`)).ok || !(await checkRateLimit(`signup:${ip}`)).ok) {
+    return { error: "rate_limited" };
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
@@ -60,11 +88,14 @@ export async function signup(_prev: ActionState, formData: FormData): Promise<Ac
 }
 
 export async function login(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  const parsed = loginSchema.safeParse(Object.fromEntries(formData));
+  const parsed = loginSchema.safeParse(formObject(formData));
   if (!parsed.success) return { error: "invalid_input" };
   const { email, password } = parsed.data;
 
-  if (!(await checkRateLimit(`login:${email}`)).ok) return { error: "rate_limited" };
+  const ip = await clientIp();
+  if (!(await checkRateLimit(`login:${email}`)).ok || !(await checkRateLimit(`login:${ip}`)).ok) {
+    return { error: "rate_limited" };
+  }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -92,12 +123,15 @@ export async function requestPasswordReset(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  const parsed = requestResetSchema.safeParse(Object.fromEntries(formData));
+  const parsed = requestResetSchema.safeParse(formObject(formData));
   if (!parsed.success) return { error: "invalid_input" };
   const { email } = parsed.data;
 
   // Return the SAME generic success even when throttled — never reveal outcome.
-  if (!(await checkRateLimit(`reset:${email}`)).ok) return { success: "reset_sent" };
+  const ip = await clientIp();
+  if (!(await checkRateLimit(`reset:${email}`)).ok || !(await checkRateLimit(`reset:${ip}`)).ok) {
+    return { success: "reset_sent" };
+  }
 
   const supabase = await createClient();
   try {
@@ -116,7 +150,7 @@ export async function updatePassword(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  const parsed = updatePasswordSchema.safeParse(Object.fromEntries(formData));
+  const parsed = updatePasswordSchema.safeParse(formObject(formData));
   if (!parsed.success) return { error: "invalid_input" };
 
   // Explicit authz (don't rely solely on supabase-js rejecting an anonymous call).
@@ -139,7 +173,7 @@ export async function resendVerification(
   formData: FormData,
 ): Promise<ActionState> {
   // Validate the (hidden) email field for shape, but authorize off the session.
-  const parsed = resendVerificationSchema.safeParse(Object.fromEntries(formData));
+  const parsed = resendVerificationSchema.safeParse(formObject(formData));
   if (!parsed.success) return { error: "invalid_input" };
 
   const user = await getCurrentUser();

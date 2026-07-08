@@ -10,6 +10,7 @@ import { FeedbackDemo } from "./_components/feedback-demo";
 import { SheetDemo } from "./_components/sheet-demo";
 import { SwipeCardDemo } from "./_components/swipe-card-demo";
 import { ListingCardDemo } from "./_components/listing-card-demo";
+import { SwipeLiveDemo } from "./_components/swipe-live-demo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Styleguide");
@@ -145,6 +146,13 @@ export default async function StyleguidePage() {
           <Section title={t("listingCardTitle")} description={t("listingCardBody")}>
             <div className="rounded-xl bg-secondary/40 px-4 py-10">
               <ListingCardDemo />
+            </div>
+          </Section>
+
+          {/* Live swipe — real drag physics + the match moment (M5) */}
+          <Section title={t("liveSwipeTitle")} description={t("liveSwipeBody")}>
+            <div className="rounded-xl bg-secondary/40 px-4 py-10">
+              <SwipeLiveDemo />
             </div>
           </Section>
 

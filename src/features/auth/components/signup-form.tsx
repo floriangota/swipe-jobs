@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { signup, type ActionState } from "../actions";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,21 @@ export function SignupForm() {
       <Button type="submit" loading={isPending} className="w-full">
         {t("submit")}
       </Button>
+
+      <p className="text-center text-xs text-muted-foreground">
+        {t.rich("consent", {
+          terms: (chunks) => (
+            <Link href="/terms" className="text-primary hover:underline">
+              {chunks}
+            </Link>
+          ),
+          privacy: (chunks) => (
+            <Link href="/privacy" className="text-primary hover:underline">
+              {chunks}
+            </Link>
+          ),
+        })}
+      </p>
     </form>
   );
 }

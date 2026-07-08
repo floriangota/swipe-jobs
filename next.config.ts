@@ -57,6 +57,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Allow cross-origin dev requests from the LAN (testing on a phone/other device).
+  // Add whatever LAN IP `next dev` prints as "Network:" — these drift with DHCP.
+  allowedDevOrigins: ["192.168.1.10", "192.168.179.11"],
   // Pin the workspace root to this project (a stray lockfile elsewhere on the
   // machine can otherwise make Turbopack infer the wrong root).
   turbopack: {

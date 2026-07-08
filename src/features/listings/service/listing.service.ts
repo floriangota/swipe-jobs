@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { sanitizeText } from "@/lib/sanitize";
 import type { ListingInput } from "../schemas";
 import {
   toListingView,
@@ -8,6 +9,13 @@ import {
   type ListingView,
   type MyListingItem,
 } from "../types";
+
+/** Sanitize free text on write (docs/security.md); empty after cleaning → null. */
+function cleanText(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = sanitizeText(value);
+  return cleaned.length > 0 ? cleaned : null;
+}
 
 const LISTING_COLUMNS =
   "id, city_id, category_id, title, description, job_type, required_experience, pay_min, pay_max, pay_period, status, created_at, updated_at";
@@ -43,8 +51,8 @@ export interface OwnListingsPage {
 }
 
 /**
- * The employer's own listings, newest first, cursor-paginated. Interested/matched
- * counts are PLACEHOLDERS (0) in M3 — real aggregation over swipes/matches is M5.
+ * The employer's own listings, newest first, cursor-paginated, with real
+ * interested/matched engagement counts (see getEngagementCounts).
  */
 export async function getOwnListings(
   userId: string,
@@ -71,13 +79,49 @@ export async function getOwnListings(
   const hasMore = rows.length > limit;
   const pageRows = hasMore ? rows.slice(0, limit) : rows;
 
-  const items: MyListingItem[] = pageRows.map((row) => ({
-    ...toListingView(row),
-    interestedCount: 0, // placeholder until M5 (swipes)
-    matchedCount: 0, // placeholder until M5 (matches)
+  const views = pageRows.map(toListingView);
+  const counts = await getEngagementCounts(
+    supabase,
+    views.map((v) => v.id),
+  );
+  const items: MyListingItem[] = views.map((view) => ({
+    ...view,
+    interestedCount: counts.get(view.id)?.interested ?? 0,
+    matchedCount: counts.get(view.id)?.matched ?? 0,
   }));
 
   return { items, nextCursor: hasMore ? encodeCursor(offset + limit) : null };
+}
+
+interface EngagementCount {
+  interested: number;
+  matched: number;
+}
+
+/** Real interested/matched counts per listing (M5) — replaces the M3 placeholders. */
+async function getEngagementCounts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  listingIds: string[],
+): Promise<Map<string, EngagementCount>> {
+  const map = new Map<string, EngagementCount>();
+  if (listingIds.length === 0) return map;
+
+  const { data, error } = await supabase.rpc("listing_engagement_counts", {
+    p_listing_ids: listingIds,
+  });
+  if (error) throw new Error(error.message);
+
+  for (const r of (data ?? []) as {
+    listing_id: string;
+    interested_count: number;
+    matched_count: number;
+  }[]) {
+    map.set(r.listing_id, {
+      interested: Number(r.interested_count),
+      matched: Number(r.matched_count),
+    });
+  }
+  return map;
 }
 
 /** A single listing owned by the caller (M3). Worker read of active listings = M5. */
@@ -111,7 +155,7 @@ export async function createListing(
     city_id: cityId, // denormalized from the employer; never client-supplied
     category_id: input.category_id,
     title: input.title,
-    description: input.description ?? null,
+    description: cleanText(input.description),
     job_type: input.job_type,
     required_experience: input.required_experience,
     pay_min: input.pay_min,
@@ -141,7 +185,7 @@ export async function updateListing(
     .update({
       category_id: input.category_id,
       title: input.title,
-      description: input.description ?? null,
+      description: cleanText(input.description),
       job_type: input.job_type,
       required_experience: input.required_experience,
       pay_min: input.pay_min,
