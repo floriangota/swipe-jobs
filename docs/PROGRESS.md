@@ -291,7 +291,31 @@ refuses the action, not just app code):
 latency + index-vs-real-query-plan check; a native-speaker Albanian QA pass (strings are externalized
 + parity-tested, admin is intentionally English); nonce-based CSP (current CSP allows `'unsafe-inline'`
 for scripts — a documented pre-existing item, complex under Next 16 for marginal gain).
-Migrations `0017` applied (17/17 in sync). Branch: `m5-matching`.
+Migrations `0017`+`0018` applied (18/18 in sync). Branch: `m5-matching`.
+
+### Pre-merge review of the M5→M9 stack (before merging PR #2 to main)
+A 9-agent adversarial review (M8+M9 diff) + adversarial verification found **5 confirmed defects,
+0 refuted** — all about **suspension being only half-enforced** in M9a. Fixed in **migration `0018`**
+and verified live (8/8):
+- **[HIGH]** `record_employer_swipe` lacked `user_is_active()` → a suspended employer (JWT still valid)
+  could create a MATCH, unlocking a worker's contact (golden-rule-adjacent). Fixed (employer + the
+  worker candidacy gate).
+- **[HIGH]** listings INSERT/UPDATE policies lacked `user_is_active()` → suspended employer could
+  post/edit listings into feeds. Fixed.
+- **[MEDIUM]** suspended worker still surfaced in `listing_candidates` and was matchable; suspended
+  employer's listings still surfaced in `worker_feed`. Fixed (status filters on both).
+- **[MEDIUM]** `update_match_status` (and `mark_match_read`/`mark_notifications_read`) lacked
+  `user_is_active()`. Fixed.
+- **[LOW]** `DELETE /photos/:id` app-layer active 403 added; privacy wording notes the contact-us
+  erasure path.
+- Lesson: the RLS-INSERT gate in 0017 didn't cover the SECURITY DEFINER RPCs (which bypass RLS) — the
+  live suspension test caught what the unit tests couldn't.
+**Remaining non-material LOW items (documented, not merge-blocking):** storage-cleanup pagination cap
+(a user has ≤1 active photo); no `?deleted=1` confirmation toast; `admin_resolve_report` re-resolve
+guard; PATCH-missing-category returns 403 vs 404.
+**Merge status:** all gates green (lint/typecheck/128 tests/build); branch is **13 commits ahead of
+`main`, clean merge, no conflicts**; 18/18 migrations in sync. PR #2 (`main ← m5-matching`) spans M5→M9
+and is **ready to merge**.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.
