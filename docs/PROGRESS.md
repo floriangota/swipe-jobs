@@ -11,8 +11,8 @@ At the start of a session: "Read CLAUDE.md, /docs, and PROGRESS.md, then continu
 - [x] **M4** — Photos & Moderation Pipeline (upload → validate/EXIF-strip/re-encode → private bucket → pending gate; approved photo wired into profile display)
 - [x] **M5** — Swipe Feed & Matching (feed + swipe engine + candidate stack + atomic matching + "It's a match!" moment; golden rule LIVE)
 - [x] **M6** — In-App Chat (Realtime) (matches inbox + chat thread + contact reveal + read receipts + hired status; RLS-gated private Realtime channel; golden-rule reveal point LIVE)
-- [ ] **M7** — Notifications  ← **CURRENTLY HERE**
-- [ ] **M8** — Admin Panel
+- [x] **M7** — Notifications (in-app center + unread badge; DB-trigger notifications; Resend emails new match/offline message; Vercel Cron: email dispatch, token cleanup, stale-listing close)
+- [ ] **M8** — Admin Panel  ← **CURRENTLY HERE**
 - [ ] **M9** — Hardening (security, i18n, performance)
 - [ ] **M10** — Pilot Launch (Ferizaj)
 
@@ -24,8 +24,8 @@ e.g. "chose X for Y", deviations approved, TODOs deferred.)
 **Branch:** `m5-matching` (fresh off `main`). M0–M4 merged to `main` via PR #1. **M5 + M6 are up for review as
 [PR #2](https://github.com/floriangota/swipe-jobs/pull/2)** (`main ← m5-matching`): commits `6968b1f` (M5a
 backend) + `5693240` (M5b UI) + `c16d183` (the two hotfixes below) + `15f17a2` (M6 chat + review hardening),
-all pushed. _M6 was committed onto the same branch (it depends on unmerged M5), so PR #2 now spans M5+M6._
-Next milestone: **M7 — Notifications** (planning).
+all pushed. _M6 + M7 were committed onto the same branch (they depend on unmerged M5), so PR #2 now spans M5→M7._
+Next milestone: **M8 — Admin Panel** (not started).
 
 **Two hotfixes (found while demoing, now committed in `c16d183`):**
 1. **`next.config.ts`** — removed a stray trailing `module.exports = {allowedDevOrigins}` block that
@@ -199,6 +199,37 @@ refuses the action, not just app code):
 - **⚠️ Browser note:** the post-fix in-browser send re-check was blocked by a wedged preview renderer
   (screenshots hung on all pages after working earlier); fixes verified instead via live DB tests + unit tests.
   The pre-fix build was fully verified in-browser (match → chat both ways → live delivery → receipts → hired).
+
+### M7 — Notifications (decisions & notes, all user-approved)
+- **In-app notifications are created by SECURITY DEFINER triggers** (migration `0013`), best-effort
+  (each trigger body swallows errors so a notification bug can NEVER roll back a match/message/swipe):
+  `matches` insert → `new_match` for both parties; `messages` insert → `new_message` for the recipient;
+  `swipes` right-swipe → `new_candidate` for the listing owner. **Payloads are contact-free** (golden rule):
+  `new_candidate` = first name + last initial; match/message carry the post-match display name only.
+  CI test: `notifications/__tests__/types.test.ts`. Verified live: 9/9 DB checks (triggers fire, payloads
+  contact-free, RLS scopes reads, `mark_notifications_read` RPC is caller-scoped).
+- **Endpoints (contract §9):** `GET /notifications` (cursor + `meta.unread_count`), `POST /notifications/read`
+  (`{ ids? }`, omit = all, via `mark_notifications_read` RPC). RLS: own-row read only; no client insert/update.
+- **UI:** header **bell + server-rendered unread badge** (refreshes on navigation), `/notifications` center
+  (mark-all-read, per-item read on open, load-more, loading/empty/error). Nav gets a "Notifications" link/bell.
+- **Emails (Resend), dispatched out-of-band by Vercel Cron** (kept out of the swipe/chat hot path):
+  `new_match` immediately; `new_message` collapsed per (recipient, match) and only if still unread after a
+  5-min offline window (checks `messages.read_at`). `notifications.emailed_at` gates re-sends (idempotent).
+  User-derived strings (names, preview) are **HTML-escaped** (`emails/notification-emails.ts`; CI test).
+- **Cron (`vercel.json`, `CRON_SECRET`-gated, fail-closed):** `dispatch-emails` (*/2 min), `cleanup-tokens`
+  (daily — purge used/expired verification tokens), `close-stale-listings` (daily — close `active` listings
+  with no swipe activity for **60 days**; reversible + audit-logged `listing_closed_stale`). Verified: all
+  three 401 without/with-wrong bearer; all three 200 with the bearer (dispatch ran end-to-end, 0 sent).
+- **Deviations/decisions (approved):** added `notifications.emailed_at` (email-dispatch tracking) + new env
+  `CRON_SECRET` (`.env.local` has a **dev placeholder — replace with a long random value**; set it in Vercel).
+- **Known limitations (documented in `features/notifications/README.md`):** async (cron) emails **default to
+  `sq`** — recipient locale isn't persisted (`users` has no `locale` column; M9 i18n-pass item); **sub-daily
+  cron needs Vercel Pro** (Hobby caps at daily); one in-app notification per message (email collapses per
+  match); unread badge is server-fetched (a live Realtime badge is optional future polish). No web/push (Phase 2).
+- **⚠️ Browser note:** live in-tab interaction was again blocked by a wedged preview renderer (streaming stuck
+  on the loading shell); verified instead via the API (`GET /notifications` returns the contact-free payload),
+  the fully-streamed page HTML (localized notification + mark-all button + bell badge all present), the cron
+  HTTP checks, and 9 live DB checks. Migration `0013` applied (13/13 in sync). Branch: `m5-matching`.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.

@@ -11,6 +11,7 @@
     "myListings": "Shpalljet e mia",
     "feed": "Punët",
     "matches": "Përputhjet",
+    "notifications": "Njoftimet",
     "skipToContent": "Kalo te përmbajtja"
   },
   "Home": {
@@ -432,5 +433,19 @@
     "delivered": "Dërguar",
     "sending": "Duke u dërguar…",
     "charactersLeft": "{count} karaktere të mbetura"
+  },
+  "Notifications": {
+    "metaTitle": "Njoftimet",
+    "title": "Njoftimet",
+    "empty": "Ende asnjë njoftim",
+    "emptyBody": "Përputhjet, mesazhet dhe kandidatët e rinj do të shfaqen këtu.",
+    "loadError": "Njoftimet nuk u ngarkuan",
+    "loadMore": "Ngarko më shumë",
+    "markAllRead": "Shëno të gjitha si të lexuara",
+    "markAllError": "Nuk u shënuan të gjitha — provo përsëri.",
+    "newMatch": "U përputhët me {name}",
+    "newMessage": "Mesazh i ri nga {name}",
+    "newCandidate": "Kandidat i ri: {name}",
+    "system": "Njoftim"
   }
 }

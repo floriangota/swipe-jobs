@@ -7,6 +7,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { logout } from "@/features/auth/actions";
+import { getUnreadCount } from "@/features/notifications/service/notification.service";
+import { NotificationBell } from "@/features/notifications/components/notification-bell";
 import { cn } from "@/lib/utils/cn";
 
 /** Shared top bar: brand, language switch, theme toggle, auth controls. */
@@ -16,6 +18,15 @@ export async function SiteHeader() {
   const cookieStore = await cookies();
   const initialDark = cookieStore.get("theme")?.value === "dark";
   const user = await getCurrentUser();
+  // Unread badge for signed-in users (server-rendered; refreshes on navigation).
+  let unreadCount = 0;
+  if (user) {
+    try {
+      unreadCount = await getUnreadCount();
+    } catch {
+      unreadCount = 0; // never let a notification read break the header
+    }
+  }
 
   return (
     <>
@@ -64,6 +75,7 @@ export async function SiteHeader() {
                     {tNav("matches")}
                   </Link>
                 )}
+                <NotificationBell count={unreadCount} label={tNav("notifications")} />
                 <Link
                   href="/profile"
                   className={cn(buttonVariants({ intent: "ghost", size: "sm" }))}

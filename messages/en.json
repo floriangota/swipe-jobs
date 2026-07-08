@@ -11,6 +11,7 @@
     "myListings": "My listings",
     "feed": "Jobs",
     "matches": "Matches",
+    "notifications": "Notifications",
     "skipToContent": "Skip to content"
   },
   "Home": {
@@ -432,5 +433,19 @@
     "delivered": "Sent",
     "sending": "Sending…",
     "charactersLeft": "{count} characters left"
+  },
+  "Notifications": {
+    "metaTitle": "Notifications",
+    "title": "Notifications",
+    "empty": "No notifications yet",
+    "emptyBody": "Matches, messages, and new candidates will show up here.",
+    "loadError": "Couldn't load your notifications",
+    "loadMore": "Load more",
+    "markAllRead": "Mark all read",
+    "markAllError": "Couldn't mark all read — try again.",
+    "newMatch": "You matched with {name}",
+    "newMessage": "New message from {name}",
+    "newCandidate": "New candidate: {name}",
+    "system": "Notification"
   }
 }
