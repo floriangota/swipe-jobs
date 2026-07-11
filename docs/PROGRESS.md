@@ -336,14 +336,26 @@ Phase-2 scope crept in.** 2 MEDIUM + a few LOW notes — all fixed for a clean l
 - **Launch artifacts** ✅ — `docs/launch-runbook.md` (deploy commands, env vars, monitoring, employer→worker
   seeding, REQUIRED backup+restore drill, incident/rotation/breach playbooks) + `scripts/seed-employer.mjs`
   (validated). PWA (manifest+icons+SW) + all 6 security headers confirmed present.
-- **Vercel deploy — BLOCKED on auth** ⏳: the CLI (51.7.0) is installed but not authenticated; `vercel login`
-  is interactive and there's no `VERCEL_TOKEN`, so it can't be done autonomously here. Needs ONE of:
-  a `VERCEL_TOKEN`, an interactive `vercel login`, or the official Vercel Claude Code plugin. See runbook §1.
+- **DEPLOYED to Vercel production** ✅ — **LIVE at https://swipe-jobs-gamma.vercel.app** (project
+  `florians-projects-4acd2ea4/swipe-jobs`, account `floriangota`). Verified in prod: home/login/health 200,
+  `/api/health` ok, `/api/v1/categories` returns real data (Supabase connected), `/me` + `/api/cron/daily`
+  gated (401), CSP/HSTS/X-Frame-Options present, 7 prod env vars set (fresh `CRON_SECRET`, not the dev
+  placeholder). The public production alias is NOT behind Vercel deployment protection (only the internal
+  per-deploy hash URLs are). **Crons consolidated to ONE daily job** (`/api/cron/daily`) for the Hobby plan
+  (the every-2-min dispatch blocked the deploy) — individual routes retained for Vercel Pro.
 - **⚠️ Production data decision** (also runbook §1): the pilot has used the existing hosted **dev** Supabase
   (test/demo/`attacker.*` accounts, dev-placeholder `CRON_SECRET`). A public launch should use a **fresh prod
   Supabase project** + fresh secrets, not expose the dev DB.
-- **Remaining M10 (operational, needs the deploy):** run the backup/restore drill, seed real employers, invite
-  workers, watch Sentry/uptime/metrics, and do the Lighthouse/perf pass (carried from M9).
+- **Remaining M10 (operational / your call):**
+  1. **⚠️ Prod is on the DEV Supabase** — it still has `m6test.*` / `attacker.*` accounts with the KNOWN
+     password `M6test-demo-2026`, now reachable from the public site. Either clean those accounts or (better)
+     point prod at a **fresh Supabase project** before real users. High priority.
+  2. **Backup/restore drill** (runbook §6) before real users.
+  3. **Seed real hand-recruited employers** (`scripts/seed-employer.mjs`), confirm feeds, then invite workers.
+  4. **GitHub auto-deploy not connected** (the link step warned) — connect the repo in the Vercel dashboard
+     for push-to-`main` auto-deploys; until then deploy with `vercel --prod`.
+  5. **Optional:** set `NEXT_PUBLIC_SENTRY_DSN` (Sentry is off without it); upgrade to Vercel **Pro** to run
+     `dispatch-emails` every few minutes instead of daily; Lighthouse/perf pass on the live URL.
 
 ## Reminders for every milestone
 - Propose plan + file structure BEFORE writing code; wait for approval.
