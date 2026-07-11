@@ -1,8 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
-    { "path": "/api/cron/dispatch-emails", "schedule": "*/2 * * * *" },
-    { "path": "/api/cron/cleanup-tokens", "schedule": "0 3 * * *" },
-    { "path": "/api/cron/close-stale-listings", "schedule": "0 4 * * *" }
+    { "path": "/api/cron/daily", "schedule": "0 3 * * *" }
   ]
 }

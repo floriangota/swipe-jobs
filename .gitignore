@@ -38,3 +38,5 @@ yarn-error.log*
 # sentry
 .sentryclirc
 .env.sentry-build-plugin
+
+.vercel
